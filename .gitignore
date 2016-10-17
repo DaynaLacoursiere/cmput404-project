@@ -1,0 +1,19 @@
+# Distribution / packaging
+.Python
+env/
+build/
+dist/
+
+# Django stuff:
+*.log
+local_settings.py
+
+# pyenv
+.python-version
+
+# dotenv
+.env
+
+# virtualenv
+venv/
+ENV/
