@@ -12,3 +12,14 @@ Team RAPIDD:
 Acknowledgements:
 
   - CSS reset from http://meyerweb.com/eric/tools/css/reset/
+  - Tutorial for Django: https://tutorial.djangogirls.org/
+  - Beautiful CSS: https://gist.github.com/luqmaan/044a28f52933649786b3
+  
+ 
+HOW TO RUN THIS IF YOU FORGOT:
+
+    inside /squirespace run
+        > source /venv/bin/activate
+        > python manage.py runserver
+        
+    then open 127.0.0.1:8000 in your browser
