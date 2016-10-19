@@ -1,0 +1,21 @@
+<html>
+
+{% load staticfiles %}
+<link href="{% static "css/theme.css" %}" rel="stylesheet">
+
+<!-- Comment this out to see things normally. Ooer css is great for testing.-->
+<link href="{% static "css/ooer.css" %}" rel="stylesheet">
+
+<body>
+	<h1>Squire Space</h1>
+
+    <p>Here is a list of posts in the database: </p><br>
+    {% for post in posts %}
+    <div>
+        <h1><a href="">{{ post.title }}</a></h1>
+        <p><big>{{ post.text|linebreaksbr }}</big></p>
+        <p><small>published: {{ post.published_date }} by {{ post.author }}</small></p>
+    </div>
+	{% endfor %}
+</body>
+</html>
