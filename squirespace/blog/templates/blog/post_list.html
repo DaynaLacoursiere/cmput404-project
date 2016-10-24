@@ -1,21 +1,14 @@
-<html>
-
-{% load staticfiles %}
-<link href="{% static "css/theme.css" %}" rel="stylesheet">
-
-<!-- Comment this out to see things normally. Ooer css is great for testing.-->
-<link href="{% static "css/ooer.css" %}" rel="stylesheet">
-
-<body>
-	<h1>Squire Space</h1>
-
-    <p>Here is a list of posts in the database: </p><br>
-    {% for post in posts %}
-    <div>
-        <h1><a href="">{{ post.title }}</a></h1>
-        <p><big>{{ post.text|linebreaksbr }}</big></p>
-        <p><small>published: {{ post.published_date }} by {{ post.author }}</small></p>
-    </div>
+{% extends 'blog/base.html' %}
+{% block content %}
+	{% if user.is_authenticated %}
+		<a href="{% url 'post_new' %}" class="top-menu">New Post</a>
+	{% endif %}
+	{% for post in posts %}
+	<div>
+	    <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
+	    <p><big>{{ post.text|linebreaksbr }}</big></p>
+	    <p><small>published: {{ post.published_date }} by {{ post.author }}</small></p>
+	    <p><a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a></p>
+	</div>
 	{% endfor %}
-</body>
-</html>
+{% endblock %}
