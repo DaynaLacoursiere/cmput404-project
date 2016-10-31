@@ -18,8 +18,9 @@ Acknowledgements:
  
 HOW TO RUN THIS IF YOU FORGOT:
 
+    outside /squirespace run
+        > source venv/bin/activate
     inside /squirespace run
-        > source /venv/bin/activate
         > python manage.py runserver
         
     then open 127.0.0.1:8000 in your browser
