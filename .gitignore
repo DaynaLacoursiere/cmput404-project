@@ -16,7 +16,7 @@ local_settings.py
 .env
 
 # virtualenv
-#venv/
+venv/
 #ENV/
 
 node_modules/

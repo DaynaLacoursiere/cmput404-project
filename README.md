@@ -19,7 +19,11 @@ Acknowledgements:
 HOW TO RUN THIS IF YOU FORGOT:
 
     outside /squirespace run
+        > virtualenv venv
         > source venv/bin/activate
+        > pip install --upgrade pip
+        > pip install Pillow
+        > pip install Django==1.10
     inside /squirespace run
         > python manage.py runserver
         
