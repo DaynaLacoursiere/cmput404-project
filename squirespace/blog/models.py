@@ -2,7 +2,6 @@ from __future__ import unicode_literals
 from django import forms
 from django.db import models
 from django.utils import timezone
-
 # Create your models here.
 
 class Post(models.Model):
@@ -13,7 +12,7 @@ class Post(models.Model):
 		default=timezone.now)
 	published_date = models.DateTimeField(
 		blank = True, null = True)
-	image = models.ImageField(upload_to='media',default='blog/static/img/default.png')
+	image = models.ImageField(upload_to='media',default='static/img/default.png')
 
 	def publish(self):
 		self.published_date = timezone.now()
