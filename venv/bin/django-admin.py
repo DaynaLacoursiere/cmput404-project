@@ -1,4 +1,4 @@
-#!/home/aedan/Desktop/cmput404-project/venv/bin/python
+#!/cshome/dlacours/Courses/404/project/cmput404-project/venv/bin/python
 from django.core import management
 
 if __name__ == "__main__":
