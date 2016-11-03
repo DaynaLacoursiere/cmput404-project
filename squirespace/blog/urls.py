@@ -12,6 +12,7 @@ urlpatterns = [
 	url(r'^post/(?P<pk>\d+)/delete/$', views.post_delete, name='post_delete'),
 	url(r'^post/(?P<pk>\d+)/comment/$', views.add_comment_to_post, name='add_comment_to_post'),
 	url(r'^reg/$', UserRegPage.as_view()),
+	url(r'^reg/confirm/$', views.user_registration, name = 'user_registration'),
 	url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout')
 ]

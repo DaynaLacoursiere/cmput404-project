@@ -8,6 +8,7 @@
 	<div class = "container">
 	<h1>User Signup</h1>
 	<form method="POST" class="signup-form" action ="">
+        {% csrf_token %}
 		<div class="fieldWrapper">
          	<label for="title" class="col-sm-3 control-label">Title</label>
             {{form.title}}

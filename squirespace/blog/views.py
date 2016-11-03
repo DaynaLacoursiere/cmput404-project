@@ -1,18 +1,33 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
+from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
 from django.views.generic import FormView
 from .models import Post, User
 from .forms import PostForm, CommentForm, UserRegForm
 
 
-def user_registration(request):
-    form = PostForm()
-    return render(request, 'blog/user_signup.html', {'form': form})
-
 class UserRegPage(FormView):
     template_name='blog/user_signup.html'
-    success_url='/success/'
-    form_class=UserRegForm
+    success_url='/reg/confirm'
+    form_class = UserRegForm
+    
+
+def user_registration(request):
+    if request.method == "POST":
+        form=UserRegForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            first_name = form.cleaned_data['first_name']
+            nation = form.cleaned_data['nation']
+            email=form.cleaned_data['email']
+            password= form.cleaned_data['password']
+            user=User.objects.create_user(title,first_name,nation,email,password)
+            return render(request, 'registration/register_success', {'form': form})
+        else:
+            form=PostForm()
+            return render(request, 'registration/register_success', {'form':form})
+
 
 def login(request):
     form = PostForm()
