@@ -3,6 +3,8 @@ from . import views
 from views import UserRegPage
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
 	url(r'^$', views.post_list, name='post_list'),
@@ -15,5 +17,7 @@ urlpatterns = [
 	url(r'^reg/confirm/$', views.user_registration, name = 'user_registration'),
 	url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout')
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
 
