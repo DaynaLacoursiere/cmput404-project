@@ -1,7 +1,6 @@
 {% extends 'blog/base.html' %}
-
 {% block content %}
-		
+{% load staticfiles %}		
     <div class="post">
     	{% if user.is_authenticated %}
         	<a href="{% url 'post_edit' pk=post.pk %}">Edit Post</a>
@@ -9,6 +8,7 @@
             <a href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
         {% endif %}
         <h1>{{ post.title }}</h1>
+        <img src="{{ post.image|linebreaksbr }}">
 	    <p><big>{{ post.text|linebreaksbr }}</big></p>
 	    <p><small>published: {{ post.published_date }} by {{ post.author }}</small></p>
     </div>
