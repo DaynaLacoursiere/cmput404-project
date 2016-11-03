@@ -1,12 +1,18 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
-from .models import Post
-from .forms import PostForm, CommentForm
+from django.views.generic import FormView
+from .models import Post, User
+from .forms import PostForm, CommentForm, UserRegForm
 
 
 def user_registration(request):
     form = PostForm()
     return render(request, 'blog/user_signup.html', {'form': form})
+
+class UserRegPage(FormView):
+    template_name='blog/user_signup.html'
+    success_url='/success/'
+    form_class=UserRegForm
 
 def post_list(request):
     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')

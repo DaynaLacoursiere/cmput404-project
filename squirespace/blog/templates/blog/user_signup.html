@@ -8,77 +8,29 @@
 	<div class = "container">
 	<h1>User Signup</h1>
 	<form method="POST" class="signup-form" action ="">
-		<div class="form-group">
+		<div class="fieldWrapper">
          	<label for="title" class="col-sm-3 control-label">Title</label>
-            <div class="col-sm-9">
-                <select id="title" class="form-control">
-                    <option>No Title</option>
-                    <option>Squire</option>
-                    <option>Lord</option>
-                    <option>Lady</option>
-                    <option>Sir</option>
-                    <option>Dame</option>
-                    <option>Baron</option>
-                    <option>Baroness</option>
-                    <option>Duke</option>
-                    <option>Duchess</option>
-                    <option>Prince</option>
-                    <option>Princess</option>
-                </select>
-            </div>
+            {{form.title}}
         </div>
-		<div class="form-field">
-			<label for="fstname">First Name</label>
-			<div>
-				<input type = "text" id="fstname">
-			</div>
+		<div class="fieldWrapper">
+			<label for="firstname">First Name</label>
+			{{form.first_name}}
 		</div>
 		<div class="form-group">
          	<label for="nation" class="col-sm-3 control-label">Nation</label>
-            <div class="col-sm-9">
-                <select id="nation" class="form-control">
-                	<option>No Country</option>
-                    <option>Gondor</option>
-                    <option>Mirkwood</option>
-                    <option>Mordor</option>
-                    <option>The Shire</option>
-                    <option>The Crownlands</option>
-                    <option>Dorne</option>
-                    <option>The Gift</option>
-                    <option>The Iron Islands</option>
-                    <option>The North</option>
-                    <option>The Reach</option>
-                    <option>The Stormlands</option>
-                    <option>The Westerlands</option>
-                    <option>Eastmarch</option>
-                    <option>Falkreath</option>
-                    <option>Winterhold</option>
-                    <option>Whiterun</option>
-                    <option>Azeroth</option>
-                    <option>Khaz Modan</option>
-                    <option>Kalimdor</option>
-                    <option>Lordaeron</option>
-                    <option>Pandaria</option>
-                </select>
-            </div>
+            {{form.nation}}
         </div>
 		<div class="form-field">
 			<label for="email">E-mail</label>
-			<div>
-				<input type = "text" id="email">
-			</div>
+			{{form.email}}
 		</div>
 		<div class="form-field">
 			<label for="password">Password</label>
-			<div>
-            	<input type= PASSWORD id="password"/>
-            </div>	
+			{{form.password}}
         </div>
         <div class="form-field">
-        	<label for="passwordconfirm">Confirm Password</label>
-          	<div>
-          		<input type= PASSWORD  id= "passwordconfirm"/>
-          	</div>
+        	<label for="confirmpassword">Confirm Password</label>
+          	{{form.confirmpassword}}
         </div>
         <button type="submit" class="save btn btn-default">Register</button>
 	</form>

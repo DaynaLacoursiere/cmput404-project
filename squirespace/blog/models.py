@@ -1,5 +1,5 @@
 from __future__ import unicode_literals
-
+from django import forms
 from django.db import models
 from django.utils import timezone
 
@@ -29,3 +29,22 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.text
+
+
+
+TITLES=(
+	('SQR', 'Squire'),
+	('SIR', 'Sir'),
+	('DME', 'Dame'),
+	)
+NATIONS = (
+	('GDR','Gondor'),
+	('RHN', 'Rohan'),
+	('MDR', 'Mordor')
+	)
+class User(models.Model):
+	title= models.CharField(max_length=3, choices=TITLES)
+	first_name= models.CharField(max_length=200)
+	nation=models.CharField(max_length=3, choices=NATIONS)
+	email=models.EmailField()
+	password=models.CharField(max_length=200)
