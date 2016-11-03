@@ -1,27 +1,33 @@
 <html>
-
 {% load staticfiles %}
-<link href="{% static "css/theme.css" %}" rel="stylesheet">
-<title> SquireSpace </title>
-<!-- Comment this out to see things normally. Ooer css is great for testing.-->
-<!-- <link href="{% static "css/ooer.css" %}" rel="stylesheet"> -->
-
-<body>
-    <h1><a href="/">SquireSpace</a></h1>
-    <div class="content">
-        <div class="row">
-        	<form method="get" action="/reg">
-    			<button type="submit">Register</button>
-			</form>
+    <head>
+        <title> SquireSpace </title>
+        <!-- Comment this out to see things normally. Ooer css is great for testing.-->
+        <!-- <link href="{% static "css/ooer.css" %}" rel="stylesheet"> -->
+        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=MedievalSharp" />
+        <link href="{% static "css/theme.css" %}" rel="stylesheet">
+    </head>
+    <body>
+        <div class="header colour-theme-1">
+            <a href="/" class="logo-link">
+                <div class="colour-theme-1 logo-container">
+                    <h1>SquireSpace</h1>
+                </div>
+            </a>
             {% if user.is_authenticated %}
-            <a href="/logout"><button class="button">Log-Out</button></a>
+            <a href="/logout"><button class="header-button button">Log Out</button></a>
             {% else %}
-            <a href="/login"><button class="button">Log-In</button></a>
+            <form method="get" action="/reg">
+                <button class="header-button button" type="submit">Register</button>
+            </form>
+            <a href="/login"><button class="header-button button">Log In</button></a>
             {% endif %}
-
-            {% block content %}
-            {% endblock %}
         </div>
-    </div>
-</body>
+        <div class="content">
+            <div class="row">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </body>
 </html>

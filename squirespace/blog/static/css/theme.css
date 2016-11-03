@@ -25,6 +25,7 @@ time, mark, audio, video {
   font-size: 100%;
   font: inherit;
   vertical-align: baseline;
+  text-decoration: none;
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
@@ -52,3 +53,43 @@ table {
 
 
 /*Apply theme*/
+
+body{
+  font-family: MedievalSharp; /* default */
+}
+
+.colour-theme-1{
+  background: #603f20;
+  color: #c8941c;
+}
+
+.header{
+  position: fixed;
+  top:0;left:0;right:0;
+  padding:16px;
+  height:32px;
+}
+
+.logo-container{
+  position: absolute;
+  left:0;top:0;bottom:0;
+}
+
+.logo-container > h1{
+  font-size: 24pt;
+  font-weight: bold;
+  line-height: 48pt;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.header-button{
+  float: right;
+}
+
+
+.content{
+  position: absolute;
+  top:64px;
+  padding: 16px;
+}
