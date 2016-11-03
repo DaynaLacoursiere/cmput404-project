@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.views.generic import FormView
 from .models import Post, User
 from .forms import PostForm, CommentForm, UserRegForm
+from django.http import HttpResponse
 
 
 class UserRegPage(FormView):
@@ -28,11 +29,15 @@ def user_registration(request):
             form=PostForm()
             return render(request, 'registration/register_success', {'form':form})
 
-
 def login(request):
     form = PostForm()
     return render(request, 'blog/login.html', {'form': form})
 
+""" garbage
+def image(request):
+    image_data = open("../media/dnd.png", "rb").read()
+    return HttpResponse(image_data, content_type="image/png")
+"""
 
 def post_list(request):
     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
