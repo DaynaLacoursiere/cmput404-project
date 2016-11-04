@@ -151,7 +151,8 @@ b{
 
 @media(min-width:400px){
   .stream{
-    width:400px;
+    width:75%;
+    max-width: 850px;
   }
 }
 
@@ -206,9 +207,7 @@ b{
               0px 10px 20px -8px #696868;
 }
 
-.post-page{
-  margin: 0;
-}
+
 
 .post-title{
   font-size: 20pt;
@@ -218,7 +217,7 @@ b{
 }
 
 .post-image{
-  max-width: 300px;
+  max-width: 100%;
   max-height: 300px;
   border-radius: 10px;
 
@@ -227,7 +226,7 @@ b{
 .post-text{
   font-style: italic;
   word-wrap:break-word;
-  max-width: 336px;
+  max-width: 100%;
   margin: 16px;
 }
 
@@ -249,12 +248,15 @@ b{
 
 .comment-text{
   word-wrap:break-word;
-  max-width: 352px;
+  max-width: 100%;
 }
 
 
 /*post with comments page*/
 
+.post-page{
+  margin: 0;
+}
 .post-page .post{
   width: 80%;
   max-width: 850px;
@@ -311,12 +313,6 @@ b{
   margin: auto;
   position: relative;
 }
-
-.post-edit-form a{
-  /*color:#2E9FFF;*/
-}
-
-
 
 .post-edit-form h1{
   color: var(--gold);
