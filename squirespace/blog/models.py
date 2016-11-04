@@ -42,34 +42,17 @@ NATIONS = (
 	('RHN', 'Rohan'),
 	('MDR', 'Mordor')
 	)
+
 class User(models.Model):
 	title=models.CharField(max_length=3, choices=TITLES)
 	first_name= models.CharField(max_length=200)
 	nation=models.CharField(max_length=3, choices=NATIONS)
 	email=models.EmailField()
 	password=models.CharField(max_length=200)
-
-class Friendship(models.Model):
-    dateCreated = models.DateTimeField(auto_now_add=True, editable=False)
-    creator = models.ForeignKey('auth.User', related_name="friendship_sender")
-    friend = models.ForeignKey('auth.User', related_name="friendship_receiver")
+	friends=models.CharField(max_length=1000, blank=True)
+	
 
 
-class FriendshipRequest(models.Model):
-    from_user = models.ForeignKey('auth.User', related_name="invitations_from")
-    to_user = models.ForeignKey('auth.User', related_name="invitations_to")
-    created = models.DateTimeField(auto_now_add=True,editable=False)
-    accepted = models.BooleanField(default=False)
-
-    def accept(self):
-        self.accepted = True
-        self.delete()
-
-    def decline(self):
-        self.delete()
-
-    def cancel(self):
-        self.delete()
 
 
 

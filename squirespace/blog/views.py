@@ -5,7 +5,8 @@ from django.contrib.auth.models import User
 from django.views.generic import FormView
 from .models import Post, User
 from .forms import PostForm, CommentForm, UserRegForm
-from django.http import HttpResponse
+from friendship.models import Friend, Follow
+
 
 
 class UserRegPage(FormView):
@@ -105,3 +106,14 @@ def add_comment_to_post(request, pk):
     else:
         form = CommentForm()
     return render(request, 'blog/add_comment.html', {'form': form})
+
+
+
+
+
+
+
+
+
+
+
