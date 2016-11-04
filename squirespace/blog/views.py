@@ -107,3 +107,11 @@ def add_comment_to_post(request, pk):
     else:
         form = CommentForm()
     return render(request, 'blog/add_comment.html', {'form': form})
+
+
+def profile(request,pk):
+    profile_owner = User.objects.get(id=pk)
+    posts = Post.objects.filter(author=profile_owner,published_date__lte=timezone.now()).order_by('published_date')
+    # friends = profile_owner.friends
+    return render(request, 'blog/profile.html', {'user': request.user, 'profile_owner': profile_owner, 'posts': posts})
+    # return render(request, 'blog/profile.html', {'user': request.user, 'profile-owner': profileOwner, 'posts': posts, 'friends': friends})

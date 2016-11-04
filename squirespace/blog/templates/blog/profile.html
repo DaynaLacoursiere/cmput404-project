@@ -1,0 +1,70 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+{% load staticfiles %}
+{% if user.is_authenticated %}
+  <div class="profile">
+    <div class="sub-header colour-theme-2">
+      <div class="personal-info">
+        <h1 class="name">{{profile_owner.username}}</h1>
+      </div>
+      {% if user == profile_owner %}
+      <a href="{% url 'post_new' %}"><button class="new-post-button button">New Post</button></a>
+      {% endif %}
+
+    </div>
+    <div class="friends-list">
+      <h1 class="friends-list-title">Friends:</h1>
+      <div class="friend">
+        <a href="{% url 'profile' pk=1 %}" class="friend-name">Aedan</a>
+      </div>
+      <div class="friend">
+        <a href="{% url 'profile' pk=2 %}" class="friend-name">Daniel</a>
+      </div>
+      <div class="friend">
+        <a href="{% url 'profile' pk=3 %}" class="friend-name">Preyanshu</a>
+      </div>
+      <div class="friend">
+        <a href="{% url 'profile' pk=4 %}" class="friend-name">Dayna</a>
+      </div>
+      <div class="friend">
+        <a href="{% url 'profile' pk=5 %}" class="friend-name">Rishi</a>
+      </div>
+      <!-- {% for friend in friends %} -->
+        <!-- <div class="friend"> -->
+          <!-- <a href="{% url 'profile' pk=friend.id %}" class="friend-name">{{friend.username}}</a> -->
+      <!-- {% endfor %} -->
+    </div>
+    <div class="stream">
+      {% for post in posts %}
+      <div class="post">
+        <div class="post-roll post-header"></div>
+        <div class="post-content">
+          <h1 class="post-title">{{ post.title }}</h1>
+          {% if user == post.author %}
+            <a style="display:block;text-align: right;" href="{% url 'post_edit' pk=post.pk %}">Edit</a>
+          {% endif %}
+          <img class="post-image image" src="/media/{{ post.image }}">
+          <p class="post-text">{{ post.text|linebreaksbr }}</p>
+          <p class="post-publish-info"><b>{{ post.author }}</b></br>{{ post.published_date.date }}</br>{{ post.published_date.time }}</p>
+          {% if post.comments.all %}
+          <h1 class="comments-title">Comments:</h1>
+          {% endif %}
+          {% for comment in post.comments.all %}
+            <div class="comment">
+              <p class = "comment-text">{{ comment.text|linebreaksbr }}</p>
+              <p class="post-publish-info"><b>{{comment.author}}</b></br>{{ comment.created_date.date }}</br>{{comment.created_date.time}}</p>
+            </div>
+          {% endfor %}
+          {% if user.is_authenticated %}
+          <a href="{% url 'post_detail' pk=post.pk %}">Add a comment</a>
+          {% endif %}
+        </div>
+        <div class="post-roll post-footer"></div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+{% else %}
+401: You do not have the authorization to be here
+{% endif %}
+{% endblock %}

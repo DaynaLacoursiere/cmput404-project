@@ -5,11 +5,12 @@
 		<div class="sub-header colour-theme-2">
 			<a href="{% url 'post_new' %}"><button class="new-post-button button">New Post</button></a>
 			<!-- For Future Dayna: http://stackoverflow.com/questions/8430279/how-to-style-the-option-with-only-css -->
-			<select class="dropdown view-posts-dropdown">
+			<select class="dropdown button view-posts-dropdown">
 				<option value="all-posts">View All Public Posts</option>
 				<option value="friends-posts">View My Friends Posts</option>
 				<option value="my-posts">View Only My Posts</option>
 			</select>
+			<a href="{% url 'profile' pk=user.id %}"><button class="profile-button button">Profile</button></a>
 		</div>
 	{% endif %}
   <div class="stream">
@@ -23,14 +24,14 @@
 	      {% endif %}
 		    <img class="post-image image" src="/media/{{ post.image }}">
 		    <p class="post-text">{{ post.text|linebreaksbr }}</p>
-		    <p class="post-publish-info"><b>{{ post.author }}</b></br>{{ post.published_date.date }}</br>{{ post.published_date.time }}</p>
+		    <p class="post-publish-info"><a href="{% url 'profile' pk=post.author.id %}" ><b>{{ post.author }}</b></a></br>{{ post.published_date.date }}</br>{{ post.published_date.time }}</p>
 	    	{% if post.comments.all %}
 	    	<h1 class="comments-title">Comments:</h1>
 	    	{% endif %}
 		    {% for comment in post.comments.all %}
 			    <div class="comment">
 		        <p class = "comment-text">{{ comment.text|linebreaksbr }}</p>
-		        <p class="post-publish-info"><b>{{comment.author}}</b></br>{{ comment.created_date.date }}</br>{{comment.created_date.time}}</p>
+		        <p class="post-publish-info"><a href="{% url 'profile' pk=comment.author.id %}" ><b>{{comment.author}}</b></a></br>{{ comment.created_date.date }}</br>{{comment.created_date.time}}</p>
 	        </div>
 		    {% endfor %}
 		    {% if user.is_authenticated %}

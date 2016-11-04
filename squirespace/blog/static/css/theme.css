@@ -167,16 +167,19 @@ b{
   box-shadow:0px 10px 20px rgba(0,0,0,0.25);
   z-index: 1;
 }
-.new-post-button{
+.sub-header .button{
   border-color:var(--brown);
   background:var(--grey);
   color:var(--gold);
+  padding-left: 8px;
+  padding-right: 8px;
+}
+.sub-header .dropdown{
+  padding-right: 0;
 }
 
-.view-posts-dropdown{
-  border-color:var(--brown);
-  background:var(--grey);
-  color:var(--gold);  
+.profile-button{
+  float: right;
 }
 
 .post{
@@ -356,4 +359,63 @@ b{
 .post-edit-form label:not([for=image-clear_id]){
   display: block;
   margin-bottom: 8px;
+}
+
+
+/*Profile*/
+.profile .stream{
+  width: 60%;
+  position: absolute;
+  left:300px;right:0;margin:auto;
+}
+
+
+.profile .personal-info{
+  display: inline-block;
+}
+
+.profile .personal-info .name{
+  font-size: 20pt;
+  font-weight: bold;
+}
+
+.profile .new-post-button{
+  float:right;
+}
+
+.profile .friends-list{
+  position: fixed;
+  top:136px;
+  margin:16px;
+  width:252px;
+  background: var(--grey);
+  border-radius: 5px;
+  padding:16px;
+  border: 2px solid var(--gold);
+  color: var(--gold);
+}
+
+.friends-list .friends-list-title{
+  font-size: 16pt;
+
+}
+
+.friends-list .friend{
+  margin-left: 16px;
+  margin-top: 16px;
+
+}
+
+.friends-list .friend .friend-name{
+  font-size: 14pt;
+  color: var(--gold);
+  font-style: italic;
+  font-weight: bold;
+}
+
+@media(min-width: 900px){
+  .profile .stream{
+  }
+  .friends-list{
+  }
 }
