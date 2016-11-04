@@ -12,25 +12,35 @@
 			</select>
 		</div>
 	{% endif %}
-	{% for post in posts %}
-	<div class="post">
-		<div class="post-roll post-header"></div>
-		<div class="post-content">
-	    <h1 class="post-title">{{ post.title }}</h1>
-	    {% if user == post.author %}
-      	<a style="display:block;text-align: right;" href="{% url 'post_edit' pk=post.pk %}">Edit</a>
-      {% endif %}
-	    <img class="post-image image" src="/media/{{ post.image }}">
-	    <p class="post-text">{{ post.text|linebreaksbr }}</p>
-	    <p class="post-publish-info">Published by {{ post.author }}:</br>{{ post.published_date.date }}</br>{{ post.published_date.time }}</p>
-	    <p class="post-comment-count">Comments: {{ post.comments.count }}</p>
-	    {% if user.is_authenticated %}
-	    <a href="{% url 'post_detail' pk=post.pk %}">Add a comment</a>
-	    {% else %}
-	    <a href="{% url 'post_detail' pk=post.pk %}">View comments</a>
-	    {% endif %}
-    </div>
-		<div class="post-roll post-footer"></div>
+  <div class="stream">
+		{% for post in posts %}
+		<div class="post">
+			<div class="post-roll post-header"></div>
+			<div class="post-content">
+		    <h1 class="post-title">{{ post.title }}</h1>
+		    {% if user == post.author %}
+	      	<a style="display:block;text-align: right;" href="{% url 'post_edit' pk=post.pk %}">Edit</a>
+	      {% endif %}
+		    <img class="post-image image" src="/media/{{ post.image }}">
+		    <p class="post-text">{{ post.text|linebreaksbr }}</p>
+		    <p class="post-publish-info">Published by {{ post.author }}:</br>{{ post.published_date.date }}</br>{{ post.published_date.time }}</p>
+	    	{% if post.comments.all %}
+	    	<h1 class="comments-title">Comments:</h1>
+	    	{% endif %}
+		    {% for comment in post.comments.all %}
+			    <div class="comment">
+		        <p class = "comment-text">{{ comment.text|linebreaksbr }}</p>
+		        <p class="post-publish-info">Comment by {{comment.author}}:</br>{{ comment.created_date.date }}</br>{{comment.created_date.time}}</p>
+	        </div>
+		    {% endfor %}
+		    {% if user.is_authenticated %}
+		    <a href="{% url 'post_detail' pk=post.pk %}">Add a comment</a>
+		    {% else %}
+		    <a href="{% url 'post_detail' pk=post.pk %}">View comments</a>
+		    {% endif %}
+	    </div>
+			<div class="post-roll post-footer"></div>
+		</div>
+		{% endfor %}
 	</div>
-	{% endfor %}
 {% endblock %}

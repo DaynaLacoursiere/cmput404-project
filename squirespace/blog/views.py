@@ -5,8 +5,13 @@ from django.contrib.auth.models import User
 from django.views.generic import FormView
 from .models import Post, User
 from .forms import PostForm, CommentForm, UserRegForm
+<<<<<<< HEAD
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.context_processors import csrf
+=======
+from django.http import HttpResponse
+from django.contrib.auth.models import User
+>>>>>>> cb4165502fbf25d6b97cdb524652a709d20acf77
 
 
 class UserRegPage(FormView):
@@ -16,24 +21,20 @@ class UserRegPage(FormView):
     
 
 def user_registration(request):
-    if request.method == "POST":
-        form=UserRegForm(request.POST)
-        if form.is_valid():
-            title = form.cleaned_data['title']
-            first_name = form.cleaned_data['first_name']
-            nation = form.cleaned_data['nation']
-            email=form.cleaned_data['email']
-            password= form.cleaned_data['password']
-            user=User.objects.create_user(title,first_name,nation,email,password)
-            form.save()
-            return HttpResponseRedirect('registration/register_success')
-    args = {}
-    args.update(csrf(request))
-    args['form'] = UserRegForm()
-    return render_to_response('user_signup.html',args)
-
-def register_success(request):
-    return render_to_response('register_success.html')
+    #if request.method == "POST":
+        #form=UserRegForm(request.POST)
+        #if form.is_valid():
+            #title = form.cleaned_data['title']
+            #first_name = form.cleaned_data['first_name']
+            #nation = form.cleaned_data['nation']
+            #email=form.cleaned_data['email']
+            #password= form.cleaned_data['password']
+    user = User.objects.create_user("John", "john@mailinator.com", "johnpassword")  #THIS ABSOLUTELY DOES CREATE A USER. WE JUST NEED TO FIX EVERYTHING AROUND IT.
+    user.save()
+            #return render(request, 'registration/register_success', {'form': form})
+        #else:
+            #form=PostForm()
+    return render(request, 'registration/register_success', {'form':form})
 
 def friends(request):
     return render(request, 'blog/friends.html')
