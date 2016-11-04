@@ -16,9 +16,12 @@
         <p><big>{{ comment.text|linebreaksbr }}</big></p>
         <p><small>published: {{ comment.created_date }} by {{ comment.author }}</small></p>
     {% endfor %}
+
+    {% if user.is_authenticated %}
     <p>Add a comment</p>
     <form method="POST" class="post-form">{% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Post Comment</button>
     </form>
+    {% endif %}
     {% endblock %}
