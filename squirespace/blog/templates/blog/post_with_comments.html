@@ -1,12 +1,11 @@
 {% extends 'blog/base.html' %}
 {% block content %}
 {% load staticfiles %}		
-    <div class="post post-page">
-        {% if user == post.author %}
-        	<a href="{% url 'post_edit' pk=post.pk %}">Edit Post</a>
-        	<a href="{% url 'post_delete' pk=post.pk %}">Delete Post</a>
-        {% endif %}
+    <div class="post post-page">        
         <h1>{{ post.title }}</h1>
+        {% if user == post.author %}
+            <a style="display:block;text-align:right;" href="{% url 'post_edit' pk=post.pk %}">Edit</a>
+        {% endif %}
         <img src="/media/{{ post.image }}">
 	    <p><big>{{ post.text|linebreaksbr }}</big></p>
 	    <p><small>published: {{ post.published_date }} by {{ post.author }}</small></p>
