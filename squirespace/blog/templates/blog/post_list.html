@@ -2,15 +2,25 @@
 {% block content %}
 {% load staticfiles %}
 	{% if user.is_authenticated %}
-		<a href="{% url 'post_new' %}" class="top-menu">New Post</a>
+		<div class="sub-header colour-theme-2">
+			<a href="{% url 'post_new' %}"><button class="new-post-button button">New Post</button></a>
+			<!-- For Future Dayna: http://stackoverflow.com/questions/8430279/how-to-style-the-option-with-only-css -->
+			<select class="dropdown view-posts-dropdown">
+				<option value="all-posts">View All Public Posts</option>
+				<option value="friends-posts">View My Friends Posts</option>
+				<option value="my-posts">View Only My Posts</option>
+			</select>
+		</div>
 	{% endif %}
 	{% for post in posts %}
-	<div>
-	    <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
-	    <img src="/media/{{ post.image }}">
-	    <p><big>{{ post.text|linebreaksbr }}</big></p>
-	    <p><small>published: {{ post.published_date }} by {{ post.author }}</small></p>
-	    <p><a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a></p>
+	<div class="post">
+	    <h1 class="post-title">{{ post.title }}</h1>
+	    <img class"post-image image" src="/media/{{ post.image }}">
+	    <p class="post-content">{{ post.text|linebreaksbr }}</p>
+	    <p class="post-publish-info">published: {{ post.published_date }} by {{ post.author }}</p>
+	    <p class="post-comment-count">Comments: {{ post.comments.count }}</p>
+	    <a href="{% url 'post_detail' pk=post.pk %}">Add a comment</a>
+	    
 	</div>
 	{% endfor %}
 {% endblock %}
