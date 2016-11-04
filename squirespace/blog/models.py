@@ -49,8 +49,7 @@ class User(models.Model):
 	nation=models.CharField(max_length=3, choices=NATIONS)
 	email=models.EmailField()
 	password=models.CharField(max_length=200)
-	friends=models.CharField(max_length=1000, blank=True)
-	
+
 
 
 
