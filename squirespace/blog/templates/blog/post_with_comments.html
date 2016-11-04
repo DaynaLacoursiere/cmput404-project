@@ -1,26 +1,38 @@
 {% extends 'blog/base.html' %}
 {% block content %}
 {% load staticfiles %}		
-    <div class="post post-page">        
-        <h1>{{ post.title }}</h1>
-        {% if user == post.author %}
-            <a style="display:block;text-align:right;" href="{% url 'post_edit' pk=post.pk %}">Edit</a>
-        {% endif %}
-        <img src="/media/{{ post.image }}">
-	    <p><big>{{ post.text|linebreaksbr }}</big></p>
-	    <p><small>published: {{ post.published_date }} by {{ post.author }}</small></p>
-    </div>
-    <hr />
-    {% for comment in post.comments.all %}
-        <p><big>{{ comment.text|linebreaksbr }}</big></p>
-        <p><small>published: {{ comment.created_date }} by {{ comment.author }}</small></p>
-    {% endfor %}
+    <div class="post-page">
+        <div class="post">
+            <div class="post-roll post-header"></div>
+            <div class="post-content">
+            <h1 class="post-title">{{ post.title }}</h1>
+            {% if user == post.author %}
+            <a style="display:block;text-align: right;" href="{% url 'post_edit' pk=post.pk %}">Edit</a>
+          {% endif %}
+            <img class="post-image image" src="/media/{{ post.image }}">
+            <p class="post-text">{{ post.text|linebreaksbr }}</p>
+            <p class="post-publish-info">Published by {{ post.author }}:</br>{{ post.published_date.date }}</br>{{ post.published_date.time }}</p>
+            {% if post.comments.all %}
+            <h1 class="comments-title">Comments:</h1>
+            {% endif %}
+            {% for comment in post.comments.all %}
+                <div class="comment">
+                <p class = "comment-text">{{ comment.text|linebreaksbr }}</p>
+                <p class="post-publish-info">Comment by {{comment.author}}:</br>{{ comment.created_date.date }}</br>{{comment.created_date.time}}</p>
+            </div>
+            {% endfor %}
+        </div>
+            <div class="post-roll post-footer"></div>
+        </div>
 
-    {% if user.is_authenticated %}
-    <p>Add a comment</p>
-    <form method="POST" class="post-form">{% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Post Comment</button>
-    </form>
-    {% endif %}
-    {% endblock %}
+        {% if user.is_authenticated %}
+        <div class="comment-form">
+        <h1>Add a comment</h1>
+            <form method="POST" class="post-form">{% csrf_token %}
+                {{ form.as_p }}
+                <button class="button" type="submit">Post Comment</button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}

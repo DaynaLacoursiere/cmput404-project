@@ -246,3 +246,52 @@ body{
   word-wrap:break-word;
   max-width: 352px;
 }
+
+
+/*post with comments page*/
+
+.post-page .post{
+  width: 80%;
+  max-width: 850px;
+}
+
+.post-page .post-image{
+  max-width: 100%;
+}
+
+.post-page .post-text{
+  max-width: 100%;
+}
+
+.post-page .comment-text{
+  word-wrap:break-word;
+  max-width: 100%;
+}
+
+.post-page .comment-form{
+  width: 80%;
+  max-width: 850px;
+  margin: auto;
+  margin-bottom: 64px;
+}
+
+.comment-form h1{
+  color: var(--gold);
+  font-weight: bold;
+  font-size: 16pt;
+}
+
+.comment-form label{
+  display: none;
+}
+.comment-form textarea{
+  width:100%;
+  margin:16px auto;
+  font-size: 12pt;
+  font-family: MedievalSharp;
+}
+
+.comment-form .button{
+  font-size: 12pt;
+  float: right;
+}
