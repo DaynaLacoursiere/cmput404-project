@@ -1,7 +1,7 @@
 {% extends 'blog/base.html' %}
 {% block content %}
 {% load staticfiles %}		
-    <div class="post">
+    <div class="post post-page">
         {% if user == post.author %}
         	<a href="{% url 'post_edit' pk=post.pk %}">Edit Post</a>
         	<a href="{% url 'post_delete' pk=post.pk %}">Delete Post</a>
