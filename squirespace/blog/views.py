@@ -24,6 +24,7 @@ def user_registration(request):
             email=form.cleaned_data['email']
             password= form.cleaned_data['password']
             user=User.objects.create_user(title,first_name,nation,email,password)
+            form.save()
             return render(request, 'registration/register_success', {'form': form})
         else:
             form=PostForm()
