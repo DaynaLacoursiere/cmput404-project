@@ -5,13 +5,8 @@ from django.contrib.auth.models import User
 from django.views.generic import FormView
 from .models import Post, User
 from .forms import PostForm, CommentForm, UserRegForm
-<<<<<<< HEAD
-from django.http import HttpResponse, HttpResponseRedirect
-from django.core.context_processors import csrf
-=======
 from django.http import HttpResponse
 from django.contrib.auth.models import User
->>>>>>> cb4165502fbf25d6b97cdb524652a709d20acf77
 
 
 class UserRegPage(FormView):
