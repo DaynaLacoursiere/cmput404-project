@@ -43,8 +43,25 @@ NATIONS = (
 	('MDR', 'Mordor')
 	)
 class User(models.Model):
-	title= models.CharField(max_length=3, choices=TITLES)
+	title=models.CharField(max_length=3, choices=TITLES)
 	first_name= models.CharField(max_length=200)
 	nation=models.CharField(max_length=3, choices=NATIONS)
 	email=models.EmailField()
 	password=models.CharField(max_length=200)
+
+class Friendship(models.Model):
+    dateCreated = models.DateTimeField(auto_now_add=True, editable=False)
+    creator = models.ForeignKey('auth.User', related_name="friendship_creator_set")
+    friend = models.ForeignKey('auth.User', related_name="friend_set")
+
+
+
+
+
+
+
+
+
+
+
+
