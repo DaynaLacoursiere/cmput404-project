@@ -1,11 +1,12 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, render_to_response
 from django.utils import timezone
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.views.generic import FormView
 from .models import Post, User
 from .forms import PostForm, CommentForm, UserRegForm
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.core.context_processors import csrf
 
 
 class UserRegPage(FormView):
@@ -25,10 +26,11 @@ def user_registration(request):
             password= form.cleaned_data['password']
             user=User.objects.create_user(title,first_name,nation,email,password)
             form.save()
-            return render(request, 'registration/register_success', {'form': form})
-        else:
-            form=PostForm()
-            return render(request, 'registration/register_success', {'form':form})
+            return HttpResponseRedirect('registration/register_success')
+    args = {}
+    args.update(csrf(request))
+    args['form'] = UserRegForm()
+    return render_to_response('user_signup.html',args)
 
 def friends(request):
     return render(request, 'blog/friends.html')

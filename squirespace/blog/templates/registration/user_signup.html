@@ -1,13 +1,12 @@
 <html>
 
 {% block content %}
-{% load staticfiles %}
 <link href="{% static "css/theme.css" %}" rel="stylesheet">
 
 <body>
 	<div class = "container">
 	<h1>User Signup</h1>
-	<form method="POST" class="signup-form" action ="">
+	<form method="post" class="signup-form" action ="/registration/user_signup/">
         {% csrf_token %}
 		<div class="fieldWrapper">
          	<label for="title" class="col-sm-3 control-label">Title</label>
