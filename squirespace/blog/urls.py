@@ -17,7 +17,7 @@ urlpatterns = [
 	url(r'^reg/confirm/$', views.user_registration, name = 'user_registration'),
 	url(r'^login/$', auth_views.login, name='login'),
   	url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
-  	url(r'^friends/$', views.friends, name='friends')
+  	url(r'^friendship/', include('friendship.urls'))
 ] 
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
