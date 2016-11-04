@@ -1,18 +1,24 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-{% if user != post.author %}
-<h1>401: You are not authorized to be here</h1>
-{% else %}
+
     {% if edit %}
-    <h1>Edit post</h1>
-    <a href="{% url 'post_delete' pk=post.pk %}">Delete</a>
+      {% if user != post.author %}
+        <h1>401: You are not authorized to be here</h1>
+      {% else %}
+        <h1>Edit post</h1>
+        <a href="{% url 'post_delete' pk=post.pk %}">Delete</a>
+        <form method="POST" enctype="multipart/form-data" class="post-form">{% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">Save</button>
+    </form>
+      {% endif %}
     {% else %}
     <h1>New post</h1>
-    {% endif %}
     <form method="POST" enctype="multipart/form-data" class="post-form">{% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="save btn btn-default">Save</button>
     </form>
-{% endif %}
+    {% endif %}
+    
 {% endblock %}
