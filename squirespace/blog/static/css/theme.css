@@ -230,3 +230,19 @@ body{
   font-size: 12px;
   text-align: right;
 }
+
+.comments-title{
+  border-bottom:1px dotted rgba(0,0,0,0.2);
+
+}
+
+.comment{
+  border-bottom:1px dotted rgba(0,0,0,0.2);
+  padding: 8px;
+  margin-bottom:8px;
+}
+
+.comment-text{
+  word-wrap:break-word;
+  max-width: 352px;
+}
