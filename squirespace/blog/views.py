@@ -29,6 +29,9 @@ def user_registration(request):
             form=PostForm()
             return render(request, 'registration/register_success', {'form':form})
 
+def friends(request):
+    return render(request, 'blog/friends.html')
+
 def login(request):
     form = PostForm()
     return render(request, 'blog/login.html', {'form': form})
