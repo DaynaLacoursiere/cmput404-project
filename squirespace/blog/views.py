@@ -48,12 +48,8 @@ def post_detail(request, pk):
     return render(request, 'blog/post_with_comments.html', {'post': post})
 
 def post_new(request):
-    form = PostForm()
-    return render(request, 'blog/post_edit.html', {'form': form})
-
-def post_new(request):
     if request.method == "POST":
-        form = PostForm(request.POST)
+        form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user

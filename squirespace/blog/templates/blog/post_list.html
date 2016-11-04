@@ -7,7 +7,7 @@
 	{% for post in posts %}
 	<div>
 	    <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
-	    <img src="{{ post.image }}">
+	    <img src="/media/{{ post.image }}">
 	    <p><big>{{ post.text|linebreaksbr }}</big></p>
 	    <p><small>published: {{ post.published_date }} by {{ post.author }}</small></p>
 	    <p><a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a></p>

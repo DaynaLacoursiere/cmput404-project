@@ -8,7 +8,7 @@
             <a href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
         {% endif %}
         <h1>{{ post.title }}</h1>
-        <img src="{{ post.image|linebreaksbr }}">
+        <img src="/media/{{ post.image }}">
 	    <p><big>{{ post.text|linebreaksbr }}</big></p>
 	    <p><small>published: {{ post.published_date }} by {{ post.author }}</small></p>
     </div>
