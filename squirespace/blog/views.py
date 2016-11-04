@@ -32,6 +32,9 @@ def user_registration(request):
     args['form'] = UserRegForm()
     return render_to_response('user_signup.html',args)
 
+def register_success(request):
+    return render_to_response('register_success.html')
+
 def friends(request):
     return render(request, 'blog/friends.html')
 
