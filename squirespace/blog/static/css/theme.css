@@ -50,24 +50,32 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+input, button, submit {border:none;}
+
 
 
 /*Apply theme*/
 
 body{
   font-family: MedievalSharp; /* default */
+  --gold: #c8941c;
+  --brown:#603f20;
+  --grey: #666762;
+  --light-brown: #BFA49D;
 }
 
+
 .colour-theme-1{
-  background: #603f20;
-  color: #c8941c;
+  background: var(--brown);
+  color: var(--gold);
 }
 
 .header{
   position: fixed;
   top:0;left:0;right:0;
   padding:16px;
-  height:32px;
+  height:52px;
+  z-index: 1;
 }
 
 .logo-container{
@@ -75,21 +83,49 @@ body{
   left:0;top:0;bottom:0;
 }
 
-.logo-container > h1{
+.logo-container h1{
   font-size: 24pt;
   font-weight: bold;
-  line-height: 48pt;
+  line-height: 64pt;
   padding-left: 16px;
   padding-right: 16px;
 }
 
 .header-button{
   float: right;
+  background: var(--grey);
+  color: var(--gold);
+  border: var(--gold);
+  border: 2px solid;
+  border-radius: 8px;
+  margin-top:10px;
+  margin-left:16px;
+  height:32px;
+  width:130px;
+  font-size: 18pt;
+  font-weight: bold;
+  font-family: MedievalSharp;
 }
 
+.button:active, .button:focus, .button:hover{
+  outline:none;
+}
 
 .content{
   position: absolute;
-  top:64px;
+  top:84px;left:0;right:0;
   padding: 16px;
+  background:var(--light-brown);
+}
+
+.stream{
+  width:100%;
+  margin:auto;
+  padding:16px;
+}
+
+@media(min-width:650px){
+  .stream{
+    width:50%;
+  }
 }
