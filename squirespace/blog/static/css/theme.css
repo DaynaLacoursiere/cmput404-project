@@ -65,6 +65,9 @@ body{
   --light-brown: #8D6037;
   --tan: #F1F1D4;
 }
+b{
+  font-weight: bold;
+}
 
 .button{
   background: var(--grey);
@@ -103,6 +106,7 @@ body{
   height:52px;
   z-index: 1;
   border-bottom: 2px solid var(--gold);
+  box-shadow:0px 0px 20px rgba(0,0,0,0.5);
 }
 
 .logo-container{
@@ -147,7 +151,8 @@ body{
 
 @media(min-width:400px){
   .stream{
-    width:400px;
+    width:75%;
+    max-width: 850px;
   }
 }
 
@@ -159,7 +164,8 @@ body{
   top:84px;left:0;right:0;
   height:20px;
   padding:16px;
-  box-shadow:0px 0px 20px rgba(0,0,0,0.5);
+  box-shadow:0px 10px 20px rgba(0,0,0,0.25);
+  z-index: 1;
 }
 .new-post-button{
   border-color:var(--brown);
@@ -201,9 +207,7 @@ body{
               0px 10px 20px -8px #696868;
 }
 
-.post-page{
-  margin: 0;
-}
+
 
 .post-title{
   font-size: 20pt;
@@ -213,7 +217,7 @@ body{
 }
 
 .post-image{
-  max-width: 300px;
+  max-width: 100%;
   max-height: 300px;
   border-radius: 10px;
 
@@ -222,11 +226,134 @@ body{
 .post-text{
   font-style: italic;
   word-wrap:break-word;
-  max-width: 336px;
+  max-width: 100%;
   margin: 16px;
 }
 
 .post-publish-info{
   font-size: 12px;
   text-align: right;
+}
+
+.comments-title{
+  border-bottom:1px dotted rgba(0,0,0,0.2);
+
+}
+
+.comment{
+  border-bottom:1px dotted rgba(0,0,0,0.2);
+  padding: 8px 0 8px 8px;
+  margin-bottom:8px;
+}
+
+.comment-text{
+  word-wrap:break-word;
+  max-width: 100%;
+}
+
+
+/*post with comments page*/
+
+.post-page{
+  margin: 0;
+}
+.post-page .post{
+  width: 80%;
+  max-width: 850px;
+}
+
+.post-page .post-image{
+  max-width: 100%;
+}
+
+.post-page .post-text{
+  max-width: 100%;
+}
+
+.post-page .comment-text{
+  word-wrap:break-word;
+  max-width: 100%;
+}
+
+.post-page .comment-form{
+  width: 80%;
+  max-width: 850px;
+  margin: auto;
+  margin-bottom: 64px;
+}
+
+.comment-form h1{
+  color: var(--gold);
+  font-weight: bold;
+  font-size: 16pt;
+}
+
+.comment-form label{
+  display: none;
+}
+.comment-form textarea{
+  width:100%;
+  margin:16px auto;
+  font-size: 12pt;
+  font-family: MedievalSharp;
+}
+
+.comment-form .button{
+  font-size: 12pt;
+  float: right;
+}
+
+
+/*Post edit*/
+
+.post-edit-form{
+  padding:16px;
+  color: var(--gold);
+  width: 80%;
+  margin: auto;
+  position: relative;
+}
+
+.post-edit-form h1{
+  color: var(--gold);
+  font-weight: bold;
+  font-size: 16pt;
+}
+
+.post-edit-form label{
+  color: var(--gold);
+}
+.post-edit-form textarea{
+  width:100%;
+  margin:0;
+  font-size: 12pt;
+  font-family: MedievalSharp;
+}
+
+.post-edit-form p{
+  margin: 16px auto;
+}
+
+.post-edit-form .button{
+  font-size: 12pt;
+  float: right;
+}
+
+.post-edit-form .button.delete-button{
+  font-size: 12pt;
+  float: right;
+  padding-left: 8px;
+  padding-right: 8px;
+  position: absolute;
+  top:16px;right:16px;
+}
+
+.post-edit-form #image-clear_id{
+  margin-left: 16px;
+  margin-bottom: 16px;
+}
+
+.post-edit-form label:not([for=image-clear_id]){
+  display: block;
+  margin-bottom: 8px;
 }
