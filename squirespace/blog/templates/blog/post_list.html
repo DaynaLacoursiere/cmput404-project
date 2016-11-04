@@ -23,20 +23,18 @@
 	      {% endif %}
 		    <img class="post-image image" src="/media/{{ post.image }}">
 		    <p class="post-text">{{ post.text|linebreaksbr }}</p>
-		    <p class="post-publish-info">Published by {{ post.author }}:</br>{{ post.published_date.date }}</br>{{ post.published_date.time }}</p>
+		    <p class="post-publish-info"><b>{{ post.author }}</b></br>{{ post.published_date.date }}</br>{{ post.published_date.time }}</p>
 	    	{% if post.comments.all %}
 	    	<h1 class="comments-title">Comments:</h1>
 	    	{% endif %}
 		    {% for comment in post.comments.all %}
 			    <div class="comment">
 		        <p class = "comment-text">{{ comment.text|linebreaksbr }}</p>
-		        <p class="post-publish-info">Comment by {{comment.author}}:</br>{{ comment.created_date.date }}</br>{{comment.created_date.time}}</p>
+		        <p class="post-publish-info"><b>{{comment.author}}</b></br>{{ comment.created_date.date }}</br>{{comment.created_date.time}}</p>
 	        </div>
 		    {% endfor %}
 		    {% if user.is_authenticated %}
 		    <a href="{% url 'post_detail' pk=post.pk %}">Add a comment</a>
-		    {% else %}
-		    <a href="{% url 'post_detail' pk=post.pk %}">View comments</a>
 		    {% endif %}
 	    </div>
 			<div class="post-roll post-footer"></div>
