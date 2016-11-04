@@ -6,6 +6,7 @@ from django.views.generic import FormView
 from .models import Post, User
 from .forms import PostForm, CommentForm, UserRegForm
 from django.http import HttpResponse
+from django.contrib.auth.models import User
 
 
 class UserRegPage(FormView):
@@ -15,19 +16,20 @@ class UserRegPage(FormView):
     
 
 def user_registration(request):
-    if request.method == "POST":
-        form=UserRegForm(request.POST)
-        if form.is_valid():
-            title = form.cleaned_data['title']
-            first_name = form.cleaned_data['first_name']
-            nation = form.cleaned_data['nation']
-            email=form.cleaned_data['email']
-            password= form.cleaned_data['password']
-            user=User.objects.create_user(title,first_name,nation,email,password)
-            return render(request, 'registration/register_success', {'form': form})
-        else:
-            form=PostForm()
-            return render(request, 'registration/register_success', {'form':form})
+    #if request.method == "POST":
+        #form=UserRegForm(request.POST)
+        #if form.is_valid():
+            #title = form.cleaned_data['title']
+            #first_name = form.cleaned_data['first_name']
+            #nation = form.cleaned_data['nation']
+            #email=form.cleaned_data['email']
+            #password= form.cleaned_data['password']
+    user = User.objects.create_user("John", "john@mailinator.com", "johnpassword")  #THIS ABSOLUTELY DOES CREATE A USER. WE JUST NEED TO FIX EVERYTHING AROUND IT.
+    user.save()
+            #return render(request, 'registration/register_success', {'form': form})
+        #else:
+            #form=PostForm()
+    return render(request, 'registration/register_success', {'form':form})
 
 def friends(request):
     return render(request, 'blog/friends.html')
