@@ -51,9 +51,25 @@ class User(models.Model):
 
 class Friendship(models.Model):
     dateCreated = models.DateTimeField(auto_now_add=True, editable=False)
-    creator = models.ForeignKey('auth.User', related_name="friendship_creator_set")
-    friend = models.ForeignKey('auth.User', related_name="friend_set")
+    creator = models.ForeignKey('auth.User', related_name="friendship_sender")
+    friend = models.ForeignKey('auth.User', related_name="friendship_receiver")
 
+
+class FriendshipRequest(models.Model):
+    from_user = models.ForeignKey('auth.User', related_name="invitations_from")
+    to_user = models.ForeignKey('auth.User', related_name="invitations_to")
+    created = models.DateTimeField(auto_now_add=True,editable=False)
+    accepted = models.BooleanField(default=False)
+
+    def accept(self):
+        self.accepted = True
+        self.delete()
+
+    def decline(self):
+        self.delete()
+
+    def cancel(self):
+        self.delete()
 
 
 
