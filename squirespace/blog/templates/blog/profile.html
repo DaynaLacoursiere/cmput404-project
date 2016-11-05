@@ -10,7 +10,7 @@
       {% if user == profile_owner %}
       <a href="{% url 'post_new' %}"><button class="new-post-button button">New Post</button></a>
       {% else %}
-      <a><button class="new-post-button button">Add Friend</button></a>
+      <a href="{% url 'sendfriendrequest' pk %}"><button class="new-post-button button">Add Friend</button></a>
       <!-- <a><button class="new-post-button button">Remove Friend</button></a> -->
       <!-- <a><button class="new-post-button button">Cancel Friend Request</button></a> -->
       {% endif %}
