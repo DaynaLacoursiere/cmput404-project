@@ -15,9 +15,7 @@ Acknowledgements:
   - Tutorial for Django: https://tutorial.djangogirls.org/
   - Beautiful CSS: https://gist.github.com/luqmaan/044a28f52933649786b3
   
-**UPDATE** 
-MAKE SURE YOU INSTALL DJANGO-FRIENDHSIP IN YOUR VENV
-HOW TO RUN THIS IF YOU FORGOT:
+How to run:
 
     outside /squirespace run
         > virtualenv venv
