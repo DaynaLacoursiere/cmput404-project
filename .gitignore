@@ -7,6 +7,7 @@ dist/
 # Django stuff:
 *.log
 local_settings.py
+*~
 
 # pyenv
 .python-version
@@ -16,7 +17,7 @@ local_settings.py
 .env
 
 # virtualenv
-venv/
+#venv/
 #ENV/
 
 node_modules/
