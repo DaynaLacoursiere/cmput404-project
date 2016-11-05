@@ -15,7 +15,8 @@ Acknowledgements:
   - Tutorial for Django: https://tutorial.djangogirls.org/
   - Beautiful CSS: https://gist.github.com/luqmaan/044a28f52933649786b3
   
- 
+**UPDATE** 
+MAKE SURE YOU INSTALL DJANGO-FRIENDHSIP IN YOUR VENV
 HOW TO RUN THIS IF YOU FORGOT:
 
     outside /squirespace run
@@ -24,7 +25,11 @@ HOW TO RUN THIS IF YOU FORGOT:
         > pip install --upgrade pip
         > pip install Pillow
         > pip install Django==1.10
+        > pip install django-friendship
     inside /squirespace run
         > python manage.py runserver
         
     then open 127.0.0.1:8000 in your browser
+
+
+
