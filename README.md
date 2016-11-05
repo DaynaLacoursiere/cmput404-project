@@ -26,6 +26,7 @@ HOW TO RUN THIS IF YOU FORGOT:
         > pip install Pillow
         > pip install Django==1.10
         > pip install django-friendship
+        > pip install djangorestframework
     inside /squirespace run
         > python manage.py runserver
         

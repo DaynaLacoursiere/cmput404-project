@@ -15,8 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from api import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'', include('blog.urls')),
+    url(r'^api/', views.UserList.as_view()),
+    url(r'^api/(?P<pk>[0-9]+)/$', views.UserDetail.as_view()),
 ]
