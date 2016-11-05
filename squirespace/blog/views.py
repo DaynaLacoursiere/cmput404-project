@@ -2,39 +2,58 @@ from django.shortcuts import render, get_object_or_404, redirect, render_to_resp
 from django.utils import timezone
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import FormView
 from .models import Post, User
 from .forms import PostForm, CommentForm, UserRegForm
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from friendship.models import Friend, Follow, FriendshipRequest
+from django.template.context_processors import csrf
 
 
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/reg/confirm')
+    else:
+        form = UserCreationForm()
+    token = {}
+    token.update(csrf(request))
+    token['form'] = form
 
-class UserRegPage(FormView):
-    template_name='blog/user_signup.html'
-    success_url='/reg/confirm/'
-    form_class = UserRegForm
+    return render_to_response('registration/user_signup.html', token)
+
+def registration_complete(request):
+    return render_to_response('registration/register_success.html')
+
+
+# class UserRegPage(FormView):
+#     template_name='blog/user_signup.html'
+#     success_url='/reg/confirm/'
+#     form_class = UserRegForm
     
 
-def user_registration(request):
-    print("FUCK",request.method)
-    if request.method == "POST":
-        form=UserRegForm(request.POST)
-        if form.is_valid():                 # This never succeeds because we never call this view with a post.
-            username = form.cleaned_data['username']
-            email=form.cleaned_data['email']
-            password= form.cleaned_data['password']
-            user = User.objects.create_user(username,email,password)  #THIS ABSOLUTELY DOES CREATE A USER. WE JUST NEED TO FIX EVERYTHING AROUND IT.
-            user.save()
-            return HttpResponse("/")
-        else:
-            print('Form validation failed.')
-    else:
-        form=UserRegForm()
-        print('Blank form happened.')
-    return render(request, 'registration/register_success.html', {'form':form})
+# def user_registration(request):
+#     print("FUCK",request.method)
+#     if request.method == "POST":
+#         form=UserRegForm(request.POST)
+#         if form.is_valid():                 # This never succeeds because we never call this view with a post.
+#             username = form.cleaned_data['username']
+#             email=form.cleaned_data['email']
+#             password= form.cleaned_data['password']
+#             user = User.objects.create_user(username,email,password)  #THIS ABSOLUTELY DOES CREATE A USER. WE JUST NEED TO FIX EVERYTHING AROUND IT.
+#             user.save()
+#             return HttpResponse("/")
+#         else:
+#             print('Form validation failed.')
+#     else:
+#         form=UserRegForm()
+#         print('Blank form happened.')
+#     return render(request, 'registration/register_success.html', {'form':form})
 
 def friends(request):
     return render(request, 'blog/friends.html')

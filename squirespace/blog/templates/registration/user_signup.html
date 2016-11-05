@@ -1,40 +1,12 @@
-<html>
-
+{% extends 'blog/base.html' %}
 {% block content %}
-<link href="{% static "css/theme.css" %}" rel="stylesheet">
 
-<body>
-	<div class = "container">
-	<h1>User Signup</h1>
-	<form method="post" class="signup-form" action ="/registration/user_signup/">
-        {% csrf_token %}
-		<div class="fieldWrapper">
-         	<label for="title" class="col-sm-3 control-label">Title</label>
-            {{form.title}}
-        </div>
-		<div class="fieldWrapper">
-			<label for="firstname">First Name</label>
-			{{form.first_name}}
-		</div>
-		<div class="form-group">
-         	<label for="nation" class="col-sm-3 control-label">Nation</label>
-            {{form.nation}}
-        </div>
-		<div class="form-field">
-			<label for="email">E-mail</label>
-			{{form.email}}
-		</div>
-		<div class="form-field">
-			<label for="password">Password</label>
-			{{form.password}}
-        </div>
-        <div class="form-field">
-        	<label for="confirmpassword">Confirm Password</label>
-          	{{form.confirmpassword}}
-        </div>
-        <button type="submit" class="save btn btn-default">Register</button>
-	</form>
+  <h2>Registration</h2>
 
-	</body>
+  <form action="/reg/" method="post">{% csrf_token %}
+    {{form.as_p}}
+  <input type="submit" value="Register" />
+
+  </form>
+
 {% endblock %}
-</html>
