@@ -16,9 +16,11 @@ urlpatterns = [
 	url(r'^reg/$', UserRegPage.as_view()),
 	url(r'^reg/confirm/$', views.user_registration, name = 'user_registration'),
 	url(r'^login/$', auth_views.login, name='login'),
-  url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
-  url(r'^friends/$', views.friends, name='friends'),
-  url(r'^profile/(?P<pk>\d+)/$', views.profile, name='profile')
+  	url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
+  	url(r'^friends/$', views.show_friends, name='friends'),
+  	url(r'^sendfriendrequest/(?P<pk>\d+)/', views.send_friend_request, name="profile"),
+  	url(r'^profile/(?P<pk>\d+)/$', views.profile, name='profile')
+
 ] 
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
