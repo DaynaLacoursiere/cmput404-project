@@ -1,13 +1,16 @@
-<html>
-
-{% block title %}Login{% endblock %}
-
+{% extends 'blog/base.html' %}
 {% block content %}
-  <h2>Login</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
-  </form>
+{% load staticfiles %}
+{% if user.is_authenticated %}
+You are already logged in
+{% else %}
+  <div class="login-page">
+    <h2 class="login-title">Log In</h2>
+    <form class="login-form" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="login-button button" type="submit">Login</button>
+    </form>
+  </div>
+{% endif %}
 {% endblock %}
-</html>

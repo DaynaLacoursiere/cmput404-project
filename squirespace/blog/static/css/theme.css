@@ -77,6 +77,7 @@ b{
   border-radius: 8px;
   font-weight: bold;
   font-family: MedievalSharp;
+  cursor: pointer;
 }
 
 .dropdown{
@@ -420,6 +421,8 @@ b{
 /*Registration*/
 
 .registration-page{
+  width:500px;
+  margin: auto;
   padding:16px;
   color: var(--gold);
 }
@@ -435,7 +438,6 @@ b{
   font-size: 16pt;
   margin: 16px auto;
 }
-
 
 .post-edit-form #image-clear_id{
   margin-left: 16px;
@@ -457,4 +459,46 @@ b{
   font-size: 16pt;
   font-family: MedievalSharp;
   margin-left: 16px;
+}
+
+/*login*/
+
+.login-page{
+  padding:16px;
+  color: var(--gold);
+  width:500px;
+  margin: auto;
+}
+
+.login-title{
+  font-size: 20pt;
+}
+
+.login-button{
+  float:right;
+}
+
+.login-form p{
+  font-size: 16pt;
+  margin: 16px auto;
+}
+
+.login-form label{
+  display: block;
+  margin-bottom: 8px;
+  margin-top: 16px;
+}
+.login-form span{
+  display: block;
+  margin-top: 8px;
+  font-size: 10pt;
+  margin-left: 16px;
+}
+.login-form input{
+  font-size: 16pt;
+  font-family: MedievalSharp;
+  margin-left: 16px;
+}
+.login-button{
+  font-size: 16pt;
 }
