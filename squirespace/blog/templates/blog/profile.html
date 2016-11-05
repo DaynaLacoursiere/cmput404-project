@@ -18,14 +18,15 @@
 
     </div>
     <div class="friends-list">
-      <h1 class="friends-list-title">Friends:</h1>
+      <h1 class="friends-list-title"> Friends:</h1>
+        <!-- Comment for DAYNA: For loops dont seem to work with friends request.user-->
         <div class="friend">
           <a href="{% url 'profile' pk=1 %}" class="friend-name">{% friends request.user %}</a>
         </div>
-      <!-- {% for friend in friends %} -->
-        <!-- <div class="friend"> -->
-          <!-- <a href="{% url 'profile' pk=friend.id %}" class="friend-name">{{friend.username}}</a> -->
-      <!-- {% endfor %} -->
+        <!-- {% for friend in friends %} -->
+          <!-- <div class="friend"> -->
+            <!-- <a href="{% url 'profile' pk=friend.id %}" class="friend-name">{{friend.username}}</a> -->
+        <!-- {% endfor %} -->
       <h1 class="follow-list-title"> Followed by:</h1>
       <div class="friend">
         <a href="{% url 'profile' pk=5 %}" class="friend-name">{% followers request.user %}</a>
@@ -36,7 +37,7 @@
       <!-- {% endfor %} -->
       <h1 class="follow-list-title"> Following:</h1>
       <div class="friend">
-        <a href="{% url 'profile' pk=5 %}" class="friend-name">{% following request.user %}</a>
+        <a href="{% url 'profile' pk=5 %}" class="friend-name">{% following request.user %}</a> <!-- this particular one doesnt seem to work for some reason -->
       </div>
       <!-- {% for friend in friends %} -->
         <!-- <div class="friend"> -->
