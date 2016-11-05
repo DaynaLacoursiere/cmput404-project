@@ -1,6 +1,7 @@
 {% extends 'blog/base.html' %}
 {% block content %}
 {% load staticfiles %}
+{% load friendshiptags %}
 {% if user.is_authenticated %}
   <div class="profile">
     <div class="sub-header colour-theme-2">
@@ -10,7 +11,7 @@
       {% if user == profile_owner %}
       <a href="{% url 'post_new' %}"><button class="new-post-button button">New Post</button></a>
       {% else %}
-      <a href="{% url 'sendfriendrequest' pk %}"><button class="new-post-button button">Add Friend</button></a>
+      <a><button class="new-post-button button">Add Friend</button></a>
       <!-- <a><button class="new-post-button button">Remove Friend</button></a> -->
       <!-- <a><button class="new-post-button button">Cancel Friend Request</button></a> -->
       {% endif %}
@@ -18,25 +19,16 @@
     </div>
     <div class="friends-list">
       <h1 class="friends-list-title">Friends:</h1>
-      <div class="friend">
-        <a href="{% url 'profile' pk=1 %}" class="friend-name">Aedan</a>
-      </div>
-      <div class="friend">
-        <a href="{% url 'profile' pk=2 %}" class="friend-name">Daniel</a>
-      </div>
-      <div class="friend">
-        <a href="{% url 'profile' pk=3 %}" class="friend-name">Preyanshu</a>
-      </div>
-      <div class="friend">
-        <a href="{% url 'profile' pk=4 %}" class="friend-name">Dayna</a>
-      </div>
+        <div class="friend">
+          <a href="{% url 'profile' pk=1 %}" class="friend-name">{% friends request.user %}</a>
+        </div>
       <!-- {% for friend in friends %} -->
         <!-- <div class="friend"> -->
           <!-- <a href="{% url 'profile' pk=friend.id %}" class="friend-name">{{friend.username}}</a> -->
       <!-- {% endfor %} -->
       <h1 class="follow-list-title"> Followed by:</h1>
       <div class="friend">
-        <a href="{% url 'profile' pk=5 %}" class="friend-name">Rishi</a>
+        <a href="{% url 'profile' pk=5 %}" class="friend-name">{% followers request.user %}</a>
       </div>
       <!-- {% for friend in friends %} -->
         <!-- <div class="friend"> -->
@@ -44,7 +36,7 @@
       <!-- {% endfor %} -->
       <h1 class="follow-list-title"> Following:</h1>
       <div class="friend">
-        <a href="{% url 'profile' pk=5 %}" class="friend-name">Rishi</a>
+        <a href="{% url 'profile' pk=5 %}" class="friend-name">{% following request.user %}</a>
       </div>
       <!-- {% for friend in friends %} -->
         <!-- <div class="friend"> -->
@@ -53,7 +45,7 @@
       <h1 class="requests-list-title"> Friend Requests:</h1>
       <div class="friend">
         <input type="checkbox" name="accept-friend">
-        <a href="{% url 'profile' pk=5 %}" class="friend-name">Rishi</a>
+        <a href="{% url 'profile' pk=5 %}" class="friend-name">{% friend_requests request.user %}</a>
       </div>
       <!-- {% for friend in friends %} -->
         <!-- <div class="friend"> -->
