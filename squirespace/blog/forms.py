@@ -9,7 +9,7 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ('title', 'text', 'image')
-
+        
 
 class CommentForm(forms.ModelForm):
 
@@ -33,15 +33,9 @@ NATIONS = (
 	)
 
 class UserRegForm(forms.ModelForm):
-	title=forms.ChoiceField(choices=TITLES, required=True)
-	nation=forms.ChoiceField(choices=NATIONS, required=True)
 
 	class Meta:
 		model=User
-		fields=('title', 'first_name', 'nation', 'email', 'password',)
-		widgets={
-			'first_name': forms.TextInput(attrs={'placeholder': 'Your Name'}),
-            'email': forms.TextInput(attrs={'placeholder': 'john@example.com'}),
-			'password': forms.PasswordInput(),
-			}
+		fields=('username', 'email', 'password')
+		
 
