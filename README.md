@@ -35,3 +35,14 @@ HOW TO RUN THIS IF YOU FORGOT:
 to run test suite:
 	python manage.py test
 
+GET /api/:
+  127.0.0.1:8000/api
+
+To get a JSON list of all users, make a get request to api/users/
+ie. curl http://127.0.0.1:8000/api/users/
+
+To get a specific user's JSON, make a get request to api/user
+ie. curl http://127.0.0.1:8000/api/users/2
+
+To add user, POST JSON to api/users/
+ie. curl -H "Content-Type: application/json" -X POST -d '{"username":"bob","email":"bob@xyz.ca"}' http://localhost:8000/api/users
