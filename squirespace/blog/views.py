@@ -141,7 +141,7 @@ def profile(request,pk):
     following = Follow.objects.following(profile_owner)
     followers = Follow.objects.followers(profile_owner)
     friend_requests = Friend.objects.unread_requests(user=profile_owner)
-    return render(request, 'blog/profile.html', {'user': request.user, 'profile-owner': profile_owner, 'posts': posts, 'friends': friends, 'following':following, 'followers':followers, 'friend_requests':friend_requests})
+    return render(request, 'blog/profile.html', {'user': request.user, 'profile_owner': profile_owner, 'posts': posts, 'friends': friends, 'following':following, 'followers':followers, 'friend_requests':friend_requests})
 
 def send_friend_request(request, pk):
     other_user = User.objects.get(id = pk)
