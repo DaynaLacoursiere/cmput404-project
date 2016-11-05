@@ -415,3 +415,46 @@ b{
   font-style: italic;
   font-weight: bold;
 }
+
+
+/*Registration*/
+
+.registration-page{
+  padding:16px;
+  color: var(--gold);
+}
+.registration-page .button{
+  float:right;
+}
+
+.registration-page .registration-title{
+  font-size: 20pt;
+}
+
+.registration-form p{
+  font-size: 16pt;
+  margin: 16px auto;
+}
+
+
+.post-edit-form #image-clear_id{
+  margin-left: 16px;
+  margin-bottom: 16px;
+}
+
+.registration-form label{
+  display: block;
+  margin-bottom: 8px;
+  margin-top: 16px;
+}
+.registration-form span{
+  display: block;
+  margin-top: 8px;
+  font-size: 10pt;
+  margin-left: 16px;
+}
+.registration-form input{
+  font-size: 16pt;
+  font-family: MedievalSharp;
+  margin-left: 16px;
+}
