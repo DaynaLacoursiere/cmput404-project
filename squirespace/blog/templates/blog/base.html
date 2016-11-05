@@ -16,7 +16,6 @@
             </a>
             {% if user.is_authenticated %}
             <a href="/logout"><button class="header-button button">Log Out</button></a>
-            <a href="/friends"><button class="header-button button">Friends</button></a>
             {% else %}
             <form method="get" action="/reg">
                 <button class="header-button button" type="submit">Register</button>

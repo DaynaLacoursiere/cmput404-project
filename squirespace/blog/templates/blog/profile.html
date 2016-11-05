@@ -9,6 +9,10 @@
       </div>
       {% if user == profile_owner %}
       <a href="{% url 'post_new' %}"><button class="new-post-button button">New Post</button></a>
+      {% else %}
+      <a><button class="new-post-button button">Add Friend</button></a>
+      <!-- <a><button class="new-post-button button">Remove Friend</button></a> -->
+      <!-- <a><button class="new-post-button button">Cancel Friend Request</button></a> -->
       {% endif %}
 
     </div>
@@ -26,6 +30,11 @@
       <div class="friend">
         <a href="{% url 'profile' pk=4 %}" class="friend-name">Dayna</a>
       </div>
+      <!-- {% for friend in friends %} -->
+        <!-- <div class="friend"> -->
+          <!-- <a href="{% url 'profile' pk=friend.id %}" class="friend-name">{{friend.username}}</a> -->
+      <!-- {% endfor %} -->
+      <h1 class="follow-list-title"> Followed by:</h1>
       <div class="friend">
         <a href="{% url 'profile' pk=5 %}" class="friend-name">Rishi</a>
       </div>
@@ -33,6 +42,24 @@
         <!-- <div class="friend"> -->
           <!-- <a href="{% url 'profile' pk=friend.id %}" class="friend-name">{{friend.username}}</a> -->
       <!-- {% endfor %} -->
+      <h1 class="follow-list-title"> Following:</h1>
+      <div class="friend">
+        <a href="{% url 'profile' pk=5 %}" class="friend-name">Rishi</a>
+      </div>
+      <!-- {% for friend in friends %} -->
+        <!-- <div class="friend"> -->
+          <!-- <a href="{% url 'profile' pk=friend.id %}" class="friend-name">{{friend.username}}</a> -->
+      <!-- {% endfor %} -->
+      <h1 class="requests-list-title"> Friend Requests:</h1>
+      <div class="friend">
+        <input type="checkbox" name="accept-friend">
+        <a href="{% url 'profile' pk=5 %}" class="friend-name">Rishi</a>
+      </div>
+      <!-- {% for friend in friends %} -->
+        <!-- <div class="friend"> -->
+          <!-- <a href="{% url 'profile' pk=friend.id %}" class="friend-name">{{friend.username}}</a> -->
+      <!-- {% endfor %} -->
+
     </div>
     <div class="stream">
       {% for post in posts %}

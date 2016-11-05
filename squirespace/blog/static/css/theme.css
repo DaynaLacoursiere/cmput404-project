@@ -397,7 +397,10 @@ b{
 
 .friends-list .friends-list-title{
   font-size: 16pt;
-
+}
+.friends-list .follow-list-title, .requests-list-title{
+  font-size: 16pt;
+  margin-top: 16px;
 }
 
 .friends-list .friend{
@@ -411,11 +414,4 @@ b{
   color: var(--gold);
   font-style: italic;
   font-weight: bold;
-}
-
-@media(min-width: 900px){
-  .profile .stream{
-  }
-  .friends-list{
-  }
 }

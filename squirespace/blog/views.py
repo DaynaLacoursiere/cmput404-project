@@ -5,31 +5,36 @@ from django.contrib.auth.models import User
 from django.views.generic import FormView
 from .models import Post, User
 from .forms import PostForm, CommentForm, UserRegForm
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.contrib.auth.models import User
+from django.http import HttpResponse
+from friendship.models import Friend, Follow
+
 
 
 class UserRegPage(FormView):
     template_name='blog/user_signup.html'
-    success_url='/reg/confirm'
+    success_url='/reg/confirm/'
     form_class = UserRegForm
     
 
 def user_registration(request):
-    #if request.method == "POST":
-        #form=UserRegForm(request.POST)
-        #if form.is_valid():
-            #title = form.cleaned_data['title']
-            #first_name = form.cleaned_data['first_name']
-            #nation = form.cleaned_data['nation']
-            #email=form.cleaned_data['email']
-            #password= form.cleaned_data['password']
-    user = User.objects.create_user("John", "john@mailinator.com", "johnpassword")  #THIS ABSOLUTELY DOES CREATE A USER. WE JUST NEED TO FIX EVERYTHING AROUND IT.
-    user.save()
-            #return render(request, 'registration/register_success', {'form': form})
-        #else:
-            #form=PostForm()
-    return render(request, 'registration/register_success', {'form':form})
+    print("FUCK",request.method)
+    if request.method == "POST":
+        form=UserRegForm(request.POST)
+        if form.is_valid():                 # This never succeeds because we never call this view with a post.
+            username = form.cleaned_data['username']
+            email=form.cleaned_data['email']
+            password= form.cleaned_data['password']
+            user = User.objects.create_user(username,email,password)  #THIS ABSOLUTELY DOES CREATE A USER. WE JUST NEED TO FIX EVERYTHING AROUND IT.
+            user.save()
+            return HttpResponse("/")
+        else:
+            print('Form validation failed.')
+    else:
+        form=UserRegForm()
+        print('Blank form happened.')
+    return render(request, 'registration/register_success.html', {'form':form})
 
 def friends(request):
     return render(request, 'blog/friends.html')
@@ -115,3 +120,16 @@ def profile(request,pk):
     # friends = profile_owner.friends
     return render(request, 'blog/profile.html', {'user': request.user, 'profile_owner': profile_owner, 'posts': posts})
     # return render(request, 'blog/profile.html', {'user': request.user, 'profile-owner': profileOwner, 'posts': posts, 'friends': friends})
+
+def send_friend_request(request, pk):
+    other_user = User.objects.get(pk = 1)
+    Friend.objects.add_friend(request.user, other_user, message = 'I would like to request your friendship.')
+
+
+
+
+
+
+
+
+
