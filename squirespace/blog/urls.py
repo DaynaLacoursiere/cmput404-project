@@ -16,10 +16,10 @@ urlpatterns = [
 	url(r'^reg/$',views.register,name='register'),
 	url(r'^reg/confirm/$', views.registration_complete, name = 'registration_complete'),
 	url(r'^login/$', auth_views.login, name='login'),
-  	url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
-  	url(r'^friends/$', views.show_friends, name='friends'),
-  	url(r'^sendfriendrequest/(?P<pk>\d+)/', views.send_friend_request, name="profile"),
-  	url(r'^profile/(?P<pk>\d+)/$', views.profile, name='profile')
+	url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
+	url(r'^profile/(?P<pk>\d+)/$', views.profile, name='profile'),
+	url(r'^friends/$', views.show_friends, name='friends'),
+	url(r'^send_friend_request/(?P<pk>\d+)/$', views.send_friend_request, name="send_friend_request")
 
 ] 
 
