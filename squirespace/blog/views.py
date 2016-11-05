@@ -6,7 +6,7 @@ from django.views.generic import FormView
 from .models import Post, User
 from .forms import PostForm, CommentForm, UserRegForm
 from django.http import HttpResponse
-from friendship.models import Friend, Follow
+from friendship.models import Friend, Follow, FriendshipRequest
 
 
 class UserRegPage(FormView):
@@ -109,11 +109,21 @@ def add_comment_to_post(request, pk):
     return render(request, 'blog/add_comment.html', {'form': form})
 
 def send_friend_request(request, pk):
-    other_user = User.objects.get(pk = 1)
+    other_user = User.objects.get_object_or_404(pk = pk)
     Friend.objects.add_friend(request.user, other_user, message = 'I would like to request your friendship.')
 
 
+def accept_friend_request(request, pk):
+    friend_request = FriendshipRequest.objects.get_object_or_404(pk = pk)
+    friend_request.accept_friend_request()
 
+def reject_friend_request(request, pk):
+    friend_request = FriendshipRequest.objects.get_object_or_404(pk = pk)
+    friend_request.reject_friend_request()
+
+def cancel_friend_request(request, pk):
+    friend_request = FriendshipRequest.objects.get_object_or_404(pk = pk)
+    friend_request.cancel_friend_request()
 
 
 
