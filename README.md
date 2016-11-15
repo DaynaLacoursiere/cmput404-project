@@ -44,3 +44,35 @@ ie. curl http://127.0.0.1:8000/api/users/2
 
 To add user, POST JSON to api/users/
 ie. curl -H "Content-Type: application/json" -X POST -d '{"username":"bob","email":"bob@xyz.ca"}' http://localhost:8000/api/users
+
+
+
+Team Collaboration:
+	Rishi:
+	- Friends backend
+	- Followers/Followed by backend
+	- Remote friendships
+	- Friends Tests
+	Aedan:
+	- Setup initial site skeleton
+	- Post creating/editing/deleting backend
+	- Images (server hosting, and site displaying)
+	- Setup AWS to serve site
+	- Posts/Images tests
+	- Server tests
+	Preyanshu:
+	- Authentication
+	- Registration
+	- Authentication tests
+	Dayna:
+	- Registration
+	- CSS and HTML layout for all pages
+	- Browsing based on status
+	- Private/Public posting
+	- Registration tests
+	- Sorting/Filtering tests
+	Daniel:
+	- Authentication
+	- Post comments creating/editing/deleting backend
+	- Allowing markdown
+	
