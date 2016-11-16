@@ -25,6 +25,7 @@ time, mark, audio, video {
   font-size: 100%;
   font: inherit;
   vertical-align: baseline;
+  text-decoration: none;
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
@@ -49,6 +50,455 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+input, button, submit, select {border:none;outline:none;}
+
 
 
 /*Apply theme*/
+
+body{
+  font-family: MedievalSharp; /* default */
+  background:var(--brown);
+  --gold: #c8941c;
+  --brown:#603f20;
+  --grey: #666762;
+  --light-brown: #8D6037;
+  --tan: #F1F1D4;
+}
+b{
+  font-weight: bold;
+}
+
+.button{
+  background: var(--grey);
+  color: var(--gold);
+  border-color: var(--gold);
+  border: 2px solid;
+  border-radius: 8px;
+  font-weight: bold;
+  font-family: MedievalSharp;
+  cursor: pointer;
+}
+
+.dropdown{
+  background: var(--grey);
+  color: var(--gold);
+  border-color: var(--gold);
+  border: 2px solid;
+  border-radius: 8px;
+  font-weight: bold;
+  font-family: MedievalSharp;
+}
+
+
+.colour-theme-1{
+  background: var(--brown);
+  color: var(--gold);
+}
+.colour-theme-2{
+  background: var(--gold);
+  color: var(--brown);
+}
+
+.header{
+  position: fixed;
+  top:0;left:0;right:0;
+  padding:16px;
+  height:52px;
+  z-index: 1;
+  border-bottom: 2px solid var(--gold);
+  box-shadow:0px 0px 20px rgba(0,0,0,0.5);
+}
+
+.logo-container{
+  position: absolute;
+  left:0;top:0;bottom:0;
+}
+
+.logo-container h1{
+  font-size: 24pt;
+  font-weight: bold;
+  line-height: 64pt;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+
+.header-button{
+  float: right;
+  height:32px;
+  width:130px;
+  font-size: 18pt;
+  margin-top:10px;
+  margin-left:16px;
+}
+
+.button:active, .button:focus, .button:hover{
+  outline:none;
+}
+
+.content{
+  position: absolute;
+  top:84px;left:0;right:0;bottom:0;
+  padding-top: 16px;
+}
+
+
+.stream{
+  width:90%;
+  margin:auto;
+  padding:16px;
+}
+
+@media(min-width:400px){
+  .stream{
+    width:75%;
+    max-width: 850px;
+  }
+}
+
+
+/*Post list*/
+
+.sub-header{
+  position: fixed;
+  top:84px;left:0;right:0;
+  height:20px;
+  padding:16px;
+  box-shadow:0px 10px 20px rgba(0,0,0,0.25);
+  z-index: 1;
+}
+.sub-header .button{
+  border-color:var(--brown);
+  background:var(--grey);
+  color:var(--gold);
+  padding-left: 8px;
+  padding-right: 8px;
+}
+.sub-header .dropdown{
+  padding-right: 0;
+}
+
+.profile-button{
+  float: right;
+}
+
+.post{
+  margin: 36px auto;
+  background: var(--tan);
+  border-radius: 5px;
+}
+
+.post-content{
+  padding:16px;
+
+}
+
+.post-roll{
+  height:30px;
+  border-radius: 5px;
+}
+.post-header{
+  box-shadow: inset  0  8px 20px -8px #696868, 
+              inset  0 -8px 20px -8px #696868,
+              0px 10px 20px -8px #696868;
+    margin-bottom: 16px;
+}
+.post-footer{
+  box-shadow: inset  0  8px 20px -8px #696868, 
+              inset  0 -8px 20px -8px #696868,
+              0px -10px 20px -8px #696868,
+              0px 10px 20px -8px #696868;
+}
+
+
+
+.post-title{
+  font-size: 20pt;
+  font-weight: bold;
+  margin-bottom: 8px;
+  text-decoration: underline;
+}
+
+.post-image{
+  max-width: 100%;
+  max-height: 300px;
+  border-radius: 10px;
+
+}
+
+.post-text{
+  font-style: italic;
+  word-wrap:break-word;
+  max-width: 100%;
+  margin: 16px;
+}
+
+.post-publish-info{
+  font-size: 12px;
+  text-align: right;
+}
+
+.comments-title{
+  border-bottom:1px dotted rgba(0,0,0,0.2);
+
+}
+
+.comment{
+  border-bottom:1px dotted rgba(0,0,0,0.2);
+  padding: 8px 0 8px 8px;
+  margin-bottom:8px;
+}
+
+.comment-text{
+  word-wrap:break-word;
+  max-width: 100%;
+}
+
+
+/*post with comments page*/
+
+.post-page{
+  margin: 0;
+}
+.post-page .post{
+  width: 80%;
+  max-width: 850px;
+}
+
+.post-page .post-image{
+  max-width: 100%;
+}
+
+.post-page .post-text{
+  max-width: 100%;
+}
+
+.post-page .comment-text{
+  word-wrap:break-word;
+  max-width: 100%;
+}
+
+.post-page .comment-form{
+  width: 80%;
+  max-width: 850px;
+  margin: auto;
+  margin-bottom: 64px;
+}
+
+.comment-form h1{
+  color: var(--gold);
+  font-weight: bold;
+  font-size: 16pt;
+}
+
+.comment-form label{
+  display: none;
+}
+.comment-form textarea{
+  width:100%;
+  margin:16px auto;
+  font-size: 12pt;
+  font-family: MedievalSharp;
+}
+
+.comment-form .button{
+  font-size: 12pt;
+  float: right;
+}
+
+
+/*Post edit*/
+
+.post-edit-form{
+  padding:16px;
+  color: var(--gold);
+  width: 80%;
+  margin: auto;
+  position: relative;
+}
+
+.post-edit-form h1{
+  color: var(--gold);
+  font-weight: bold;
+  font-size: 16pt;
+}
+
+.post-edit-form label{
+  color: var(--gold);
+}
+.post-edit-form textarea{
+  width:100%;
+  margin:0;
+  font-size: 12pt;
+  font-family: MedievalSharp;
+}
+
+.post-edit-form p{
+  margin: 16px auto;
+}
+
+.post-edit-form .button{
+  font-size: 12pt;
+  float: right;
+}
+
+.post-edit-form .button.delete-button{
+  font-size: 12pt;
+  float: right;
+  padding-left: 8px;
+  padding-right: 8px;
+  position: absolute;
+  top:16px;right:16px;
+}
+
+.post-edit-form #image-clear_id{
+  margin-left: 16px;
+  margin-bottom: 16px;
+}
+
+.post-edit-form label:not([for=image-clear_id]){
+  display: block;
+  margin-bottom: 8px;
+}
+
+
+/*Profile*/
+.profile .stream{
+  width: 60%;
+  position: absolute;
+  left:300px;right:0;margin:auto;
+}
+
+
+.profile .personal-info{
+  display: inline-block;
+}
+
+.profile .personal-info .name{
+  font-size: 20pt;
+  font-weight: bold;
+}
+
+.profile .new-post-button{
+  float:right;
+}
+
+.profile .friends-list{
+  position: fixed;
+  top:136px;
+  margin:16px;
+  width:252px;
+  background: var(--grey);
+  border-radius: 5px;
+  padding:16px;
+  border: 2px solid var(--gold);
+  color: var(--gold);
+}
+
+.friends-list .friends-list-title{
+  font-size: 16pt;
+}
+.friends-list .follow-list-title, .requests-list-title{
+  font-size: 16pt;
+  margin-top: 16px;
+}
+
+.friends-list .friend{
+  margin-left: 16px;
+  margin-top: 16px;
+
+}
+
+.friends-list .friend .friend-name{
+  font-size: 14pt;
+  color: var(--gold);
+  font-style: italic;
+  font-weight: bold;
+}
+
+
+/*Registration*/
+
+.registration-page{
+  width:500px;
+  margin: auto;
+  padding:16px;
+  color: var(--gold);
+}
+.registration-page .button{
+  float:right;
+}
+
+.registration-page .registration-title{
+  font-size: 20pt;
+}
+
+.registration-form p{
+  font-size: 16pt;
+  margin: 16px auto;
+}
+
+.post-edit-form #image-clear_id{
+  margin-left: 16px;
+  margin-bottom: 16px;
+}
+
+.registration-form label{
+  display: block;
+  margin-bottom: 8px;
+  margin-top: 16px;
+}
+.registration-form span{
+  display: block;
+  margin-top: 8px;
+  font-size: 10pt;
+  margin-left: 16px;
+}
+.registration-form input{
+  font-size: 16pt;
+  font-family: MedievalSharp;
+  margin-left: 16px;
+}
+
+/*login*/
+
+.login-page{
+  padding:16px;
+  color: var(--gold);
+  width:500px;
+  margin: auto;
+}
+
+.login-title{
+  font-size: 20pt;
+}
+
+.login-button{
+  float:right;
+}
+
+.login-form p{
+  font-size: 16pt;
+  margin: 16px auto;
+}
+
+.login-form label{
+  display: block;
+  margin-bottom: 8px;
+  margin-top: 16px;
+}
+.login-form span{
+  display: block;
+  margin-top: 8px;
+  font-size: 10pt;
+  margin-left: 16px;
+}
+.login-form input{
+  font-size: 16pt;
+  font-family: MedievalSharp;
+  margin-left: 16px;
+}
+.login-button{
+  font-size: 16pt;
+}
