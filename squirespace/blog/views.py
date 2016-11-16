@@ -30,43 +30,12 @@ def register(request):
 def registration_complete(request):
     return render_to_response('registration/register_success.html')
 
-
-# class UserRegPage(FormView):
-#     template_name='blog/user_signup.html'
-#     success_url='/reg/confirm/'
-#     form_class = UserRegForm
-    
-
-# def user_registration(request):
-#     print("FUCK",request.method)
-#     if request.method == "POST":
-#         form=UserRegForm(request.POST)
-#         if form.is_valid():                 # This never succeeds because we never call this view with a post.
-#             username = form.cleaned_data['username']
-#             email=form.cleaned_data['email']
-#             password= form.cleaned_data['password']
-#             user = User.objects.create_user(username,email,password)  #THIS ABSOLUTELY DOES CREATE A USER. WE JUST NEED TO FIX EVERYTHING AROUND IT.
-#             user.save()
-#             return HttpResponse("/")
-#         else:
-#             print('Form validation failed.')
-#     else:
-#         form=UserRegForm()
-#         print('Blank form happened.')
-#     return render(request, 'registration/register_success.html', {'form':form})
-
 def friends(request):
     return render(request, 'blog/friends.html')
 
 def login(request):
     form = PostForm()
     return render(request, 'blog/login.html', {'form': form})
-
-""" garbage
-def image(request):
-    image_data = open("../media/dnd.png", "rb").read()
-    return HttpResponse(image_data, content_type="image/png")
-"""
 
 def post_list(request):
     posts = Post.objects.filter(published_date__lte=timezone.now())

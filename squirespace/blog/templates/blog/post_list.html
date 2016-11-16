@@ -15,40 +15,43 @@
 	{% endif %}
 
   <div class="stream">
+  	{% if user.is_authenticated %}
+			{% for post in posts|dictsortreversed:"published_date" %}
+			<div class="post">
+				<div class="post-roll post-header"></div>
+				<div class="post-content">
+			    <h1 class="post-title">{{ post.title }}</h1>
 
-		{% for post in posts|dictsortreversed:"published_date" %}
-		<div class="post">
-			<div class="post-roll post-header"></div>
-			<div class="post-content">
-		    <h1 class="post-title">{{ post.title }}</h1>
+			    {% if user == post.author %}
+		      	<a style="display:block;text-align: right;" href="{% url 'post_edit' pk=post.pk %}">Edit</a>
+		      {% endif %}
 
-		    {% if user == post.author %}
-	      	<a style="display:block;text-align: right;" href="{% url 'post_edit' pk=post.pk %}">Edit</a>
-	      {% endif %}
+		      {% if user.is_authenticated %}
+			    <img class="post-image image" src="/media/{{ post.image }}">
+			    {% endif %}
+			    <p class="post-text">{{ post.text|linebreaksbr }}</p>
+			    <p class="post-publish-info"><a href="{% url 'profile' pk=post.author.id %}" ><b>{{ post.author }}</b></a></br>{{ post.published_date.date }}</br>{{ post.published_date.time }}</p>
 
-	      {% if user.is_authenticated %}
-		    <img class="post-image image" src="/media/{{ post.image }}">
-		    {% endif %}
-		    <p class="post-text">{{ post.text|linebreaksbr }}</p>
-		    <p class="post-publish-info"><a href="{% url 'profile' pk=post.author.id %}" ><b>{{ post.author }}</b></a></br>{{ post.published_date.date }}</br>{{ post.published_date.time }}</p>
+		    	{% if post.comments.all %}
+		    	<h1 class="comments-title">Comments:</h1>
+		    	{% endif %}
+			    {% for comment in post.comments.all %}
+				    <div class="comment">
+			        <p class = "comment-text">{{ comment.text|linebreaksbr }}</p>
+			        <p class="post-publish-info"><a href="{% url 'profile' pk=comment.author.id %}" ><b>{{comment.author}}</b></a></br>{{ comment.created_date.date }}</br>{{comment.created_date.time}}</p>
+		        </div>
+			    {% endfor %}
 
-	    	{% if post.comments.all %}
-	    	<h1 class="comments-title">Comments:</h1>
-	    	{% endif %}
-		    {% for comment in post.comments.all %}
-			    <div class="comment">
-		        <p class = "comment-text">{{ comment.text|linebreaksbr }}</p>
-		        <p class="post-publish-info"><a href="{% url 'profile' pk=comment.author.id %}" ><b>{{comment.author}}</b></a></br>{{ comment.created_date.date }}</br>{{comment.created_date.time}}</p>
-	        </div>
-		    {% endfor %}
+			    {% if user.is_authenticated %}
+			    <a href="{% url 'post_detail' pk=post.pk %}">Add a comment</a>
+			    {% endif %}
 
-		    {% if user.is_authenticated %}
-		    <a href="{% url 'post_detail' pk=post.pk %}">Add a comment</a>
-		    {% endif %}
-
-	    </div>
-			<div class="post-roll post-footer"></div>
-		</div>
-		{% endfor %}
+		    </div>
+				<div class="post-roll post-footer"></div>
+			</div>
+			{% endfor %}
+		{% else %}
+		Please log in to view posts
+		{% endif %}
 	</div>
 {% endblock %}

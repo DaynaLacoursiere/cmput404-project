@@ -2,17 +2,33 @@ from __future__ import unicode_literals
 from django import forms
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 # Create your models here.
 
 class Post(models.Model):
 	author = models.ForeignKey('auth.User')
 	title = models.CharField(max_length=200)
 	text = models.TextField()
-	created_date = models.DateTimeField(
-		default=timezone.now)
-	published_date = models.DateTimeField(
-		blank = True, null = True)
+	created_date = models.DateTimeField(default=timezone.now)
+	published_date = models.DateTimeField(blank = True, null = True)
 	image = models.ImageField(upload_to='',default='default.png', blank=True)
+
+	PRIVATE_LEVEL_CHOICES = (
+			('public','Public'),
+			('friends','Private: Friends Only'),
+			('friends_of_friends','Private: Friends of Friends'),
+			('host_friends','Private: Friends on my Host Only'),
+			('another_author','Private: Another Author'),
+			('only_me','Private: Me Only')
+		)
+	users = User.objects.all()
+	USERS = []
+	USERS.append(("none","Default"))
+	for user in users:
+		USERS.append((user.username, user.username))
+		
+	privatelevel = models.CharField(verbose_name="Privacy level of post:", default=PRIVATE_LEVEL_CHOICES[0], max_length=200, choices=PRIVATE_LEVEL_CHOICES)
+	otherauthor = models.CharField(verbose_name="Author post should be private to (if 'Private: Another Author' selected):", default=USERS[0], max_length=200, choices=USERS)
 
 	def publish(self):
 		self.published_date = timezone.now()
