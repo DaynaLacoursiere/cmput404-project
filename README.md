@@ -43,8 +43,7 @@ To get a specific user's JSON, make a get request to api/user
 ie. curl http://127.0.0.1:8000/api/users/2
 
 To add user, POST JSON to api/users/
-ie. curl -H "Content-Type: application/json" -X POST -d '{"username":"bob","email":"bob@xyz.ca"}' http://localhost:8000/api/users
-
+ie. curl -X POST http://127.0.0.1:8000/api/users/ -d '{"username":"xxz", "email":"xx@x.ca"}' -H "Content-Type: application/json"
 
 
 Team Collaboration:  
