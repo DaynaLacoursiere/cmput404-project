@@ -14,7 +14,7 @@
 		</div>
 	{% endif %}
   <div class="stream">
-		{% for post in posts %}
+		{% for post in posts|dictsortreversed:"published_date" %}
 		<div class="post">
 			<div class="post-roll post-header"></div>
 			<div class="post-content">
