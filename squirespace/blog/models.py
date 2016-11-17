@@ -65,6 +65,7 @@ class User(models.Model):
 	nation=models.CharField(max_length=3, choices=NATIONS)
 	email=models.EmailField()
 	password=models.CharField(max_length=200)
+	admin_approve=model.BooleanField()
 
 
 
