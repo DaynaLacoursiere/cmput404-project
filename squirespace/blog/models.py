@@ -11,7 +11,7 @@ class Post(models.Model):
 	text = models.TextField()
 	created_date = models.DateTimeField(default=timezone.now)
 	published_date = models.DateTimeField(blank = True, null = True)
-	image = models.ImageField(upload_to='',default='default.png', blank=True)
+	image = models.ImageField(upload_to='',default='', blank=True)
 
 	PRIVATE_LEVEL_CHOICES = (
 			('public','Public'),

@@ -7,6 +7,7 @@
     <div class="sub-header colour-theme-2">
       <div class="personal-info">
         <h1 class="name">{{profile_owner.username}}</h1>
+        <p> THIS IS A THING </p>
       </div>
       {% if user == profile_owner %}
       <a href="{% url 'post_new' %}"><button class="new-post-button button">New Post</button></a>
@@ -68,6 +69,13 @@
         <div class="post-roll post-footer"></div>
       </div>
       {% endfor %}
+    </div>
+    <div class="github-page">
+      <h2 class="github-title">Pull Github Activity?</h2>
+      <form class="github-form" action="" method="post">{% csrf_token %}
+        {{form.as_p}}
+      <input class="button" type="submit" value="Github" />
+      </form>
     </div>
   </div>
 {% else %}
