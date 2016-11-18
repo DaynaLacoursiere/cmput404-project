@@ -502,3 +502,7 @@ b{
 .login-button{
   font-size: 16pt;
 }
+.github-page{
+  position: fixed;
+  bottom: 0;
+}
