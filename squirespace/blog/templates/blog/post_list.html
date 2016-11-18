@@ -6,9 +6,9 @@
 			<a href="{% url 'post_new' %}"><button class="new-post-button button">New Post</button></a>
 			<!-- For Future Dayna: http://stackoverflow.com/questions/8430279/how-to-style-the-option-with-only-css -->
 			<select name="viewtype" class="dropdown button view-posts-dropdown">
-				<option value="all-posts">View All Public Posts</option>
+				<option value="all-posts">View All Posts</option>
 				<option value="friends-posts">View My Friends Posts</option>
-				<option value="my-posts">View Only My Posts</option>
+				<option value="my-posts">View My Posts</option>
 			</select>
 			<a href="{% url 'profile' pk=user.id %}"><button class="profile-button button">Profile</button></a>
 		</div>
@@ -17,38 +17,38 @@
   <div class="stream">
   	{% if user.is_authenticated %}
 			{% for post in posts|dictsortreversed:"published_date" %}
-			<div class="post">
-				<div class="post-roll post-header"></div>
-				<div class="post-content">
-			    <h1 class="post-title">{{ post.title }}</h1>
 
-			    {% if user == post.author %}
-		      	<a style="display:block;text-align: right;" href="{% url 'post_edit' pk=post.pk %}">Edit</a>
-		      {% endif %}
+				{# If the author is the user, show immediately and ignore privacy #}
+				{% if post.author == user %}
+					{% include "blog/post.html" %}
 
-		      {% if user.is_authenticated %}
-			    <img class="post-image image" src="/media/{{ post.image }}">
-			    {% endif %}
-			    <p class="post-text">{{ post.text|linebreaksbr }}</p>
-			    <p class="post-publish-info"><a href="{% url 'profile' pk=post.author.id %}" ><b>{{ post.author }}</b></a></br>{{ post.published_date.date }}</br>{{ post.published_date.time }}</p>
+				{# If the post is public, anyone can see it #}
+				{% elif post.privatelevel == "public" %}
+					{% include "blog/post.html" %}
 
-		    	{% if post.comments.all %}
-		    	<h1 class="comments-title">Comments:</h1>
-		    	{% endif %}
-			    {% for comment in post.comments.all %}
-				    <div class="comment">
-			        <p class = "comment-text">{{ comment.text|linebreaksbr }}</p>
-			        <p class="post-publish-info"><a href="{% url 'profile' pk=comment.author.id %}" ><b>{{comment.author}}</b></a></br>{{ comment.created_date.date }}</br>{{comment.created_date.time}}</p>
-		        </div>
-			    {% endfor %}
+				{# If the post is friends only, check that the author is a friend #}
+				{% elif post.privatelevel == "friends" and post_author in friends %}
+					{% include "blog/post.html" %}
 
-			    {% if user.is_authenticated %}
-			    <a href="{% url 'post_detail' pk=post.pk %}">Add a comment</a>
-			    {% endif %}
+				{# If the post is friends of friends, check that the author has a friend that is the user's friend #}
+				{% elif post.privatelevel == "friends_of_friends" %}
+					{# TODO #}
 
-		    </div>
-				<div class="post-roll post-footer"></div>
-			</div>
+				{# If the post is host_friends, check that the author is a friend #}
+				{% elif post.privatelevel == "host_friends" and post_author in friends %}
+					{# and check if they posted from the same host #}
+					{% if post.host == "squirespace" %}
+						{% include "blog/post.html" %}
+					{% endif %}
+
+				{# If the post is another_author #}
+				{% elif post.privatelevel == "another_author" %}
+					{# Check if the other author is the user #}
+					{% if post.otherauthor == user.username %}
+						{% include "blog/post.html" %}
+					{% endif %}
+
+				{% endif %}
 			{% endfor %}
 		{% else %}
 		Please log in to view posts

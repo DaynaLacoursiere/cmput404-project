@@ -11,7 +11,8 @@ class Post(models.Model):
 	text = models.TextField()
 	created_date = models.DateTimeField(default=timezone.now)
 	published_date = models.DateTimeField(blank = True, null = True)
-	image = models.ImageField(upload_to='',default='', blank=True)
+	image = models.ImageField(upload_to='',default='default.png', blank=True)
+	host = "squirespace"
 
 	PRIVATE_LEVEL_CHOICES = (
 			('public','Public'),
@@ -29,6 +30,7 @@ class Post(models.Model):
 		
 	privatelevel = models.CharField(verbose_name="Privacy level of post:", default=PRIVATE_LEVEL_CHOICES[0], max_length=200, choices=PRIVATE_LEVEL_CHOICES)
 	otherauthor = models.CharField(verbose_name="Author post should be private to (if 'Private: Another Author' selected):", default=USERS[0], max_length=200, choices=USERS)
+
 
 	def publish(self):
 		self.published_date = timezone.now()
