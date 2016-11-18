@@ -29,9 +29,6 @@ def register(request):
 def registration_complete(request):
     return render_to_response('registration/register_success.html')
 
-def friends(request):
-    return render(request, 'blog/friends.html')
-
 def login(request):
     form = PostForm()
     return render(request, 'blog/login.html', {'form': form})
@@ -89,21 +86,6 @@ def post_delete(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.delete()
     return redirect('post_list')
-
-def add_comment_to_post(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    if request.method == "POST":
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.post = post
-            comment.author = request.user
-            comment.save()
-            return redirect('post_detail', pk=post.pk)
-    else:
-        form = CommentForm()
-    return render(request, 'blog/add_comment.html', {'form': form})
-
 
 def profile(request,pk):
     profile_owner = User.objects.get(id=pk)
