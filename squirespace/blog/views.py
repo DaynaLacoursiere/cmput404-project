@@ -39,7 +39,11 @@ def login(request):
 
 def post_list(request):
     posts = Post.objects.filter(published_date__lte=timezone.now())
-    return render(request, 'blog/post_list.html', {'posts': posts})
+    if (request.user.is_anonymous()):
+        friends = []
+    else:
+        friends = Friend.objects.friends(request.user)
+    return render(request, 'blog/post_list.html', {'posts': posts, 'friends': friends})
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
@@ -115,22 +119,22 @@ def profile(request,pk):
 def send_friend_request(request, pk):
     other_user = User.objects.get(id = pk)
     Friend.objects.add_friend(request.user, other_user, message = 'I would like to request your friendship.')
-    return render(request, 'blog/profile.html', {'user': request.user, 'profile_owner': profile_owner, 'posts': posts})
+    return render(request, 'blog/profile.html', {'user': request.user, 'other_user': other_user, 'posts': posts})
 
 def accept_friend_request(request, pk):
     friend_request = FriendshipRequest.objects.get_object_or_404(pk = pk)
     friend_request.accept_friend_request()
-    return render(request, 'blog/profile.html', {'user': request.user, 'profile_owner': profile_owner})
+    return render(request, 'blog/profile.html', {'user': request.user})
 
 def reject_friend_request(request, pk):
     friend_request = FriendshipRequest.objects.get_object_or_404(pk = pk)
     friend_request.reject_friend_request()
-    return render(request, 'blog/profile.html', {'user': request.user, 'profile_owner': profile_owner})
+    return render(request, 'blog/profile.html', {'user': request.user})
 
 def cancel_friend_request(request, pk):
     friend_request = FriendshipRequest.objects.get_object_or_404(pk = pk)
     friend_request.cancel_friend_request()
-    return render(request, 'blog/profile.html', {'user': request.user, 'profile_owner': profile_owner})
+    return render(request, 'blog/profile.html', {'user': request.user})
 
 def show_friends(request, pk):
     if request.method =="GET":
