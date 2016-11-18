@@ -16,7 +16,9 @@ def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
+            user=form.save()
+            user.is_active=False
+            user.save()
             return HttpResponseRedirect('/reg/confirm')
     else:
         form = UserCreationForm()
