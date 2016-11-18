@@ -59,13 +59,14 @@ NATIONS = (
 	('MDR', 'Mordor')
 	)
 
-class User(models.Model):
-	title=models.CharField(max_length=3, choices=TITLES)
-	first_name= models.CharField(max_length=200)
-	nation=models.CharField(max_length=3, choices=NATIONS)
-	email=models.EmailField()
-	password=models.CharField(max_length=200)
-	admin_approve=model.BooleanField()
+class Squire(models.Model):
+	user = models.OneToOneField(User, on_delete=models.CASCADE)
+	#title=models.CharField(max_length=3, choices=TITLES)
+	#first_name= models.CharField(max_length=200)
+	#nation=models.CharField(max_length=3, choices=NATIONS)
+	#email=models.EmailField()
+	#password=models.CharField(max_length=200)
+	admin_approve=models.BooleanField()
 
 
 

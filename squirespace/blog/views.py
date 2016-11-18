@@ -1,7 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect, render_to_response
 from django.utils import timezone
 from django.contrib.auth import authenticate
-from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import FormView
 from .models import Post, User
@@ -39,6 +38,8 @@ def login(request):
 
 def post_list(request):
     posts = Post.objects.filter(published_date__lte=timezone.now())
+    #if (User.admin_approve==False):
+        #return render(request, 'blog/login.html')
     return render(request, 'blog/post_list.html', {'posts': posts})
 
 def post_detail(request, pk):
