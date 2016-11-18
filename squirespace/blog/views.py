@@ -139,8 +139,13 @@ def show_friends(request, pk):
     if request.method =="GET":
         return Friend.objects.friends(request.user)
 
-
-
-
-
-
+def git(request, pk):
+    if request.method =="GET":
+        profile_owner = User.objects.get(id=pk)
+        posts = Post.objects.filter(author=profile_owner,published_date__lte=timezone.now()).order_by('published_date')
+        
+        friends = Friend.objects.friends(profile_owner)
+        following = Follow.objects.following(profile_owner)
+        followers = Follow.objects.followers(profile_owner)
+        friend_requests = Friend.objects.unread_requests(user=profile_owner)
+        return render(request, 'blog/profile.html', {'user': request.user, 'profile_owner': profile_owner, 'posts': posts, 'friends': friends, 'following':following, 'followers':followers, 'friend_requests':friend_requests})
