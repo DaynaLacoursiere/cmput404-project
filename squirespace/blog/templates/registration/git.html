@@ -1,0 +1,12 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+<div class="registration-page">
+  <h2 class="registration-title">Github</h2>
+
+  <form class="registration-form" action="/git" method="post">{% csrf_token %}
+    {{form.as_p}}
+  <input class="button" type="submit" value="Register" />
+
+  </form>
+</div>
+{% endblock %}

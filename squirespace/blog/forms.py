@@ -41,11 +41,9 @@ class UserRegForm(forms.ModelForm):
 		model=User
 		fields=('username', 'email', 'password')
 
-class gitForm(forms.ModelForm):
-
-	def __init__(self):
-		self.fields['user_approve'](initial = False)
-
+class GitRegForm(forms.ModelForm):
+	password = forms.CharField(widget=forms.PasswordInput())
 	class Meta:
+
 		model=User
 		fields=('username',)
