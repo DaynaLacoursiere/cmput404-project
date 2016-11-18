@@ -4,12 +4,13 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import FormView
 from .models import Post, User
-from .forms import PostForm, CommentForm, UserRegForm
+from .forms import PostForm, CommentForm, UserRegForm, GitRegForm
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from friendship.models import Friend, Follow, FriendshipRequest
 from django.template.context_processors import csrf
+import requests
 
 
 def register(request):
@@ -28,8 +29,31 @@ def register(request):
 
     return render_to_response('registration/user_signup.html', token)
 
+
 def registration_complete(request):
     return render_to_response('registration/register_success.html')
+
+def gitregister(request):
+    if request.method == 'POST':
+        form = GitRegForm(request.POST)
+        if form.is_valid():
+            gituser = form.save()
+            user_agent = {'User-agent': gituser.username}
+            r = requests.get('https://api.github.com', auth=(gituser.username, gituser.password))
+            if (r.status_code == 200):
+                return HttpResponseRedirect('/git/confirm')
+            else:
+                return HttpResponseRedirect('/git/failure')
+    else:
+        form = GitRegForm()
+    token = {}
+    token.update(csrf(request))
+    token['form'] = form
+
+    return render_to_response('registration/git_signup.html', token)
+
+def git_registration_complete(request):
+    return render_to_response('registration/git_register_success.html')
 
 def login(request):
     form = PostForm()
@@ -122,14 +146,3 @@ def cancel_friend_request(request, pk):
 def show_friends(request, pk):
     if request.method =="GET":
         return Friend.objects.friends(request.user)
-
-def git(request, pk):
-    if request.method =="GET":
-        profile_owner = User.objects.get(id=pk)
-        posts = Post.objects.filter(author=profile_owner,published_date__lte=timezone.now()).order_by('published_date')
-        
-        friends = Friend.objects.friends(profile_owner)
-        following = Follow.objects.following(profile_owner)
-        followers = Follow.objects.followers(profile_owner)
-        friend_requests = Friend.objects.unread_requests(user=profile_owner)
-        return render(request, 'blog/profile.html', {'user': request.user, 'profile_owner': profile_owner, 'posts': posts, 'friends': friends, 'following':following, 'followers':followers, 'friend_requests':friend_requests})

@@ -47,9 +47,8 @@
     </div>
     <div class="github-page">
       <h2 class="github-title">Pull Github Activity?</h2>
-      <form class="github-form" action="{% url 'git' pk=user.id %}" method="GET">
-        {{form.as_p}}
-      <input class="button" type="submit" value="Github" />
+      <form class="github-form" action="/git" method="GET">
+        <button class="header-button button" type="submit">Register</button>      
       </form>
     </div>
   </div>
