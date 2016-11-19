@@ -34,8 +34,6 @@ class postTest(TestCase):
 		self.assertEqual(self.tpost.privatelevel, (u'public', u'Public'))
 	
 	def testPostViews(self):
-
-
 		# not sure why the test client returns a redirect
 		post1page = c.get('/post/1')
 		self.assertEqual(post1page.status_code, 301)  #200

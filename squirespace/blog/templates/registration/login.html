@@ -2,10 +2,10 @@
 {% block content %}
 {% load staticfiles %}
 {% if user.admin_approve == False %}
-You do not have Admin Aproval Yet
+  {% include "registration/admin_wait.html" %}
 {% endif %}
 {% if user.is_authenticated %}
-You are already logged in
+  {% include "registration/already_authenticated.html" %}
 {% else %}
   <div class="login-page">
     <h2 class="login-title">Log In</h2>

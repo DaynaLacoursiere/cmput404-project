@@ -1,6 +1,10 @@
-<html>
-<body>
-		<h1>Your username has been accepted</h1>
-        <a href="{% url 'login' %}">Back to Login Page</a>
-</body>
-</html>
+{% extends 'blog/base.html' %}
+{% block content %}
+<div class="reg_confirm">
+  <div class="cont">
+    <h1>Your information has been put before the Royal Council.</h1>
+    <h1>They will inform you of their decision in due time.</h1>
+    <a class="button" href="{% url 'post_list' %}">Home</a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+
+Splash
+{% extends 'blog/base.html' %}
+{% block content %}
+{% load staticfiles %}
+
+<div class="splash_page">
+  <div class="post">
+    <div class="post-roll post-header"></div>
+      <div class="post-content">
+        <p class="post-text">His majesty, <b>King Edwaord II</b>, has decreed this website to be the official way of communication in his Kingdom.<br><br>All new citizens must <a href="{% url 'register' %}">register</a> for an account. You must then wait as you are assessed by the Royal Council. If they deem you worthy of citizenship, you will be informed and allowed to <a href="{% url 'login' %}">log in</a>.<br><br>Returning citizens must <a href="{% url 'login' %}">log in</a> to see the day's communications.<br><br>Please return to this website daily as all Royal Proclamations will be posted here</p>
+        <div class="signature-container">
+          <img class="wax-seal" src="/media/squirespace_img/wax-seal.png">
+          <p class="signature first">RP D</p>
+          <p class="signature">A I D</p>
+        </div>
+        <br style="clear:both;">
+      </div>
+      <div class="post-roll post-footer"></div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+

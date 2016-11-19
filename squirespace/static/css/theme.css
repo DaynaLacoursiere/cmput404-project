@@ -274,6 +274,10 @@ b{
   max-width: 100%;
 }
 
+.post-page .add-comment{
+  display: none;
+}
+
 .post-page .comment-text{
   word-wrap:break-word;
   max-width: 100%;
@@ -501,4 +505,16 @@ b{
 }
 .login-button{
   font-size: 16pt;
+}
+.github-page{
+  position: fixed;
+  bottom: 0;
+}
+
+
+
+.401-page{
+  margin: 36px auto;
+  background: var(--tan);
+  border-radius: 5px;
 }

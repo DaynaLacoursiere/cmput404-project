@@ -1,7 +1,7 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-
+{% if user.is_authenticated %}
     {% if edit %}
       {% if user != post.author %}
         <h1>401: You are not authorized to be here</h1>
@@ -24,5 +24,5 @@
       </form>
     </div>
   {% endif %}
-    
+{% endif %}
 {% endblock %}

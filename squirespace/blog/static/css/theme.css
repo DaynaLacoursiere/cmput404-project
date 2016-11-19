@@ -5,6 +5,8 @@
    v2.0 | 20110126
    License: none (public domain)
 */
+@import url('https://fonts.googleapis.com/css?family=MedievalSharp');
+@import url('https://fonts.googleapis.com/css?family=Herr+Von+Muellerhoff');
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -274,6 +276,10 @@ b{
   max-width: 100%;
 }
 
+.post-page .add-comment{
+  display: none;
+}
+
 .post-page .comment-text{
   word-wrap:break-word;
   max-width: 100%;
@@ -505,4 +511,182 @@ b{
 .github-page{
   position: fixed;
   bottom: 0;
+}
+
+
+
+.page-401{
+  position: absolute;
+  top:-84px;right:0;bottom:0;left:0;
+  margin: auto;
+  width:90%;
+  height:80%;
+  max-height: 600px;
+  max-width: 400px;
+}
+
+.page-401 .post{
+  font-size: 20pt;
+  text-align: left;
+}
+.page-401 b{
+  color:red;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+
+.page-401 .signature-container{
+  float: right;
+  margin-right: 16px;
+  margin-bottom: 28px;
+}
+
+.page-401 .wax-seal{
+  max-width:100px;
+}
+
+.page-401 .signature{
+  font-family: 'Herr Von Muellerhoff', cursive;
+  position: absolute;
+  right:32px;
+  color: transparent;
+  text-shadow: 0 0 0.5px rgba(0,0,0,1);
+}
+.page-401 .signature.first{
+  right:48px;
+}
+
+.already-logged-in{
+  position: absolute;
+  left:0;right:0;top:0;bottom:0;
+  margin: auto;
+  width:300px;
+  height:200px;
+  color: var(--gold);
+  border: solid 2px var(--gold);
+  border-radius: 5px;
+  padding:16px;
+  text-align: center;
+}
+
+.already-logged-in .cont{
+  position: absolute;
+  top:0;right:0;bottom:0;left:0;
+  margin: auto;
+  height:116px;
+  width:216px;
+}
+
+.already-logged-in h1{
+  margin-bottom: 16px;
+}
+
+.already-logged-in a{
+  font-style: italic;
+  color: var(--gold);
+  padding-left: 16px;
+  padding-right: 16px;
+  margin-top: 16px;
+  font-style: normal;
+}
+
+
+.admin-wait{
+  position: absolute;
+  left:0;right:0;top:0;bottom:0;
+  margin: auto;
+  width:300px;
+  height:200px;
+  color: var(--gold);
+  border: solid 2px var(--gold);
+  border-radius: 5px;
+  padding:16px;
+  text-align: center;
+}
+
+.admin-wait .cont{
+  position: absolute;
+  top:0;right:0;bottom:0;left:0;
+  margin: auto;
+  height:46px;
+  width:216px;
+}
+
+
+
+
+
+.splash_page{
+  position: absolute;
+  top:0;right:0;bottom:0;left:0;
+  margin: auto;
+  width:90%;
+}
+
+.splash_page .post{
+  font-size: 20pt;
+  text-align: left;
+}
+.splash_page b{
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  color:red;
+}
+
+.splash_page a{
+  color:var(--gold);
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.splash_page .signature-container{
+  float: right;
+  margin-right: 16px;
+  margin-bottom: 28px;
+}
+
+.splash_page .wax-seal{
+  max-width:100px;
+}
+
+.splash_page .signature{
+  font-family: 'Herr Von Muellerhoff', cursive;
+  position: absolute;
+  right:32px;
+  color: transparent;
+  text-shadow: 0 0 0.5px rgba(0,0,0,1);
+}
+.splash_page .signature.first{
+  right:48px;
+}
+
+
+
+.reg_confirm{
+  position: absolute;
+  left:0;right:0;top:0;bottom:0;
+  margin: auto;
+  width:300px;
+  height:200px;
+  color: var(--gold);
+  border: solid 2px var(--gold);
+  border-radius: 5px;
+  padding:16px;
+  text-align: center;
+}
+
+.reg_confirm .cont{
+  position: absolute;
+  top:0;right:0;bottom:0;left:0;
+  margin: auto;
+  height:116px;
+  width:216px;
+}
+
+.reg_confirm h1{
+  margin-bottom:16px;
+}
+
+
+.reg_confirm a{
+  padding-left:16px;
+  padding-right:16px;
 }
