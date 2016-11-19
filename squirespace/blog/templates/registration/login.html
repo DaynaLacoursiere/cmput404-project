@@ -1,9 +1,6 @@
 {% extends 'blog/base.html' %}
 {% block content %}
 {% load staticfiles %}
-{% if user.admin_approve == False %}
-You do not have Admin Aproval Yet
-{% endif %}
 {% if user.is_authenticated %}
 You are already logged in
 {% else %}
