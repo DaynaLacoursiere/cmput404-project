@@ -47,6 +47,7 @@ def gitregister(request):
                 eventURL = r.json()[0]['payload']['commits'][0]['url']
                 eventMessage = r.json()[0]['payload']['commits'][0]['message']
 
+                # Message for team: How do I make a post out of this?
                 postTitle = gituser + " has a new " + eventType + "."
                 postMessage = eventMessage + "\n\nURL: "+eventURL
                 return HttpResponseRedirect('/git/confirm')
