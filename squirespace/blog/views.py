@@ -38,7 +38,11 @@ def gitregister(request):
             gituser = form.cleaned_data['username']
             user_agent = {'User-agent': gituser}
             r = requests.get('https://api.github.com/users/'+gituser, headers=user_agent)
+
+            # If the github username is valid, this will succeed.
             if (r.status_code == 200):
+                # Using the requests data, we need to generate a post from the latest event. 
+                #Involves another requests to /../events of that user.
                 return HttpResponseRedirect('/git/confirm')
             else:
                 return HttpResponseRedirect('/git/failure')
