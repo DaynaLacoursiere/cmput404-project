@@ -7,3 +7,4 @@ pip install Django==1.10
 pip install django-friendship
 pip install djangorestframework
 pip install requests
+pip install 'requests[security]'
