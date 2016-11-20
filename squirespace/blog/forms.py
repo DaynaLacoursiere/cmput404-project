@@ -41,9 +41,6 @@ class UserRegForm(forms.ModelForm):
 		model=User
 		fields=('username', 'email', 'password')
 
-class GitRegForm(forms.ModelForm):
-	password = forms.CharField(widget=forms.PasswordInput())
-	class Meta:
+class GitRegForm(forms.Form):
 
-		model=User
-		fields=('username',)
+	username = forms.CharField(label='Github Username')

@@ -35,9 +35,9 @@ def gitregister(request):
     if request.method == 'POST':
         form = GitRegForm(request.POST)
         if form.is_valid():
-            gituser = form.save()
-            user_agent = {'User-agent': gituser.username}
-            r = requests.get('https://api.github.com', auth=(gituser.username, gituser.password))
+            gituser = form.cleaned_data['username']
+            user_agent = {'User-agent': gituser}
+            r = requests.get('https://api.github.com/users/'+gituser, headers=user_agent)
             if (r.status_code == 200):
                 return HttpResponseRedirect('/git/confirm')
             else:
