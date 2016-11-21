@@ -249,7 +249,5 @@ def show_friends(request, pk):
     if request.method =="GET":
         return Friend.objects.friends(request.user)
 
-
-
 def page_not_found(request):
     return render(request, 'blog/404.html')
