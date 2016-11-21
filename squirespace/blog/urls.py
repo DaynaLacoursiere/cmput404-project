@@ -21,6 +21,9 @@ urlpatterns = [
 	url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
 	url(r'^profile/(?P<pk>\d+)/$', views.profile, name='profile'),
 	url(r'^profile/(?P<pk>\d+)/friend_request_sent/$', views.send_friend_request, name='send_friend_request'),
+	url(r'^profile/(?P<pk>\d+)/friend_request_cancelled/$', views.cancel_friend_request, name='cancel_friend_request'),
+	url(r'^profile/(?P<pk>\d+)/friend_request_accepted/$', views.accept_friend_request, name='accept_friend_request'),
+	url(r'^profile/(?P<pk>\d+)/friend_request_rejected/$', views.reject_friend_request, name='remove_friend'),
 	url(r'^profile/(?P<pk>\d+)/friend_removed/$', views.remove_friend, name='remove_friend'),
 ] 
 

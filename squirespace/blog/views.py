@@ -240,8 +240,9 @@ def cancel_friend_request(request, pk):
         return render(request, 'blog/401.html')
     # NEED TO CHECK IF FRIEND IS ANONYMOUSUSER (FRIEND.IS_ANONYMOUS())
     friend_request = FriendshipRequest.objects.get(pk = pk)
-    friend_request.cancel_friend_request()
-    return profile(request, pk)
+    profile_owner = friend_request.to_user.id
+    friend_request.cancel()
+    return profile(request, profile_owner)
 
 def remove_friend(request, pk):
     profile_owner = User.objects.get(id = pk)

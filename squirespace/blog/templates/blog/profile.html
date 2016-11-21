@@ -13,10 +13,14 @@
       {% else %}
         {% if user in friends %}
           <a href="{% url 'remove_friend' pk=profile_owner.id %}"> <button class="new-post-button button">Remove Friend</button></a>
-        {% elif user in friend_requests %}
-        <a href="{% url 'send_friend_request' pk=1 %}"><button class="new-post-button button">Cancel Friend Request</button></a>
         {% else %}
-          <a href="{% url 'send_friend_request' pk=profile_owner.id %}"><button class="new-post-button button">Add Friend</button></a>
+          {% for friend_request in friend_requests %}
+            {% if friend_request.from_user == user and friend_request.to_user == profile_owner %}
+              <a href="{% url 'cancel_friend_request' pk=friend_request.id %}"><button class="new-post-button button">Cancel Friend Request</button></a>
+            {% endif %}
+          {% empty %}
+            <a href="{% url 'send_friend_request' pk=profile_owner.id %}"><button class="new-post-button button">Add Friend</button></a>
+          {% endfor %}
         {% endif %}
       {% endif %}
 
@@ -28,12 +32,17 @@
           <a href="{% url 'profile' pk=friend.id %}" class="friend-name">{{friend.username}}</a>
         </div>
       {% endfor %}
+
+
+      {% if user == profile_owner %}
       <h1 class="friend-request-title"> Friend Requests:</h1>
       {% for friend_request in friend_requests %}
         <div class="friend">
           <a href="{% url 'profile' pk=friend_request.id %}" class="friend-name">{{friend_request.from_user}}</a>
         </div>
       {% endfor %}
+      {% endif %}
+
       <h1 class="follow-list-title"> Followed by:</h1>
       {% for follower in followers %}
         <div class="friend">
