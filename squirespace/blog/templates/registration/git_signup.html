@@ -1,7 +1,6 @@
-{% extends 'blog/base.html' %}
 {% block content %}
 <div class="registration-page">
-  <h2 class="registration-title">Register</h2>
+  <h2 class="registration-title">Post Github Activity</h2>
 
   <form class="registration-form" action="/git/" method="post">{% csrf_token %}
     {{form.as_p}}

@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import FormView
 from .models import Post, User
+import models
 from .forms import PostForm, CommentForm, UserRegForm, GitRegForm
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.contrib.auth.models import User
@@ -32,6 +33,8 @@ def registration_complete(request):
     return render_to_response('registration/register_success.html')
 
 def gitregister(request):
+    if (request.user.is_anonymous()):
+        return render(request, 'blog/401.html')
     if request.method == 'POST':
         form = GitRegForm(request.POST)
         if form.is_valid():
@@ -41,15 +44,22 @@ def gitregister(request):
 
             # If the github username is valid, this will succeed.
             if (r.status_code == 200):
-                # Using the requests data, we need to generate a post from the latest event. 
+
                 #Involves another requests to /../events of that user.
                 eventType = r.json()[0]['type']
-                eventURL = r.json()[0]['payload']['commits'][0]['url']
-                eventMessage = r.json()[0]['payload']['commits'][0]['message']
+
+                # I need to rework how we parse these since they can change drastically between users. For now we paste raw payload data.
+                eventURL = r.json()[0]['payload']
+                eventMessage = r.json()[0]['payload']
 
                 # Message for team: How do I make a post out of this?
                 postTitle = gituser + " has a new " + eventType + "."
-                postMessage = eventMessage + "\n\nURL: "+eventURL
+                postMessage = str(eventMessage) + "\n\nURL: "+str(eventURL)
+
+                # Attempt
+                gitPost = models.Post(author=request.user, text=postMessage, title=postTitle, published_date=timezone.now(), image='github.png')
+                gitPost.save()
+
                 return HttpResponseRedirect('/git/confirm')
             else:
                 return HttpResponseRedirect('/git/failure')
@@ -62,6 +72,9 @@ def gitregister(request):
     return render_to_response('registration/git_signup.html', token)
 
 def git_registration_complete(request):
+
+    if (request.user.is_anonymous()):
+        return render(request, 'blog/401.html')
     return render_to_response('registration/git_register_success.html')
 
 def login(request):
