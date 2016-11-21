@@ -34,18 +34,7 @@ How to run:
 to run test suite:
 	python manage.py test
 
-GET /api/:
-  127.0.0.1:8000/api
-
-To get a JSON list of all users, make a get request to api/users/
-ie. curl http://127.0.0.1:8000/api/users/
-
-To get a specific user's JSON, make a get request to api/user
-ie. curl http://127.0.0.1:8000/api/users/2
-
-To add user, POST JSON to api/users/
-ie. curl -X POST http://127.0.0.1:8000/api/users/ -d '{"username":"xxz", "email":"xx@x.ca"}' -H "Content-Type: application/json"
-
+To view our API documentation, visit our [wiki](https://github.com/DaynaLacoursiere/cmput404-project/wiki).
 
 Team Collaboration:  
 	Rishi:  
