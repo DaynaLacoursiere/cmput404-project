@@ -34,36 +34,36 @@ def gitParse(payload):
             if (eventType == "PushEvent"):
                 # This try is necessary for really dumb reasons. Update your API Github! You butts!
                 try:
-                    number = payload.json()[0]['payload']['size']
+                    number = payload.json()[i]['payload']['size']
                 except:
                     number = " a "
-                repo = payload.json()[0]['repo']['name']
+                repo = payload.json()[i]['repo']['name']
                 return " pushed "+ str(number) + " commit(s) to "+ str(repo)+"."
             elif (eventType == "WatchEvent"):
-                repo = payload.json()[0]['repo']['name']
+                repo = payload.json()[i]['repo']['name']
                 return " starred the repository "+str(repo)+"."
             elif (eventType == "CreateEvent"):
-                repo = payload.json()[0]['repo']['name']
+                repo = payload.json()[i]['repo']['name']
                 return " created the repository "+str(repo)+"."
             elif (eventType == "CommitCommentEvent"):
-                repo = payload.json()[0]['repo']['name']
-                comment = payload.json()[0]['payload']['comment']['body']
+                repo = payload.json()[i]['repo']['name']
+                comment = payload.json()[i]['payload']['comment']['body']
                 return ' commented "'+str(comment)+'" on a commit to '+str(repo)+"."
             elif (eventType == "ForkEvent"):
-                repo = payload.json()[0]['repo']['name']
+                repo = payload.json()[i]['repo']['name']
                 return " forked the repository "+str(repo)+"."
             elif (eventType == "IssueCommentEvent"):
-                repo = payload.json()[0]['repo']['name']
-                comment = payload.json()[0]['payload']['comment']['body']
+                repo = payload.json()[i]['repo']['name']
+                comment = payload.json()[i]['payload']['comment']['body']
                 return ' commented "'+str(comment)+'" on an issue in the repository '+str(repo)+"."
             elif (eventType == "IssuesEvent"):
-                action = payload.json()[0]['payload']['action']
-                title = payload.json()[0]['payload']['issue']['title']
-                repo = payload.json()[0]['repo']['name']
+                action = payload.json()[i]['payload']['action']
+                title = payload.json()[i]['payload']['issue']['title']
+                repo = payload.json()[i]['repo']['name']
                 return " "+str(action)+' the "'+str(title)+'" issue on the repository '+str(repo)+"."
             elif (eventType == "LabelEvent"):
-                action = payload.json()[0]['payload']['action']
-                repo = payload.json()[0]['repo']['name']
+                action = payload.json()[i]['payload']['action']
+                repo = payload.json()[i]['repo']['name']
                 return " "+str(action)+' the label on the repository '+str(repo)+"."   
             else:
                 i += 1
