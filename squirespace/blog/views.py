@@ -207,7 +207,7 @@ def profile(request,pk):
     friends = Friend.objects.friends(profile_owner)
     following = Follow.objects.following(profile_owner)
     followers = Follow.objects.followers(profile_owner)
-    friend_requests = Friend.objects.unread_requests(user=profile_owner)
+    friend_requests = Friend.objects.unrejected_requests(user=profile_owner)
     return render(request, 'blog/profile.html', {'user': request.user, 'profile_owner': profile_owner, 'posts': posts, 'friends': friends, 'following':following, 'followers':followers, 'friend_requests':friend_requests})
 
 
