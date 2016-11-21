@@ -5,6 +5,7 @@ from api.serializers import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from django.shortcuts import render, get_object_or_404 
 
 class UserList(APIView):
 
@@ -60,6 +61,17 @@ class PostList(APIView):
         serializer = PostSerializer(posts, many=True)
         return Response(serializer.data)
 
+class VisiblePostList(APIView):
+
+    def get(self, request, format=None):
+        friends = Friend.objects.friends(request.user)
+        posts = Post.objects.all()
+        serializer = PostSerializer(posts, many=True)
+
+        return Response(serializer.data)
+
+
+
 
 class PostDetail(APIView):
     """
@@ -75,4 +87,13 @@ class PostDetail(APIView):
         post = self.get_object(pk)
         post = PostSerializer(post)
         return Response(post.data)
+
+class Comments(APIView):
+
+
+    def get(self, request, pk, format=None):
+        post = get_object_or_404(Post, pk=pk)
+        comments = Comment.objects.all().filter(post = post)
+        serializer = CommentSerializer(comments, many=True)
+        return Response(serializer.data)
 
