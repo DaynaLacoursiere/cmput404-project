@@ -215,9 +215,9 @@ def send_friend_request(request, pk):
     if (request.user.is_anonymous()):
         return render(request, 'blog/401.html')
     # NEED TO CHECK IF FRIEND IS ANONYMOUSUSER (FRIEND.IS_ANONYMOUS())
-    other_user = User.objects.get(id = pk)
-    Friend.objects.add_friend(request.user, other_user, message = 'I would like to request your friendship.')
-    return render(request, 'blog/profile.html', {'user': request.user, 'other_user': other_user})
+    profile_owner = User.objects.get(id = pk)
+    Friend.objects.add_friend(request.user, profile_owner, message = 'I would like to request your friendship.')
+    return profile(request, pk)
 
 def accept_friend_request(request, pk):
     if (request.user.is_anonymous()):
@@ -244,9 +244,9 @@ def cancel_friend_request(request, pk):
     return render(request, 'blog/profile.html', {'user': request.user})
 
 def remove_friend(request, pk):
-    other_user = User.objects.get(id = pk)
-    Friend.objects.remove_friend(request.user, other_user)
-    return render(request, 'blog/profile.html', {'other_user': other_user})
+    profile_owner = User.objects.get(id = pk)
+    Friend.objects.remove_friend(request.user, profile_owner)
+    return profile(request, pk)
 
 def show_friends(request, pk):
     if (request.user.is_anonymous()):
