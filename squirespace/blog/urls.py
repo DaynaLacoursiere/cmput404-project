@@ -20,7 +20,7 @@ urlpatterns = [
 	url(r'^login/$', auth_views.login, name='login'),
 	url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
 	url(r'^profile/(?P<pk>\d+)/$', views.profile, name='profile'),
-	url(r'^send_friend_request/(?P<pk>\d+)/$', views.send_friend_request, name="send_friend_request"),
+	url(r'^send_friend_request/(?P<pk>\d+)/$', views.send_friend_request, name='send_friend_request'),
 ] 
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
