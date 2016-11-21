@@ -1,9 +1,6 @@
 {% extends 'blog/base.html' %}
 {% block content %}
 {% load staticfiles %}
-{% if user.admin_approve == False %}
-  {% include "registration/admin_wait.html" %}
-{% endif %}
 {% if user.is_authenticated %}
   {% include "registration/already_authenticated.html" %}
 {% else %}
