@@ -5,11 +5,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    url(r'^api/author/$', views.UserList.as_view()),
-    url(r'^api/author/(?P<pk>\d+)', views.UserDetail.as_view()),
-    url(r'^api/posts/(?P<pk>\d+)/comments', views.Comments.as_view()),
-    url(r'^api/posts/(?P<pk>\d+)', views.PostDetail.as_view()),
-    url(r'^api/posts/$', views.PostList.as_view()),
+    url('^author/$', views.UserList.as_view()),
+    url('^author/(?P<pk>\d+)', views.UserDetail.as_view()),
+    url('^posts/(?P<pk>\d+)/comments', views.Comments.as_view()),
+    url('^posts/(?P<pk>\d+)', views.PostDetail.as_view()),
+    url('^posts/$', views.PostList.as_view()),
 
     
 
