@@ -149,12 +149,13 @@ def profile(request,pk):
         return render(request, 'blog/401.html')
     profile_owner = User.objects.get(id=pk)
     posts = Post.objects.filter(author=profile_owner,published_date__lte=timezone.now()).order_by('published_date')
-    
+    pendingRequests = Friend.objects.unrejected_requests(user=profile_owner)
     friends = Friend.objects.friends(profile_owner)
     following = Follow.objects.following(profile_owner)
     followers = Follow.objects.followers(profile_owner)
-    friend_requests = Friend.objects.unread_requests(user=profile_owner)
+    #friend_requests = Friend.objects.unread_requests(user=profile_owner)
     return render(request, 'blog/profile.html', {'user': request.user, 'profile_owner': profile_owner, 'posts': posts, 'friends': friends, 'following':following, 'followers':followers, 'friend_requests':friend_requests})
+
 
 def send_friend_request(request, pk):
     if (request.user.is_anonymous()):
