@@ -115,7 +115,9 @@ def gitregister(request):
 
                 return HttpResponseRedirect('/git/confirm')
             else:
-                return HttpResponseRedirect('/git/failure')
+                # Fails silently. Needs fix.
+                form = GitRegForm()
+                return render(request, 'registration/git_signup.html', {'form': form})
     else:
         form = GitRegForm()
     token = {}
