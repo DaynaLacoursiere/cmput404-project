@@ -13,6 +13,16 @@ from friendship.models import Friend, Follow, FriendshipRequest
 from django.template.context_processors import csrf
 import requests
 
+def gitParse(payload):
+    eventType = payload.json()[0]['type']
+
+    if (eventType == "PushEvent"):
+        return " pushed "+ str(payload.json()[0]['payload']['size']) + " commit(s) to "+ payload.json()[0]['repo']['name']+"."
+    if (eventType == "WatchEvent"):
+        following = payload.json()[0]['repo']['name']
+        return " starred the repository "+str(following)+"."
+    else:
+        return " performed an unspecified action."
 
 def register(request):
     if request.method == 'POST':
@@ -43,18 +53,17 @@ def gitregister(request):
             r = requests.get('https://api.github.com/users/'+gituser+'/events', headers=user_agent)
 
             # If the github username is valid, this will succeed.
-            if (r.status_code == 200):
-
+            if (r.status_code == 200 and len(r.json()) > 0):
                 #Involves another requests to /../events of that user.
                 eventType = r.json()[0]['type']
 
                 # I need to rework how we parse these since they can change drastically between users. For now we paste raw payload data.
-                eventURL = r.json()[0]['payload']
-                eventMessage = r.json()[0]['payload']
+                eventURL = r.json()[0]
+                eventMessage = r.json()[0]
 
                 # Message for team: How do I make a post out of this?
                 postTitle = gituser + " has a new " + eventType + "."
-                postMessage = str(eventMessage) + "\n\nURL: "+str(eventURL)
+                postMessage = gituser+gitParse(r)
 
                 # Attempt
                 gitPost = models.Post(author=request.user, text=postMessage, title=postTitle, published_date=timezone.now(), image='github.png')
