@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+import uuid
 # Create your models here.
 
 class Post(models.Model):
@@ -15,6 +16,7 @@ class Post(models.Model):
 	published_date = models.DateTimeField(blank = True, null = True)
 	image = models.ImageField(upload_to='',default='default.png', blank=True)
 	host = "squirespace"
+	#unique_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
 	PRIVATE_LEVEL_CHOICES = (
 			('public','Public'),
@@ -39,6 +41,7 @@ class Comment(models.Model):
     author = models.ForeignKey('auth.User')
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
+    #unique_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
     def __str__(self):
         return self.text
