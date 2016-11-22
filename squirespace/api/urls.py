@@ -11,6 +11,7 @@ urlpatterns = [
     url('^posts/(?P<pk>\d+)/comments', views.PostDetailComments.as_view()),
     url('^posts/(?P<pk>\d+)', views.PostDetail.as_view()),
     url('^posts/$', views.PostList.as_view()),
+    url('^author/posts', views.UserViewablePosts.as_view()),
 
     
 

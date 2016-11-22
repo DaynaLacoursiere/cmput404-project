@@ -80,7 +80,34 @@ class UserPosts(APIView):
         return Response(serializer.data)
 
 
+class UserViewablePosts(APIView):
 
+    def get(self, request, format=None):
+        user = request.user
+        posts = Post.objects.all()
+
+        userViewablePosts = []
+        for post in posts:
+            author = post.author
+            # They're the author
+            if post.author.id is user.id:
+                userViewablePosts.append(post)
+            elif post.privatelevel == "public":
+                userViewablePosts.append(post)
+            elif post.privatelevel == "friends":
+                # Check if user and author are friends
+                print "Check friends"
+            elif post.privatelevel == "friends_of_friends":
+                # Check if author and user have a mutual friend
+                print "Check friends of friends"
+            elif post.privatelevel == "host_friends":
+                # Check if user and author are from the same host
+                # Then check that they're friends
+                print "Check host friends"
+            # else: Don't show the post
+
+        serializer = PostSerializer(userViewablePosts, many=True)
+        return Response(serializer.data)
 
 
 class PostList(APIView):
