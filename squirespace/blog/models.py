@@ -15,7 +15,9 @@ class Post(models.Model):
 	image = models.ImageField(upload_to='',default='default.png', blank=True)
 	host = "squirespace"
 	theUUID = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
-
+	description = "this is a post"
+	contentType = "text/plain"
+	source = "source"
 	PRIVATE_LEVEL_CHOICES = (
 			('public','Public'),
 			('friends','Private: Friends Only'),
@@ -40,7 +42,7 @@ class Comment(models.Model):
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
     theUUID = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
-
+    contentType = "text/plain"
     def __str__(self):
         return self.text
 

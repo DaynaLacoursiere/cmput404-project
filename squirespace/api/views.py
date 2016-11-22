@@ -85,7 +85,7 @@ class PostDetail(APIView):
 
     def get(self, request, pk, format=None):
         post = self.get_object(pk)
-        post = PostSerializer(post)
+        post = PostSerializerNoComments(post)
         return Response(post.data)
 
 class Comments(APIView):
@@ -97,3 +97,17 @@ class Comments(APIView):
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data)
 
+class PostDetailComments(APIView):
+    """
+    Retrieve, update or delete a user instance.
+    """
+    def get_object(self, pk):
+        try:
+            return Post.objects.get(pk=pk)
+        except Post.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        post = self.get_object(pk)
+        post = PostSerializer(post)
+        return Response(post.data)

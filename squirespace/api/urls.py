@@ -7,7 +7,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     url('^author/$', views.UserList.as_view()),
     url('^author/(?P<pk>\d+)', views.UserDetail.as_view()),
-    url('^posts/(?P<pk>\d+)/comments', views.Comments.as_view()),
+    url('^posts/(?P<pk>\d+)/comments', views.PostDetailComments.as_view()),
     url('^posts/(?P<pk>\d+)', views.PostDetail.as_view()),
     url('^posts/$', views.PostList.as_view()),
 
