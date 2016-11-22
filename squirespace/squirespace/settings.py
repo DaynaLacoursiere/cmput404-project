@@ -44,14 +44,14 @@ INSTALLED_APPS = [
 
 ]
 
-REST_FRAMEWORK = [    
-    {
+
+#from http://www.django-rest-framework.org/api-guide/authentication/#basicauthentication
+REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-    )},
-]
-
+    )
+}
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
