@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import render, get_object_or_404 
 from rest_framework.pagination import *
+from friendship.models import Friend, Follow, FriendshipRequest
 
 class UserList(APIView):
 
@@ -85,8 +86,10 @@ class UserViewablePosts(APIView):
     def get(self, request, format=None):
         user = request.user
         posts = Post.objects.all()
-
+        friends = Friend.objects.friends(user);
+        
         userViewablePosts = []
+
         for post in posts:
             author = post.author
             # They're the author
@@ -96,7 +99,8 @@ class UserViewablePosts(APIView):
                 userViewablePosts.append(post)
             elif post.privatelevel == "friends":
                 # Check if user and author are friends
-                print "Check friends"
+                if author in friends:
+                    userViewablePosts.append(post)
             elif post.privatelevel == "friends_of_friends":
                 # Check if author and user have a mutual friend
                 print "Check friends of friends"
