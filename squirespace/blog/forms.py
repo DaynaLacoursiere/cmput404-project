@@ -35,11 +35,12 @@ NATIONS = (
 class UserRegForm(forms.ModelForm):
 
 	def __init__(self):
-		self.fields['admin_approve'](initial=False)
+		self.fields['admin_approve'](initial = False)
 
 	class Meta:
 		model=User
 		fields=('username', 'email', 'password')
+
 
 class GitRegForm(forms.Form):
 

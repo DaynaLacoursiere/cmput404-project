@@ -26,7 +26,6 @@ How to run:
         > pip install django-friendship
         > pip install djangorestframework
         > pip install requests
-	(alternatively, just run venv.sh which should do all this for you)
     inside /squirespace run
         > python manage.py runserver
         

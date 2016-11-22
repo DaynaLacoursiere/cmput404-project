@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect, render_to_response
 from django.utils import timezone
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import FormView
 from .models import Post, User
@@ -68,35 +68,11 @@ def gitParse(payload):
             else:
                 i += 1
 
-
-
-#from user: elynch. link: http://stackoverflow.com/questions/21105822/how-to-enable-basic-access-authentication-in-django
-'''def basic_auth_required(func):
-@wraps(func)
-def __decorator(request, *args, **kwargs):
-    if request.META.has_key('HTTP_AUTHORIZATION'):
-        authmethod, auth = request.META['HTTP_AUTHORIZATION'].split(' ', 1)
-        if authmethod.lower() == 'basic':
-            auth = auth.strip().decode('base64')
-            username, password = auth.split(':', 1)
-            if:
-                return func(request, *args, **kwargs)
-            else:
-                return HttpResponseForbidden(('<hi>Forbidden</h1>')
-        res = HttpResponse()
-        res.status_code=401
-        res['WWW-Authenticate'] = 'Basic'
-        return res
-return _decorator
-'''
-
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            user=form.save()
-            user.is_active=False
-            user.save()
+            form.save()
             return HttpResponseRedirect('/reg/confirm')
     else:
         form = UserCreationForm()
