@@ -14,7 +14,7 @@ class Post(models.Model):
 	published_date = models.DateTimeField(blank = True, null = True)
 	image = models.ImageField(upload_to='',default='default.png', blank=True)
 	host = "squirespace"
-	unique_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+	#unique_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
 	PRIVATE_LEVEL_CHOICES = (
 			('public','Public'),
@@ -39,7 +39,7 @@ class Comment(models.Model):
     author = models.ForeignKey('auth.User')
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
-    unique_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    #unique_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
     def __str__(self):
         return self.text
