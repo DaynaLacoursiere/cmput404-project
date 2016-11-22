@@ -206,44 +206,50 @@ def profile(request,pk):
         return render(request, 'blog/401.html')
     profile_owner = User.objects.get(id=pk)
     posts = Post.objects.filter(author=profile_owner,published_date__lte=timezone.now()).order_by('published_date')
-    
     friends = Friend.objects.friends(profile_owner)
     following = Follow.objects.following(profile_owner)
     followers = Follow.objects.followers(profile_owner)
-    friend_requests = Friend.objects.unread_requests(user=profile_owner)
+    friend_requests = Friend.objects.unrejected_requests(user=profile_owner)
     return render(request, 'blog/profile.html', {'user': request.user, 'profile_owner': profile_owner, 'posts': posts, 'friends': friends, 'following':following, 'followers':followers, 'friend_requests':friend_requests})
+
 
 def send_friend_request(request, pk):
     if (request.user.is_anonymous()):
         return render(request, 'blog/401.html')
     # NEED TO CHECK IF FRIEND IS ANONYMOUSUSER (FRIEND.IS_ANONYMOUS())
-    other_user = User.objects.get(id = pk)
-    Friend.objects.add_friend(request.user, other_user, message = 'I would like to request your friendship.')
-    return render(request, 'blog/profile.html', {'user': request.user, 'other_user': other_user, 'posts': posts})
+    profile_owner = User.objects.get(id = pk)
+    Friend.objects.add_friend(request.user, profile_owner, message = 'I would like to request your friendship.')
+    return profile(request, pk)
 
 def accept_friend_request(request, pk):
     if (request.user.is_anonymous()):
         return render(request, 'blog/401.html')
     # NEED TO CHECK IF FRIEND IS ANONYMOUSUSER (FRIEND.IS_ANONYMOUS())
-    friend_request = FriendshipRequest.objects.get_object_or_404(pk = pk)
+    friend_request = FriendshipRequest.objects.get(pk = pk)
     friend_request.accept_friend_request()
-    return render(request, 'blog/profile.html', {'user': request.user})
+    return profile(request, pk)
 
 def reject_friend_request(request, pk):
     if (request.user.is_anonymous()):
         return render(request, 'blog/401.html')
     # NEED TO CHECK IF FRIEND IS ANONYMOUSUSER (FRIEND.IS_ANONYMOUS())
-    friend_request = FriendshipRequest.objects.get_object_or_404(pk = pk)
+    friend_request = FriendshipRequest.objects.get(pk = pk)
     friend_request.reject_friend_request()
-    return render(request, 'blog/profile.html', {'user': request.user})
-
+    return profile(request, pk)
+    
 def cancel_friend_request(request, pk):
     if (request.user.is_anonymous()):
         return render(request, 'blog/401.html')
     # NEED TO CHECK IF FRIEND IS ANONYMOUSUSER (FRIEND.IS_ANONYMOUS())
-    friend_request = FriendshipRequest.objects.get_object_or_404(pk = pk)
-    friend_request.cancel_friend_request()
-    return render(request, 'blog/profile.html', {'user': request.user})
+    friend_request = FriendshipRequest.objects.get(pk = pk)
+    profile_owner = friend_request.to_user.id
+    friend_request.cancel()
+    return profile(request, profile_owner)
+
+def remove_friend(request, pk):
+    profile_owner = User.objects.get(id = pk)
+    Friend.objects.remove_friend(request.user, profile_owner)
+    return profile(request, pk)
 
 def show_friends(request, pk):
     if (request.user.is_anonymous()):

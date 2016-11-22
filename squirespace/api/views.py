@@ -83,6 +83,17 @@ class UserPosts(APIView):
 
 class UserViewablePosts(APIView):
 
+    def mutual_friends(self, list_a, list_b):
+        print list_a
+        print list_b
+        for friend in list_a:
+            print "Friend from list A"
+            print friend
+            if friend in list_b:
+                print "Friend is in list B too!!!"
+                return True
+        return False
+
     def get(self, request, format=None):
         user = request.user
         posts = Post.objects.all()
@@ -92,6 +103,7 @@ class UserViewablePosts(APIView):
 
         for post in posts:
             author = post.author
+            authorfriends = Friend.objects.friends(author);
             # They're the author
             if post.author.id is user.id:
                 userViewablePosts.append(post)
@@ -103,11 +115,18 @@ class UserViewablePosts(APIView):
                     userViewablePosts.append(post)
             elif post.privatelevel == "friends_of_friends":
                 # Check if author and user have a mutual friend
-                print "Check friends of friends"
+                if self.mutual_friends(authorfriends, friends):
+                    userViewablePosts.append(post)
             elif post.privatelevel == "host_friends":
                 # Check if user and author are from the same host
                 # Then check that they're friends
+
+                ## hostnames are not implemented yet
+                # if user.hostname == author.hostname:
+                #     if author in friends:
+                #         userViewablePosts.append(post)
                 print "Check host friends"
+
             # else: Don't show the post
 
         serializer = PostSerializer(userViewablePosts, many=True)
