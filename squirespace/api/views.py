@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import render, get_object_or_404 
+from rest_framework.pagination import *
 
 class UserList(APIView):
 
@@ -86,7 +87,11 @@ class PostList(APIView):
 
     def get(self, request, format=None):
         posts = Post.objects.all()
+        pagination_class = PostPaginate() # pagination not working for performed automatically for generic views
+        #http://www.django-rest-framework.org/api-guide/pagination/
+
         serializer = PostSerializer(posts, many=True)
+
         return Response(serializer.data)
 
 
@@ -144,3 +149,28 @@ class PostDetailComments(APIView):
         post = self.get_object(pk)
         post = PostSerializer(post)
         return Response(post.data)
+
+    def post(self, request, pk):
+        post = self.get_object(pk)
+        #serializer = CommentSerializer
+
+        author = request.user
+        Comment.objects.create(author=author,post=post, text = comment)
+        post = PostSerializer(post)
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+
+class PostPaginate(PageNumberPagination):
+	page_size = 2
+	page_size_query_param = 'page_size'
+	max_page_size = 2
+    
+
+
+
+class CommentPaginate():
+	page_size = 5
+	page_size_query_param = 'page_size'
+	max_page_size = 100
