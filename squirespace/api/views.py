@@ -26,6 +26,8 @@ class UserList(APIView):
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
+
 class UserDetail(APIView):
     """
     Retrieve, update or delete a user instance.
@@ -54,12 +56,40 @@ class UserDetail(APIView):
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
+
+
+class UserPosts(APIView):
+
+    def get_object(self, pk):
+        try:
+            return User.objects.get(pk=pk)
+        except User.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        author = self.get_object(pk)
+        posts = Post.objects.all()
+        userposts = []
+        for post in posts:
+            if post.author.id is author.id:
+                userposts.append(post)
+
+        serializer = PostSerializer(userposts, many=True)
+        return Response(serializer.data)
+
+
+
+
+
 class PostList(APIView):
 
     def get(self, request, format=None):
         posts = Post.objects.all()
         serializer = PostSerializer(posts, many=True)
         return Response(serializer.data)
+
+
 
 class VisiblePostList(APIView):
 
@@ -69,7 +99,6 @@ class VisiblePostList(APIView):
         serializer = PostSerializer(posts, many=True)
 
         return Response(serializer.data)
-
 
 
 
@@ -88,6 +117,8 @@ class PostDetail(APIView):
         post = PostSerializerNoComments(post)
         return Response(post.data)
 
+
+
 class Comments(APIView):
 
 
@@ -96,6 +127,8 @@ class Comments(APIView):
         comments = Comment.objects.all().filter(post = post)
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data)
+
+
 
 class PostDetailComments(APIView):
     """

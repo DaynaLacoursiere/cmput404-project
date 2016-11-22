@@ -5,6 +5,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+    url('^author/(?P<pk>\d+)/posts', views.UserPosts.as_view()),
     url('^author/$', views.UserList.as_view()),
     url('^author/(?P<pk>\d+)', views.UserDetail.as_view()),
     url('^posts/(?P<pk>\d+)/comments', views.PostDetailComments.as_view()),
