@@ -128,3 +128,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 LOGIN_REDIRECT_URL = '/'
+
+# Problematic with blog/models.py and blog/admin.py 
+# We don't want to replace our user model.
+#AUTH_USER_MODEL = 'blog.Squire'

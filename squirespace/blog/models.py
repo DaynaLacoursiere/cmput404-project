@@ -1,13 +1,20 @@
 from __future__ import unicode_literals
 from django import forms
+from django.conf import settings
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 import uuid
 # Create your models here.
 
 class Post(models.Model):
-	author = models.ForeignKey('auth.User')
+	#author = models.ForeignKey('auth.User')
+	author = models.ForeignKey(
+		settings.AUTH_USER_MODEL,
+		on_delete=models.CASCADE,
+    )
 	title = models.CharField(max_length=200)
 	text = models.TextField()
 	created_date = models.DateTimeField(default=timezone.now)
@@ -38,7 +45,11 @@ class Post(models.Model):
 
 class Comment(models.Model):
     post = models.ForeignKey('blog.Post', related_name='comments')
-    author = models.ForeignKey('auth.User')
+    author = models.ForeignKey(
+		settings.AUTH_USER_MODEL,
+		on_delete=models.CASCADE,
+	)
+	
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
     theUUID = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
@@ -59,17 +70,20 @@ NATIONS = (
 	('MDR', 'Mordor')
 	)
 
+# Extend default user. Has a UUID. NOT ACTUALLY REPLACING OUR USER MODEL.
 class Squire(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
-	#title=models.CharField(max_length=3, choices=TITLES)
-	#first_name= models.CharField(max_length=200)
-	#nation=models.CharField(max_length=3, choices=NATIONS)
-	#email=models.EmailField()
-	#password=models.CharField(max_length=200)
-	admin_approve=models.BooleanField()
+	theUUID = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+	admin_approve=models.BooleanField(default=False)
 
+	def __str__(self):
+		return self.user.username+" - UUID: "+str(self.theUUID)
 
-
+#This creates a Squire everytime a user is made.
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Squire.objects.create(user=instance)
 
 
 
