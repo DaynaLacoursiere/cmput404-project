@@ -40,13 +40,6 @@
 							{% include "blog/post.html" %}
 						{% endif %}
 
-					{# If the post is another_author #}
-					{% elif post.privatelevel == "another_author" %}
-						{# Check if the other author is the user #}
-						{% if post.otherauthor == user.username %}
-							{% include "blog/post.html" %}
-						{% endif %}
-
 					{% endif %}
 				{% endfor %}
 			{% else %}
