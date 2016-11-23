@@ -75,6 +75,7 @@ class Squire(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	theUUID = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 	admin_approve=models.BooleanField(default=False)
+	hostname=models.TextField(default="SquireSpace", editable=False)
 
 	def __str__(self):
 		return self.user.username+" - UUID: "+str(self.theUUID)
