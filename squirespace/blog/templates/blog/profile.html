@@ -12,14 +12,14 @@
       <a href="{% url 'post_new' %}"><button class="new-post-button button">New Post</button></a>
       {% else %}
         {% if user in friends %}
-          <a href="{% url 'remove_friend' pk=profile_owner.id %}"> <button class="new-post-button button">Remove Friend</button></a>
+          <a href="{% url 'remove_friend' pk=profile_owner.squire.pk %}"> <button class="new-post-button button">Remove Friend</button></a>
         {% else %}
           {% for friend_request in friend_requests %}
             {% if friend_request.from_user == user and friend_request.to_user == profile_owner %}
               <a href="{% url 'cancel_friend_request' pk=friend_request.id %}"><button class="new-post-button button">Cancel Friend Request</button></a>
             {% endif %}
           {% empty %}
-            <a href="{% url 'send_friend_request' pk=profile_owner.id %}"><button class="new-post-button button">Add Friend</button></a>
+            <a href="{% url 'send_friend_request' pk=profile_owner.squire.pk %}"><button class="new-post-button button">Add Friend</button></a>
           {% endfor %}
         {% endif %}
       {% endif %}
@@ -29,7 +29,7 @@
       <h1 class="friends-list-title"> Friends:</h1>
       {% for friend in friends %}
         <div class="friend">
-          <a href="{% url 'profile' pk=friend.id %}" class="friend-name">{{friend.username}}</a>
+          <a href="{% url 'profile' pk=friend.squire.pk %}" class="friend-name">{{friend.username}}</a>
         </div>
       {% endfor %}
 
@@ -46,13 +46,13 @@
       <h1 class="follow-list-title"> Followed by:</h1>
       {% for follower in followers %}
         <div class="friend">
-          <a href="{% url 'profile' pk=follower.id %}" class="friend-name">{{follower.username}}</a>
+          <a href="{% url 'profile' pk=follower.squire.pk %}" class="friend-name">{{follower.username}}</a>
         </div>
       {% endfor %}
       <h1 class="follow-list-title"> Following:</h1>
       {% for follows in following %}
         <div class="friend">
-          <a href="{% url 'profile' pk=follows.id %}" class="friend-name">{{follows.username}}</a>
+          <a href="{% url 'profile' pk=follows.squire.pk %}" class="friend-name">{{follows.username}}</a>
         </div>
       {% endfor %}
 

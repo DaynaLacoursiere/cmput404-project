@@ -10,7 +10,7 @@
 				<option value="friends-posts">View My Friends Posts</option>
 				<option value="my-posts">View My Posts</option>
 			</select>
-			<a href="{% url 'profile' pk=user.id %}"><button class="profile-button button">Profile</button></a>
+			<a href="{% url 'profile' pk=user.squire.pk %}"><button class="profile-button button">Profile</button></a>
 		</div>
 
 	  <div class="stream">

@@ -95,7 +95,7 @@ NATIONS = (
 # Extend default user. Has a UUID. NOT ACTUALLY REPLACING OUR USER MODEL.
 class Squire(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
-	theUUID = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+	theUUID = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
 	admin_approve=models.BooleanField(default=False)
 	hostname=models.TextField(default="SquireSpace", editable=False)
 

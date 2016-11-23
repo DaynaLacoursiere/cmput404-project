@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import FormView
-from .models import Post, User, SockPost
+from .models import Post, User, SockPost, Squire
 import models
 from .forms import PostForm, CommentForm, UserRegForm, GitRegForm
 from django.http import HttpResponse, Http404, HttpResponseRedirect
@@ -214,7 +214,8 @@ def post_delete(request, pk):
 def profile(request,pk):
     if (request.user.is_anonymous()):
         return render(request, 'blog/401.html')
-    profile_owner = User.objects.get(id=pk)
+    squire = Squire.objects.get(theUUID=pk)
+    profile_owner = User.objects.get(id=squire.user.id)
     posts = Post.objects.filter(author=profile_owner,published_date__lte=timezone.now()).order_by('published_date')
     friends = Friend.objects.friends(profile_owner)
     following = Follow.objects.following(profile_owner)
@@ -227,7 +228,9 @@ def send_friend_request(request, pk):
     if (request.user.is_anonymous()):
         return render(request, 'blog/401.html')
     # NEED TO CHECK IF FRIEND IS ANONYMOUSUSER (FRIEND.IS_ANONYMOUS())
-    profile_owner = User.objects.get(id = pk)
+
+    squire = Squire.objects.get(theUUID=pk)
+    profile_owner = User.objects.get(id=squire.user.id)
     Friend.objects.add_friend(request.user, profile_owner, message = 'I would like to request your friendship.')
     return profile(request, pk)
 
