@@ -154,7 +154,7 @@ class UserViewablePosts(APIView):
         userViewablePosts = []
 
         for post in posts:
-            # print post.author.squire.hostname
+            print post.host
             if post.host != "squirespace":
                 continue
             # print post.privatelevel
