@@ -20,8 +20,8 @@ class Post(models.Model):
 	created_date = models.DateTimeField(default=timezone.now)
 	published_date = models.DateTimeField(blank = True, null = True)
 	image = models.ImageField(upload_to='',default='default.png', blank=True)
-	host = "squirespace"
-	source = "squirespace"
+	host = models.TextField(default="squirespace")
+	source = models.TextField(default="squirespace")
 	id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
 
 	description = "this is a post"
