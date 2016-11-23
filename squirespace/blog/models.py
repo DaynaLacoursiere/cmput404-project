@@ -43,6 +43,27 @@ class Post(models.Model):
 	def __str__(self):
 		return self.title
 
+#This model has been migrated but isn't used for shit.
+class SockPost(models.Model):
+	author = models.TextField()
+	title = models.CharField(max_length=200)
+	text = models.TextField()
+	created_date = models.DateTimeField(default=timezone.now)
+	published_date = models.DateTimeField(blank = True, null = True)
+	image = models.ImageField(upload_to='',default='default.png', blank=True)
+	host = "socknet"
+	theUUID = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+	description = "this is a post"
+	contentType = "text/plain"
+
+
+	def publish(self):
+		self.published_date = timezone.now()
+		self.save()
+
+	def __str__(self):
+		return self.title
+
 class Comment(models.Model):
     post = models.ForeignKey('blog.Post', related_name='comments')
     author = models.ForeignKey(
