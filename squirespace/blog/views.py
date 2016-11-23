@@ -147,8 +147,6 @@ def post_list(request):
 
     if (request.user.is_anonymous()):
         return render(request, 'blog/splash_page.html')
-    # Our Posts
-    posts = Post.objects.filter(published_date__lte=timezone.now())
 
     # Socknet Posts
     headers = {'User-agent': 'SquireSpace'}
@@ -163,6 +161,8 @@ def post_list(request):
         sockPost = models.Post(author=User.objects.filter(username="socknet")[0], text=stext, title=stitle, id=sid, published_date=timezone.now())
         print(sockPost)
         sockPost.save()
+    
+    posts = Post.objects.filter(published_date__lte=timezone.now())
 
     #REQUEST ABOVE WORKS BUT NEED TO PARSE IT INTO OBJECTS
     friends = Friend.objects.friends(request.user)
