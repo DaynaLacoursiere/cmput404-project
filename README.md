@@ -53,7 +53,7 @@ Team Collaboration:
 	Preyanshu:  
 	- Authentication  
 	- Registration
-	- Markdown
+	- Markdown 
 	- Authentication tests  
 	Dayna:  
 	- Registration  
