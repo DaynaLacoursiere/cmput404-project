@@ -32,7 +32,7 @@ class UserSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     author = UserSerializer()
     comment = serializers.CharField(source='text')
-    published = serializers.CharField(source='text')
+    published = serializers.DateTimeField(source='created_date')
     class Meta:
         model = Comment
         fields = ('author', 'comment', 'contentType', 'published', 'id')
