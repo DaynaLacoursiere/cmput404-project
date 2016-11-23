@@ -13,6 +13,8 @@ from friendship.models import Friend, Follow, FriendshipRequest
 from django.template.context_processors import csrf
 from django.utils.six import BytesIO
 from rest_framework.parsers import JSONParser
+from django.core import serializers
+import uuid
 import requests
 
 def gitParse(payload):
@@ -146,13 +148,44 @@ def post_list(request):
 
     if (request.user.is_anonymous()):
         return render(request, 'blog/splash_page.html')
-    # Our Posts
-    posts = Post.objects.filter(published_date__lte=timezone.now())
 
     # Socknet Posts
     headers = {'User-agent': 'SquireSpace'}
     socknetjson = requests.get('http://cmput404f16t04dev.herokuapp.com/api/posts/', headers=headers, auth=('admin', 'cmput404'))
+    for i in socknetjson.json()['posts']:
+        sauthor = str(i['author']['displayName'])
+        stitle = str(i['title'])
+        stext = str(i['content'])
+        sid = i['id']
+
+        # If it's a new SockNet poster, make a fake user on their behalf.
+        if (len(User.objects.filter(username=sauthor)) == 0):
+            suser = User.objects.create_user(sauthor, 'socknet@socknet.com', str(uuid.uuid4))
+            suser.save()
+
+        sockPost = models.Post(author=User.objects.filter(username=sauthor)[0], text=stext, title=stitle, id=sid, image='sock.png', published_date=timezone.now(), source="SockNet", host="SockNet")
+        sockPost.save()
+
+        # Now we handle comments!
+        if (len(i['comments']) > 0):
+            for j in i['comments']:
+                cid = j['id']
+                ctext = j['comment']
+                cauthor = j['author']['displayName']
+                # If it's a new SockNet poster, make a fake user on their behalf.
+                if (len(User.objects.filter(username=cauthor)) == 0):
+                    cuser = User.objects.create_user(cauthor, 'socknet@socknet.com', str(uuid.uuid4))
+                    cuser.save()
+                else:
+                    cuser = User.objects.filter(username=cauthor)[0]
+
+                sockComm = models.Comment(post=sockPost, author=cuser, text=ctext, id=cid, created_date=timezone.now())
+                sockComm.save()
+        
     
+    posts = Post.objects.filter(published_date__lte=timezone.now())
+    for post in posts:
+        print post.host
     #REQUEST ABOVE WORKS BUT NEED TO PARSE IT INTO OBJECTS
     friends = Friend.objects.friends(request.user)
     return render(request, 'blog/post_list.html', {'posts': posts, 'friends': friends})
@@ -161,6 +194,7 @@ def post_detail(request, pk):
     if (request.user.is_anonymous()):
         return render(request, 'blog/401.html')
     post = get_object_or_404(Post, pk=pk)
+    
     if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():

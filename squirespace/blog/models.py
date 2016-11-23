@@ -20,8 +20,8 @@ class Post(models.Model):
 	created_date = models.DateTimeField(default=timezone.now)
 	published_date = models.DateTimeField(blank = True, null = True)
 	image = models.ImageField(upload_to='',default='default.png', blank=True)
-	host = "squirespace"
-	source = "squirespace"
+	host = models.TextField(default="squirespace")
+	source = models.TextField(default="squirespace")
 	id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
 
 	description = "this is a post"
@@ -34,7 +34,7 @@ class Post(models.Model):
 			('only_me','Private: Me Only')
 		)
 		
-	privatelevel = models.CharField(verbose_name="Privacy level of post:", default=PRIVATE_LEVEL_CHOICES[0], max_length=200, choices=PRIVATE_LEVEL_CHOICES)
+	privatelevel = models.CharField(verbose_name="Privacy level of post:", default='public', max_length=200, choices=PRIVATE_LEVEL_CHOICES)
 
 
 	def publish(self):
@@ -74,7 +74,7 @@ class Comment(models.Model):
 	
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
-    theUUID = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     contentType = "text/plain"
     def __str__(self):
         return self.text

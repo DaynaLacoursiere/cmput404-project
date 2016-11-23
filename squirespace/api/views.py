@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.http import Http404
-from blog.models import Post, Comment
+from blog.models import Post, Comment, Squire
 from api.serializers import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -66,7 +66,8 @@ class UserDetail(APIView):
 
     def get_object(self, pk):
         try:
-            return User.objects.get(pk=pk)
+            squire = Squire.objects.get(theUUID=pk)
+            return User.objects.get(id=squire.user.id)
         except User.DoesNotExist:
             raise Http404
 
@@ -110,7 +111,8 @@ class UserPosts(APIView):
 
     def get_object(self, pk):
         try:
-            return User.objects.get(pk=pk)
+            squire = Squire.objects.get(theUUID=pk)
+            return User.objects.get(id=squire.user.id)
         except User.DoesNotExist:
             raise Http404
 
@@ -136,13 +138,8 @@ class UserViewablePosts(APIView):
     permission_classes = (IsAuthenticated,)
 
     def mutual_friends(self, list_a, list_b):
-        print list_a
-        print list_b
         for friend in list_a:
-            print "Friend from list A"
-            print friend
             if friend in list_b:
-                print "Friend is in list B too!!!"
                 return True
         return False
 
@@ -158,10 +155,15 @@ class UserViewablePosts(APIView):
         userViewablePosts = []
 
         for post in posts:
+            print post.host
+            if post.host != "squirespace":
+                continue
+            # print post.privatelevel
+            # print post.privatelevel == "public"
             author = post.author
             authorfriends = Friend.objects.friends(author);
             # They're the author
-            if post.author.id is user.id:
+            if post.author.squire.theUUID is user.squire.theUUID:
                 userViewablePosts.append(post)
             elif post.privatelevel == "public":
                 userViewablePosts.append(post)
@@ -195,6 +197,12 @@ class PostList(APIView):
 
     def get(self, request, format=None):
         posts = Post.objects.all()
+        postlist = []
+        for post in posts:
+            if post.host == "squirespace":
+                postlist.append(post)
+        posts = postlist
+
         pagination_class = PostPaginate() # pagination not working for performed automatically for generic views
         #http://www.django-rest-framework.org/api-guide/pagination/
         content = {
@@ -203,8 +211,17 @@ class PostList(APIView):
         }
 
         serializer = PostSerializer(posts, many=True)
+        content={
+            "count":"1000",
+            "size":"10",
+            "query":"posts",
+            "next":"nextpage.com",
+            "previous":"previous",
+            "posts":serializer.data,
+        }
 
-        return Response(serializer.data)
+        json_data = content
+        return Response(content)
 
 
 
@@ -216,13 +233,28 @@ class VisiblePostList(APIView):
     def get(self, request, format=None):
         friends = Friend.objects.friends(request.user)
         posts = Post.objects.all()
+        postlist = []
+        for post in posts:
+            if post.host == "squirespace":
+                postlist.append(post)
+        posts = postlist
         content = {
             'user': unicode(request.user),  # `django.contrib.auth.User` instance.
             'auth': unicode(request.auth),  # None
         }
         serializer = PostSerializer(posts, many=True)
 
-        return Response(serializer.data)
+        content={
+            "count":"1000",
+            "size":"10",
+            "query":"posts",
+            "next":"nextpage.com",
+            "previous":"previous",
+            "posts":serializer.data,
+        }
+
+        json_data = content
+        return Response(content)
 
 
 

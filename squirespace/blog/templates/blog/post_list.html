@@ -16,7 +16,6 @@
 	  <div class="stream">
 	  	{% if user.is_authenticated %}
 				{% for post in posts|dictsortreversed:"published_date" %}
-
 					{# If the author is the user, show immediately and ignore privacy #}
 					{% if post.author == user %}
 						{% include "blog/post.html" %}
@@ -42,11 +41,6 @@
 
 					{% endif %}
 				{% endfor %}
-				<!-- NEED THIS EVENTUALLY
-				{% for post in socknetposts %}
-					{% include "blog/post.html" %}
-				{% endfor %}
-				-->
 			{% else %}
 			Please log in to view posts
 			{% endif %}
