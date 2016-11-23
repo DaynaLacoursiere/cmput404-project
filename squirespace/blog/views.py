@@ -164,7 +164,6 @@ def post_list(request):
             suser.save()
 
         sockPost = models.Post(author=User.objects.filter(username=sauthor)[0], text=stext, title=stitle, id=sid, image='sock.png', published_date=timezone.now(), source="SockNet", host="SockNet")
-        #print(sockPost)
         sockPost.save()
 
         # Now we handle comments!
@@ -185,7 +184,8 @@ def post_list(request):
         
     
     posts = Post.objects.filter(published_date__lte=timezone.now())
-
+    for post in posts:
+        print post.host
     #REQUEST ABOVE WORKS BUT NEED TO PARSE IT INTO OBJECTS
     friends = Friend.objects.friends(request.user)
     return render(request, 'blog/post_list.html', {'posts': posts, 'friends': friends})
@@ -194,6 +194,7 @@ def post_detail(request, pk):
     if (request.user.is_anonymous()):
         return render(request, 'blog/401.html')
     post = get_object_or_404(Post, pk=pk)
+    
     if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():
