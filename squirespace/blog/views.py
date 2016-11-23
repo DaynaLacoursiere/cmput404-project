@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import FormView
-from .models import Post, User, SockPost, Squire
+from .models import Post, User, SockPost, Squire, Comment
 import models
 from .forms import PostForm, CommentForm, UserRegForm, GitRegForm
 from django.http import HttpResponse, Http404, HttpResponseRedirect
@@ -171,7 +171,8 @@ def post_list(request):
             suser.save()
 
         sockPost = models.Post(author=User.objects.filter(username=sauthor)[0], text=stext, title=stitle, id=sid, image='sock.png', published_date=timezone.now(), source="SockNet", host="SockNet")
-        sockPost.save()
+        if (len(Post.objects.filter(id=sid)) == 0):
+            sockPost.save()
 
         # Now we handle comments!
         if (len(i['comments']) > 0):
@@ -187,7 +188,8 @@ def post_list(request):
                     cuser = User.objects.filter(username=cauthor)[0]
 
                 sockComm = models.Comment(post=sockPost, author=cuser, text=ctext, id=cid, created_date=timezone.now())
-                sockComm.save()
+                if (len(Comment.objects.filter(id=cid)) == 0):
+                    sockComm.save()
         
     
     posts = Post.objects.filter(published_date__lte=timezone.now())

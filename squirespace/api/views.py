@@ -10,6 +10,7 @@ from rest_framework.authentication import BasicAuthentication
 from django.shortcuts import render, get_object_or_404 
 from rest_framework.pagination import *
 from friendship.models import Friend, Follow, FriendshipRequest
+import json
 
 '''
 this snippet of code from http://www.django-rest-framework.org/api-guide/authentication/#BasicAuthentication,
@@ -209,8 +210,17 @@ class PostList(APIView):
         }
 
         serializer = PostSerializer(posts, many=True)
+        content={
+            "count":"1000",
+            "size":"10",
+            "query":"posts",
+            "next":"nextpage.com",
+            "previous":"previous",
+            "posts":serializer.data,
+        }
 
-        return Response(serializer.data)
+        json_data = content
+        return Response(content)
 
 
 
@@ -233,7 +243,17 @@ class VisiblePostList(APIView):
         }
         serializer = PostSerializer(posts, many=True)
 
-        return Response(serializer.data)
+        content={
+            "count":"1000",
+            "size":"10",
+            "query":"posts",
+            "next":"nextpage.com",
+            "previous":"previous",
+            "posts":serializer.data,
+        }
+
+        json_data = content
+        return Response(content)
 
 
 
@@ -318,9 +338,64 @@ class PostPaginate(PageNumberPagination):
 	max_page_size = 2
     
 
-
-
 class CommentPaginate():
 	page_size = 5
 	page_size_query_param = 'page_size'
 	max_page_size = 100
+
+class UsersFriends(APIView):
+
+    def get_object(self, pk):
+        try:
+            return User.objects.get(pk=pk)
+        except User.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        user = self.get_object(pk)
+        friends = Friend.objects.friends(user);
+        friendsIds = []
+        for friend in friends:
+            friendsIds.append(friend.squire.theUUID)
+
+        content = {
+            'query':'friends',
+            'authors':friendsIds,
+        }
+
+        return Response(content)
+
+class AreTheseTwoUsersFriends(APIView):
+
+    def get_object(self, pk):
+        try:
+            return User.objects.get(pk=pk)
+        except User.DoesNotExist:
+            raise Http404
+
+
+
+    def get(self, request, pk1, pk2, format=None):
+
+        user1 = self.get_object(pk1)
+        user2 = self.get_object(pk2)
+        isFriends = False
+        if(Friend.objects.are_friends(user1, user2) and Friend.objects.are_friends(user2, user1)):
+            isFriends = True
+        
+        content = {
+            'query':'friends',
+            'authors':[ user1.squire.theUUID, user2.squire.theUUID],
+            'friends':isFriends,
+        }
+
+        return Response(content)
+
+
+
+
+
+
+
+
+
