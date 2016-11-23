@@ -26,6 +26,7 @@ How to run:
         > pip install django-friendship
         > pip install djangorestframework
         > pip install requests
+	> pip install commonMark
     inside /squirespace run
         > python manage.py runserver
         
@@ -51,7 +52,8 @@ Team Collaboration:
 	- Server tests  
 	Preyanshu:  
 	- Authentication  
-	- Registration  
+	- Registration
+	- Markdown
 	- Authentication tests  
 	Dayna:  
 	- Registration  
