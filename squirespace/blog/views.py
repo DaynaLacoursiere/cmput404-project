@@ -166,6 +166,11 @@ def post_list(request):
         sockPost = models.Post(author=User.objects.filter(username=sauthor)[0], text=stext, title=stitle, id=sid, image='sock.png', published_date=timezone.now(), source="SockNet", host="SockNet")
         #print(sockPost)
         sockPost.save()
+
+        #if (len(i['comments']) > 0):
+         #   for j in i['comments']:
+        #       sockComm = models.Comment(post=sockPost, author=User.objects.filter(username=sauthor)[0], text=stext, title=stitle, id=sid, image='sock.png', published_date=timezone.now(), source="SockNet", host="SockNet")
+        
     
     posts = Post.objects.filter(published_date__lte=timezone.now())
 
