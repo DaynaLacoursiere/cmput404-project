@@ -21,10 +21,9 @@ class Post(models.Model):
 	published_date = models.DateTimeField(blank = True, null = True)
 	image = models.ImageField(upload_to='',default='default.png', blank=True)
 	host = "squirespace"
-	theUUID = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+	#id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
 	description = "this is a post"
 	contentType = "text/plain"
-	source = "source"
 	PRIVATE_LEVEL_CHOICES = (
 			('public','Public'),
 			('friends','Private: Friends Only'),
@@ -34,6 +33,27 @@ class Post(models.Model):
 		)
 		
 	privatelevel = models.CharField(verbose_name="Privacy level of post:", default=PRIVATE_LEVEL_CHOICES[0], max_length=200, choices=PRIVATE_LEVEL_CHOICES)
+
+
+	def publish(self):
+		self.published_date = timezone.now()
+		self.save()
+
+	def __str__(self):
+		return self.title
+
+#This model has been migrated but isn't used for shit.
+class SockPost(models.Model):
+	author = models.TextField()
+	title = models.CharField(max_length=200)
+	text = models.TextField()
+	created_date = models.DateTimeField(default=timezone.now)
+	published_date = models.DateTimeField(blank = True, null = True)
+	image = models.ImageField(upload_to='',default='default.png', blank=True)
+	host = "socknet"
+	id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
+	description = "this is a post"
+	contentType = "text/plain"
 
 
 	def publish(self):

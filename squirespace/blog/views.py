@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import FormView
-from .models import Post, User
+from .models import Post, User, SockPost
 import models
 from .forms import PostForm, CommentForm, UserRegForm, GitRegForm
 from django.http import HttpResponse, Http404, HttpResponseRedirect
@@ -11,6 +11,8 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from friendship.models import Friend, Follow, FriendshipRequest
 from django.template.context_processors import csrf
+from django.utils.six import BytesIO
+from rest_framework.parsers import JSONParser
 import requests
 
 def gitParse(payload):
@@ -141,9 +143,17 @@ def login(request):
     return render(request, 'blog/login.html', {'form': form})
 
 def post_list(request):
+
     if (request.user.is_anonymous()):
         return render(request, 'blog/splash_page.html')
+    # Our Posts
     posts = Post.objects.filter(published_date__lte=timezone.now())
+
+    # Socknet Posts
+    headers = {'User-agent': 'SquireSpace'}
+    socknetjson = requests.get('http://cmput404f16t04dev.herokuapp.com/api/posts/', headers=headers, auth=('admin', 'cmput404'))
+    
+    #REQUEST ABOVE WORKS BUT NEED TO PARSE IT INTO OBJECTS
     friends = Friend.objects.friends(request.user)
     return render(request, 'blog/post_list.html', {'posts': posts, 'friends': friends})
 
