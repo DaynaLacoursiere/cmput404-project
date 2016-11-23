@@ -5,18 +5,43 @@ from api.serializers import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import BasicAuthentication
 from django.shortcuts import render, get_object_or_404 
 from rest_framework.pagination import *
 from friendship.models import Friend, Follow, FriendshipRequest
 
+'''
+this snippet of code from http://www.django-rest-framework.org/api-guide/authentication/#BasicAuthentication,
+    authentication_classes = (BasicAuthentication,)
+    permission_classes = (IsAuthenticated,)
+and
+    (in get functions)
+     content = {
+            'user': unicode(request.user),  # `django.contrib.auth.User` instance.
+            'auth': unicode(request.auth),  # None
+        }
+will be used in almost all APIViews
+'''
 class UserList(APIView):
+
+    authentication_classes = (BasicAuthentication,)
+    permission_classes = (IsAuthenticated,)
 
     def get(self, request, format=None):
         users = User.objects.all()
         serializer = UserSerializer(users, many=True)
+        content = {
+            'user': unicode(request.user),  # `django.contrib.auth.User` instance.
+            'auth': unicode(request.auth),  # None
+        }
         return Response(serializer.data)
 
     def post(self, request, format=None):
+        content = {
+            'user': unicode(request.user),  # `django.contrib.auth.User` instance.
+            'auth': unicode(request.auth),  # None
+        }
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -34,6 +59,10 @@ class UserDetail(APIView):
     """
     Retrieve, update or delete a user instance.
     """
+
+    authentication_classes = (BasicAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
     def get_object(self, pk):
         try:
             return User.objects.get(pk=pk)
@@ -43,9 +72,17 @@ class UserDetail(APIView):
     def get(self, request, pk, format=None):
         user = self.get_object(pk)
         user = UserSerializer(user)
+        content = {
+            'user': unicode(request.user),  # `django.contrib.auth.User` instance.
+            'auth': unicode(request.auth),  # None
+        }
         return Response(user.data)
 
     def put(self, request, pk, format=None):
+        content = {
+            'user': unicode(request.user),  # `django.contrib.auth.User` instance.
+            'auth': unicode(request.auth),  # None
+        }
         user = self.get_object(pk)
         serializer = UserSerializer(user, data=request.data)
         if serializer.is_valid():
@@ -54,6 +91,10 @@ class UserDetail(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
+        content = {
+            'user': unicode(request.user),  # `django.contrib.auth.User` instance.
+            'auth': unicode(request.auth),  # None
+        }
         user = self.get_object(pk)
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -62,6 +103,9 @@ class UserDetail(APIView):
 
 
 class UserPosts(APIView):
+    
+    authentication_classes = (BasicAuthentication,)
+    permission_classes = (IsAuthenticated,)
 
     def get_object(self, pk):
         try:
@@ -70,6 +114,10 @@ class UserPosts(APIView):
             raise Http404
 
     def get(self, request, pk, format=None):
+        content = {
+            'user': unicode(request.user),  # `django.contrib.auth.User` instance.
+            'auth': unicode(request.auth),  # None
+        }
         author = self.get_object(pk)
         posts = Post.objects.all()
         userposts = []
@@ -82,6 +130,9 @@ class UserPosts(APIView):
 
 
 class UserViewablePosts(APIView):
+
+    authentication_classes = (BasicAuthentication,)
+    permission_classes = (IsAuthenticated,)
 
     def mutual_friends(self, list_a, list_b):
         print list_a
@@ -98,6 +149,10 @@ class UserViewablePosts(APIView):
         user = request.user
         posts = Post.objects.all()
         friends = Friend.objects.friends(user);
+        content = {
+            'user': unicode(request.user),  # `django.contrib.auth.User` instance.
+            'auth': unicode(request.auth),  # None
+        }
         
         userViewablePosts = []
 
@@ -134,11 +189,17 @@ class UserViewablePosts(APIView):
 
 
 class PostList(APIView):
+    authentication_classes = (BasicAuthentication,)
+    permission_classes = (IsAuthenticated,)
 
     def get(self, request, format=None):
         posts = Post.objects.all()
         pagination_class = PostPaginate() # pagination not working for performed automatically for generic views
         #http://www.django-rest-framework.org/api-guide/pagination/
+        content = {
+            'user': unicode(request.user),  # `django.contrib.auth.User` instance.
+            'auth': unicode(request.auth),  # None
+        }
 
         serializer = PostSerializer(posts, many=True)
 
@@ -148,9 +209,16 @@ class PostList(APIView):
 
 class VisiblePostList(APIView):
 
+    authentication_classes = (BasicAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
     def get(self, request, format=None):
         friends = Friend.objects.friends(request.user)
         posts = Post.objects.all()
+        content = {
+            'user': unicode(request.user),  # `django.contrib.auth.User` instance.
+            'auth': unicode(request.auth),  # None
+        }
         serializer = PostSerializer(posts, many=True)
 
         return Response(serializer.data)
@@ -161,6 +229,8 @@ class PostDetail(APIView):
     """
     Retrieve, update or delete a user instance.
     """
+    authentication_classes = (BasicAuthentication,)
+    permission_classes = (IsAuthenticated,)
     def get_object(self, pk):
         try:
             return Post.objects.get(pk=pk)
@@ -168,6 +238,10 @@ class PostDetail(APIView):
             raise Http404
 
     def get(self, request, pk, format=None):
+        content = {
+            'user': unicode(request.user),  # `django.contrib.auth.User` instance.
+            'auth': unicode(request.auth),  # None
+        }
         post = self.get_object(pk)
         post = PostSerializerNoComments(post)
         return Response(post.data)
@@ -175,9 +249,14 @@ class PostDetail(APIView):
 
 
 class Comments(APIView):
-
+    authentication_classes = (BasicAuthentication,)
+    permission_classes = (IsAuthenticated,)
 
     def get(self, request, pk, format=None):
+        content = {
+            'user': unicode(request.user),  # `django.contrib.auth.User` instance.
+            'auth': unicode(request.auth),  # None
+        }
         post = get_object_or_404(Post, pk=pk)
         comments = Comment.objects.all().filter(post = post)
         serializer = CommentSerializer(comments, many=True)
@@ -189,6 +268,8 @@ class PostDetailComments(APIView):
     """
     Retrieve, update or delete a user instance.
     """
+    authentication_classes = (BasicAuthentication,)
+    permission_classes = (IsAuthenticated,)
     def get_object(self, pk):
         try:
             return Post.objects.get(pk=pk)
@@ -196,11 +277,19 @@ class PostDetailComments(APIView):
             raise Http404
 
     def get(self, request, pk, format=None):
+        content = {
+            'user': unicode(request.user),  # `django.contrib.auth.User` instance.
+            'auth': unicode(request.auth),  # None
+        }
         post = self.get_object(pk)
         post = PostSerializer(post)
         return Response(post.data)
 
     def post(self, request, pk):
+        content = {
+            'user': unicode(request.user),  # `django.contrib.auth.User` instance.
+            'auth': unicode(request.auth),  # None
+        }
         post = self.get_object(pk)
         #serializer = CommentSerializer
 
@@ -209,7 +298,6 @@ class PostDetailComments(APIView):
         post = PostSerializer(post)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-
 
 
 class PostPaginate(PageNumberPagination):
