@@ -172,6 +172,7 @@ def post_detail(request, pk):
     if (request.user.is_anonymous()):
         return render(request, 'blog/401.html')
     post = get_object_or_404(Post, pk=pk)
+    
     if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():

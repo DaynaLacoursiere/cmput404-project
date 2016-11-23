@@ -34,7 +34,7 @@ class Post(models.Model):
 			('only_me','Private: Me Only')
 		)
 		
-	privatelevel = models.CharField(verbose_name="Privacy level of post:", default=PRIVATE_LEVEL_CHOICES[0], max_length=200, choices=PRIVATE_LEVEL_CHOICES)
+	privatelevel = models.CharField(verbose_name="Privacy level of post:", default='public', max_length=200, choices=PRIVATE_LEVEL_CHOICES)
 
 
 	def publish(self):
