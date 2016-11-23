@@ -10,6 +10,7 @@ from rest_framework.authentication import BasicAuthentication
 from django.shortcuts import render, get_object_or_404 
 from rest_framework.pagination import *
 from friendship.models import Friend, Follow, FriendshipRequest
+import json
 
 '''
 this snippet of code from http://www.django-rest-framework.org/api-guide/authentication/#BasicAuthentication,
@@ -210,8 +211,17 @@ class PostList(APIView):
         }
 
         serializer = PostSerializer(posts, many=True)
+        content={
+            "count":"1000",
+            "size":"10",
+            "query":"posts",
+            "next":"nextpage.com",
+            "previous":"previous",
+            "posts":serializer.data,
+        }
 
-        return Response(serializer.data)
+        json_data = content
+        return Response(content)
 
 
 
@@ -234,7 +244,17 @@ class VisiblePostList(APIView):
         }
         serializer = PostSerializer(posts, many=True)
 
-        return Response(serializer.data)
+        content={
+            "count":"1000",
+            "size":"10",
+            "query":"posts",
+            "next":"nextpage.com",
+            "previous":"previous",
+            "posts":serializer.data,
+        }
+
+        json_data = content
+        return Response(content)
 
 
 
