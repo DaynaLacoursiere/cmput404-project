@@ -14,6 +14,7 @@ from django.template.context_processors import csrf
 from django.utils.six import BytesIO
 from rest_framework.parsers import JSONParser
 from django.core import serializers
+import uuid
 import requests
 
 def gitParse(payload):
@@ -156,11 +157,20 @@ def post_list(request):
         stitle = str(i['title'])
         stext = str(i['content'])
         sid = i['id']
-        #print(sauthor, stitle, stext, sid)
 
-        sockPost = models.Post(author=User.objects.filter(username="socknet")[0], text=stext, title=sauthor+": "+stitle, id=sid, published_date=timezone.now())
+        # If it's a new SockNet poster, make a fake user on their behalf.
+        if (len(User.objects.filter(username=sauthor)) == 0):
+            suser = User.objects.create_user(sauthor, 'socknet@socknet.com', str(uuid.uuid4))
+            suser.save()
+
+        sockPost = models.Post(author=User.objects.filter(username=sauthor)[0], text=stext, title=stitle, id=sid, image='sock.png', published_date=timezone.now(), source="SockNet", host="SockNet")
         #print(sockPost)
         sockPost.save()
+
+        #if (len(i['comments']) > 0):
+         #   for j in i['comments']:
+        #       sockComm = models.Comment(post=sockPost, author=User.objects.filter(username=sauthor)[0], text=stext, title=stitle, id=sid, image='sock.png', published_date=timezone.now(), source="SockNet", host="SockNet")
+        
     
     posts = Post.objects.filter(published_date__lte=timezone.now())
 
