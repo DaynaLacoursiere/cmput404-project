@@ -156,10 +156,10 @@ def post_list(request):
         stitle = str(i['title'])
         stext = str(i['content'])
         sid = i['id']
-        print(sauthor, stitle, stext, sid)
+        #print(sauthor, stitle, stext, sid)
 
-        sockPost = models.Post(author=User.objects.filter(username="socknet")[0], text=stext, title=stitle, id=sid, published_date=timezone.now())
-        print(sockPost)
+        sockPost = models.Post(author=User.objects.filter(username="socknet")[0], text=stext, title=sauthor+": "+stitle, id=sid, published_date=timezone.now())
+        #print(sockPost)
         sockPost.save()
     
     posts = Post.objects.filter(published_date__lte=timezone.now())
