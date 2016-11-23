@@ -3,14 +3,30 @@ from blog.models import Post, Comment
 from rest_framework import serializers
 
 class UserSerializer(serializers.ModelSerializer):
+    displayName = serializers.SerializerMethodField('getDisplayName')
+    host = serializers.SerializerMethodField('getHostName')
+    url = serializers.SerializerMethodField('getURL')
+    id = serializers.SerializerMethodField('getID')
+    github = serializers.SerializerMethodField('getGithub')
     class Meta:
         model = User
-        fields = ('id', 'username', 'first_name', 'last_name', 'email')
-#author model needs uuid, hostname, url, github
+        fields = ('id', 'host', 'displayName', 'url', 'github')
 
+    def getDisplayName(self, obj):
+        return obj.username
 
+    def getHostName(self, obj):
+        return "squirespace"
 
+    def getURL(self,obj):
+        return "http://aedan.pythonanywhere.com"
 
+    def getID(self,obj):
+        return obj.squire.theUUID
+        # return obj.id #change to uuid
+
+    def getGithub(sefl,obj):
+        return ""
 
 
 class CommentSerializer(serializers.ModelSerializer):
