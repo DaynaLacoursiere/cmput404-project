@@ -144,6 +144,13 @@ def login(request):
     form = PostForm()
     return render(request, 'blog/login.html', {'form': form})
 
+def mutual_friends(list_a, list_b):
+        for friend in list_a:
+            if friend in list_b:
+                return True
+        return False
+
+
 def post_list(request):
 
     if (request.user.is_anonymous()):
@@ -184,10 +191,22 @@ def post_list(request):
         
     
     posts = Post.objects.filter(published_date__lte=timezone.now())
-    for post in posts:
-        print post.host
+    
     #REQUEST ABOVE WORKS BUT NEED TO PARSE IT INTO OBJECTS
     friends = Friend.objects.friends(request.user)
+
+    # Remove posts that don't satisfy the friends_of_friends privacy level
+    # remove_posts = []
+    # for post in posts:
+    #     if post.privatelevel == "friends_of_friends":
+    #         # if post.author in friends:
+    #         #     continue;
+    #         for friend in Friend.objects.friends(post.author):
+    #             if friend not in friends:
+    #                 remove_posts.append(post.id)
+                    
+    # posts.filter(id__in=remove_posts).delete()
+
     return render(request, 'blog/post_list.html', {'posts': posts, 'friends': friends})
 
 def post_detail(request, pk):
