@@ -16,7 +16,6 @@
 	  <div class="stream">
 	  	{% if user.is_authenticated %}
 				{% for post in posts|dictsortreversed:"published_date" %}
-					{% include "blog/post.html" %}
 					{# If the author is the user, show immediately and ignore privacy #}
 					{% if post.author == user %}
 						{% include "blog/post.html" %}
