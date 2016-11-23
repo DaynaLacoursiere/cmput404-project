@@ -211,9 +211,10 @@ class PostList(APIView):
 
         serializer = PostSerializer(posts, many=True)
         content={
+            "query":"posts",
             "count":"1000",
             "size":"10",
-            "query":"posts",
+            
             "next":"nextpage.com",
             "previous":"previous",
             "posts":serializer.data,
