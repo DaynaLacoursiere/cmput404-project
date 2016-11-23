@@ -167,9 +167,21 @@ def post_list(request):
         #print(sockPost)
         sockPost.save()
 
-        #if (len(i['comments']) > 0):
-         #   for j in i['comments']:
-        #       sockComm = models.Comment(post=sockPost, author=User.objects.filter(username=sauthor)[0], text=stext, title=stitle, id=sid, image='sock.png', published_date=timezone.now(), source="SockNet", host="SockNet")
+        # Now we handle comments!
+        if (len(i['comments']) > 0):
+            for j in i['comments']:
+                cid = j['id']
+                ctext = j['comment']
+                cauthor = j['author']['displayName']
+                # If it's a new SockNet poster, make a fake user on their behalf.
+                if (len(User.objects.filter(username=cauthor)) == 0):
+                    cuser = User.objects.create_user(cauthor, 'socknet@socknet.com', str(uuid.uuid4))
+                    cuser.save()
+                else:
+                    cuser = User.objects.filter(username=cauthor)[0]
+
+                sockComm = models.Comment(post=sockPost, author=cuser, text=ctext, id=cid, created_date=timezone.now())
+                sockComm.save()
         
     
     posts = Post.objects.filter(published_date__lte=timezone.now())

@@ -74,7 +74,7 @@ class Comment(models.Model):
 	
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
-    theUUID = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     contentType = "text/plain"
     def __str__(self):
         return self.text
