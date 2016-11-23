@@ -13,6 +13,7 @@ from friendship.models import Friend, Follow, FriendshipRequest
 from django.template.context_processors import csrf
 from django.utils.six import BytesIO
 from rest_framework.parsers import JSONParser
+from django.core import serializers
 import requests
 
 def gitParse(payload):
@@ -152,7 +153,17 @@ def post_list(request):
     # Socknet Posts
     headers = {'User-agent': 'SquireSpace'}
     socknetjson = requests.get('http://cmput404f16t04dev.herokuapp.com/api/posts/', headers=headers, auth=('admin', 'cmput404'))
-    
+    for i in socknetjson.json()['posts']:
+        sauthor = str(i['author']['displayName'])
+        stitle = str(i['title'])
+        stext = str(i['content'])
+        sid = i['id']
+        print(sauthor, stitle, stext, sid)
+
+        sockPost = models.Post(author=User.objects.filter(username="socknet")[0], text=stext, title=stitle, id=sid, published_date=timezone.now())
+        print(sockPost)
+        sockPost.save()
+
     #REQUEST ABOVE WORKS BUT NEED TO PARSE IT INTO OBJECTS
     friends = Friend.objects.friends(request.user)
     return render(request, 'blog/post_list.html', {'posts': posts, 'friends': friends})
