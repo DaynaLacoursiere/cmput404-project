@@ -25,6 +25,12 @@
       {% endif %}
 
     </div>
+    <div class="github-page">
+      <h2 class="github-title">Post Github Activity?</h2>
+      <form class="github-form" action="/git" method="GET">
+        <button class="header-button button" type="submit">Post</button>      
+      </form>
+    </div>
     <div class="friends-list">
       <h1 class="friends-list-title"> Friends:</h1>
       {% for friend in friends %}
@@ -62,12 +68,7 @@
         {% include "blog/post.html" %}
       {% endfor %}
     </div>
-    <div class="github-page">
-      <h2 class="github-title">Post Github Activity?</h2>
-      <form class="github-form" action="/git" method="GET">
-        <button class="header-button button" type="submit">Git Post</button>      
-      </form>
-    </div>
+    
   </div>
 {% endif %}
 {% endblock %}

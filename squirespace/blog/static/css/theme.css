@@ -417,7 +417,7 @@ b{
 .profile .stream{
   width: 60%;
   position: absolute;
-  left:300px;right:0;margin:auto;
+  left:328px;right:0;margin:auto;
 }
 
 
@@ -434,11 +434,33 @@ b{
   float:right;
 }
 
+.profile .github-page{
+  position: fixed;
+  top: 136px;
+}
+
+.profile .github-title{
+  font-size: 18pt;
+  color: var(--gold);
+  display: inline-block;
+  margin:16px;
+}
+
+.profile .github-form{
+  float:right;
+}
+
+.profile .github-form button{
+  width:72px;
+  margin-left: 0;
+}
+
+
 .profile .friends-list{
   position: fixed;
-  top:136px;
+  top:172px;
   margin:16px;
-  width:252px;
+  width:280px;
   background: var(--grey);
   border-radius: 5px;
   padding:16px;
@@ -552,10 +574,7 @@ b{
 .login-button{
   font-size: 16pt;
 }
-.github-page{
-  position: fixed;
-  bottom: 0;
-}
+
 
 
 
