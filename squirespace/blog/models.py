@@ -21,7 +21,9 @@ class Post(models.Model):
 	published_date = models.DateTimeField(blank = True, null = True)
 	image = models.ImageField(upload_to='',default='default.png', blank=True)
 	host = "squirespace"
-	#id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
+
+	id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
+
 	description = "this is a post"
 	contentType = "text/plain"
 	PRIVATE_LEVEL_CHOICES = (

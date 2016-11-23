@@ -45,7 +45,7 @@ class PostSerializer(serializers.ModelSerializer):
     comments = CommentSerializer(required=False, many=True)
     class Meta:
         model = Post
-        fields = ('theUUID', 'id', 'title', 'source','origin',  'description', 'contentType', 'author', 'content', 'comments')
+        fields = ('id', 'title', 'source','origin',  'description', 'contentType', 'author', 'content', 'comments')
 
 class PostSerializerNoComments(serializers.ModelSerializer):
     # rename text field from post model to content in JSON
@@ -53,4 +53,4 @@ class PostSerializerNoComments(serializers.ModelSerializer):
     origin = serializers.CharField(source='host')
     class Meta:
         model = Post
-        fields = ('theUUID','id', 'title', 'source','origin',  'description', 'contentType', 'author', 'content')
+        fields = ('id', 'title', 'source','origin',  'description', 'contentType', 'author', 'content')
