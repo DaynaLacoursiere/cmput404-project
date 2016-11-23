@@ -152,6 +152,7 @@ def post_list(request):
     # Socknet Posts
     headers = {'User-agent': 'SquireSpace'}
     socknetjson = requests.get('http://cmput404f16t04dev.herokuapp.com/api/posts/', headers=headers, auth=('admin', 'cmput404'))
+    
     #REQUEST ABOVE WORKS BUT NEED TO PARSE IT INTO OBJECTS
     friends = Friend.objects.friends(request.user)
     return render(request, 'blog/post_list.html', {'posts': posts, 'friends': friends})

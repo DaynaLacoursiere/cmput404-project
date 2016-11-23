@@ -21,10 +21,9 @@ class Post(models.Model):
 	published_date = models.DateTimeField(blank = True, null = True)
 	image = models.ImageField(upload_to='',default='default.png', blank=True)
 	host = "squirespace"
-	theUUID = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+	id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
 	description = "this is a post"
 	contentType = "text/plain"
-	source = "source"
 	PRIVATE_LEVEL_CHOICES = (
 			('public','Public'),
 			('friends','Private: Friends Only'),
@@ -52,7 +51,7 @@ class SockPost(models.Model):
 	published_date = models.DateTimeField(blank = True, null = True)
 	image = models.ImageField(upload_to='',default='default.png', blank=True)
 	host = "socknet"
-	theUUID = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+	id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
 	description = "this is a post"
 	contentType = "text/plain"
 
