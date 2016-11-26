@@ -8,4 +8,3 @@ pip install django-friendship
 pip install djangorestframework
 pip install requests
 pip install 'requests[security]'
-pip install flask
