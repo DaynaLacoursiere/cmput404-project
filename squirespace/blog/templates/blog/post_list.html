@@ -16,33 +16,10 @@
 	  <div class="stream">
 	  	{% if user.is_authenticated %}
 				{% for post in posts|dictsortreversed:"published_date" %}
-					{# If the author is the user, show immediately and ignore privacy #}
-					{% if post.author == user %}
-						{% include "blog/post.html" %}
-
-					{# If the post is public, anyone can see it #}
-					{% elif post.privatelevel == "public" %}
-						{% include "blog/post.html" %}
-
-					{# If the post is friends only, check that the author is a friend #}
-					{% elif post.privatelevel == "friends" and post_author in friends %}
-						{% include "blog/post.html" %}
-
-					{# If the post is friends of friends, check that the author has a friend that is the user's friend #}
-					{% elif post.privatelevel == "friends_of_friends" %}
-						{# tested in views #}
-						{% include "blog/post.html" %}
-					{# If the post is host_friends, check that the author is a friend #}
-					{% elif post.privatelevel == "host_friends" and post_author in friends %}
-						{# and check if they posted from the same host #}
-						{% if post.host == "squirespace" %}
-							{% include "blog/post.html" %}
-						{% endif %}
-
-					{% endif %}
+					{% include "blog/post.html" %}
 				{% endfor %}
 			{% else %}
-			Please log in to view posts
+				Please log in to view posts
 			{% endif %}
 		</div>
 	{% endif %}
