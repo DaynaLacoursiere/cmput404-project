@@ -22,6 +22,7 @@ class Post(models.Model):
 	image = models.ImageField(upload_to='',default='default.png', blank=True)
 	host = models.TextField(default="squirespace")
 	source = models.TextField(default="squirespace")
+	markdown=models.BooleanField()
 	id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
 
 	description = "this is a post"
@@ -40,6 +41,10 @@ class Post(models.Model):
 	def publish(self):
 		self.published_date = timezone.now()
 		self.save()
+
+	def markdown(self):
+		#add a check if users want to markdown stuff
+		return markdown_stuff(self.contentType, self.markdown)
 
 	def __str__(self):
 		return self.title
@@ -74,11 +79,14 @@ class Comment(models.Model):
 	
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
+    markdown=models.BooleanField()
     theUUID = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     contentType = "text/plain"
     def __str__(self):
         return self.text
-
+    def markdown(self):
+		#add a check if users want to markdown stuff
+		return markdown_stuff(self.text, self.markdown)
 
 
 TITLES=(
