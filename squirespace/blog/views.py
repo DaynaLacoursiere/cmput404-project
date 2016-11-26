@@ -100,7 +100,10 @@ def gitregister(request):
         if form.is_valid():
             gituser = form.cleaned_data['username']
             user_agent = {'User-agent': gituser}
-            r = requests.get('https://api.github.com/users/'+gituser+'/events', headers=user_agent)
+            try:
+                r = requests.get('https://api.github.com/users/'+gituser+'/events', headers=user_agent)
+            except:
+                print("Failed to grab Github API.")
 
             # If the github username is valid, this will succeed.
             if (r.status_code == 200 and len(r.json()) > 0):
@@ -160,10 +163,10 @@ def post_list(request):
     headers = {'User-agent': 'SquireSpace'}
     try:
         socknetjson = requests.get('http://cmput404f16t04dev.herokuapp.com/api/posts/', headers=headers, auth=('admin', 'cmput404'))
-        assert(socknetjson.status_code == 200)
     except:
         print("Failed to grab SockNet API")
-    else:
+
+    if (r.status_code == 200 and len(r.json()) > 0):
         for i in socknetjson.json()['posts']:
             sauthor = str(i['author']['displayName'])
             stitle = str(i['title'])
@@ -185,6 +188,7 @@ def post_list(request):
                     cid = j['id']
                     ctext = j['comment']
                     cauthor = j['author']['displayName']
+                    
                     # If it's a new SockNet poster, make a fake user on their behalf.
                     if (len(User.objects.filter(username=cauthor)) == 0):
                         cuser = User.objects.create_user(cauthor, 'socknet@socknet.com', str(uuid.uuid4))
