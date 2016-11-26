@@ -21,7 +21,12 @@ class Post(models.Model):
 	published_date = models.DateTimeField(blank = True, null = True)
 	image = models.ImageField(upload_to='',default='default.png', blank=True)
 	host = models.TextField(default="squirespace")
+<<<<<<< HEAD
+	source = models.TextField(default="squirespace")
+	markdown=models.BooleanField()
+=======
 	source = models.TextField(default="http://aedan.pythonanywhere.com/")
+>>>>>>> 33a7b1c798278441678793ae840ff390eac69373
 	id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
 
 	description = "this is a post"
@@ -40,6 +45,10 @@ class Post(models.Model):
 	def publish(self):
 		self.published_date = timezone.now()
 		self.save()
+
+	def markdown(self):
+		#add a check if users want to markdown stuff
+		return markdown_stuff(self.contentType, self.markdown)
 
 	def __str__(self):
 		return self.title
@@ -74,11 +83,15 @@ class Comment(models.Model):
 	
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
+    markdown=models.BooleanField()
+    theUUID = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     contentType = "text/plain"
     def __str__(self):
         return self.text
-
+    def markdown(self):
+		#add a check if users want to markdown stuff
+		return markdown_stuff(self.text, self.markdown)
 
 
 TITLES=(
