@@ -348,12 +348,12 @@ class UsersFriends(APIView):
 
     def get_object(self, pk):
         try:
-            return User.objects.get(pk=pk)
+            return Squire.objects.get(pk=pk)
         except User.DoesNotExist:
             raise Http404
 
     def get(self, request, pk, format=None):
-        user = self.get_object(pk)
+        user = Squire.objects.get(pk=pk).user
         friends = Friend.objects.friends(user);
         friendsIds = []
         for friend in friends:
@@ -370,7 +370,7 @@ class AreTheseTwoUsersFriends(APIView):
 
     def get_object(self, pk):
         try:
-            return User.objects.get(pk=pk)
+            return Squire.objects.get(pk=pk)
         except User.DoesNotExist:
             raise Http404
 
@@ -378,15 +378,15 @@ class AreTheseTwoUsersFriends(APIView):
 
     def get(self, request, pk1, pk2, format=None):
 
-        user1 = self.get_object(pk1)
-        user2 = self.get_object(pk2)
+        user1 = Squire.objects.get(pk=pk1).user
+        user2 = Squire.objects.get(pk=pk2).user
         isFriends = False
         if(Friend.objects.are_friends(user1, user2) and Friend.objects.are_friends(user2, user1)):
             isFriends = True
         
         content = {
             'query':'friends',
-            'authors':[ user1.squire.theUUID, user2.squire.theUUID],
+            'authors':[ pk1, pk2],
             'friends':isFriends,
         }
 
