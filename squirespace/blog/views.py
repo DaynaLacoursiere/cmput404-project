@@ -14,6 +14,7 @@ from django.template.context_processors import csrf
 from django.utils.six import BytesIO
 from rest_framework.parsers import JSONParser
 from django.core import serializers
+import json
 import uuid
 import requests
 
@@ -330,7 +331,7 @@ def accept_friend_request(request, pk):
         return render(request, 'blog/401.html')
     # NEED TO CHECK IF FRIEND IS ANONYMOUSUSER (FRIEND.IS_ANONYMOUS())
     friend_request = FriendshipRequest.objects.get(pk = pk)
-    friend_request.accept_friend_request()
+    friend_request.accept()
     return profile(request, pk)
 
 def reject_friend_request(request, pk):
@@ -338,7 +339,7 @@ def reject_friend_request(request, pk):
         return render(request, 'blog/401.html')
     # NEED TO CHECK IF FRIEND IS ANONYMOUSUSER (FRIEND.IS_ANONYMOUS())
     friend_request = FriendshipRequest.objects.get(pk = pk)
-    friend_request.reject_friend_request()
+    friend_request.reject()
     return profile(request, pk)
     
 def cancel_friend_request(request, pk):
@@ -346,7 +347,7 @@ def cancel_friend_request(request, pk):
         return render(request, 'blog/401.html')
     # NEED TO CHECK IF FRIEND IS ANONYMOUSUSER (FRIEND.IS_ANONYMOUS())
     friend_request = FriendshipRequest.objects.get(pk = pk)
-    profile_owner = friend_request.to_user.id
+    profile_owner = friend_request.to_user.squire.theUUID
     friend_request.cancel()
     return profile(request, profile_owner)
 
