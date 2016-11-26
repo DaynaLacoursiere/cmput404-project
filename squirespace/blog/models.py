@@ -21,7 +21,9 @@ class Post(models.Model):
 	published_date = models.DateTimeField(blank = True, null = True)
 	image = models.ImageField(upload_to='',default='default.png', blank=True)
 	host = models.TextField(default="squirespace")
+
 	source = models.TextField(default="squirespace")
+
 	markdown=models.BooleanField()
 	source = models.TextField(default="http://aedan.pythonanywhere.com/")
 	id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
