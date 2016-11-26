@@ -197,24 +197,47 @@ def post_list(request):
                         sockComm.save()
         
     
-    posts = Post.objects.filter(published_date__lte=timezone.now())
+    all_posts = Post.objects.filter(published_date__lte=timezone.now())
     
     #REQUEST ABOVE WORKS BUT NEED TO PARSE IT INTO OBJECTS
     friends = Friend.objects.friends(request.user)
 
-    # Remove posts that don't satisfy the friends_of_friends privacy level
-    # remove_posts = []
-    # for post in posts:
-    #     if post.privatelevel == "friends_of_friends":
-    #         # if post.author in friends:
-    #         #     continue;
-    #         for friend in Friend.objects.friends(post.author):
-    #             if friend not in friends:
-    #                 remove_posts.append(post.id)
-                    
-    # posts.filter(id__in=remove_posts).delete()
+    # Only show posts that the current user should be able to see
+    posts = []
+    for post in all_posts:
+        if post.author == request.user:
+            posts.append(post)
+
+        elif post.privatelevel == "public":
+            posts.append(post)
+
+        elif post.privatelevel == "friends":
+            if post.author in friends:
+                posts.append(post)
+
+        elif post.privatelevel == "friends_of_friends":
+            author_friends = Friend.objects.friends(post.author)
+
+            if post.author in friends:
+                posts.append(post)
+
+            elif hasMutualFriend(friends, author_friends):
+                posts.append(post)
+
+        elif post.privatelevel == "host_friends":
+            if post.host == "squirespace" and post.author in friends:
+                posts.append(post)
+
+        # else: don't show post
 
     return render(request, 'blog/post_list.html', {'posts': posts, 'friends': friends})
+
+def hasMutualFriend(friends1, friends2):
+    for friend in friends1:
+        if friend in friends2:
+            return True
+    return False
+
 
 def post_detail(request, pk):
     if (request.user.is_anonymous()):
