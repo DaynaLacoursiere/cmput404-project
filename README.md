@@ -63,7 +63,8 @@ Team Collaboration:
 	- Registration tests  
 	- Sorting/Filtering tests  
 	Daniel:  
-	- Authentication  
+	- API
 	- Post comments creating/editing/deleting backend  
-	- Allowing markdown  
+	- Post/Comment/API tests
+
 	  

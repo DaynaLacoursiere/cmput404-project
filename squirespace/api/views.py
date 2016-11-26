@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.http import Http404
-from blog.models import Post, Comment
+from blog.models import Post, Comment, Squire
 from api.serializers import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -10,6 +10,7 @@ from rest_framework.authentication import BasicAuthentication
 from django.shortcuts import render, get_object_or_404 
 from rest_framework.pagination import *
 from friendship.models import Friend, Follow, FriendshipRequest
+import json
 
 '''
 this snippet of code from http://www.django-rest-framework.org/api-guide/authentication/#BasicAuthentication,
@@ -65,7 +66,8 @@ class UserDetail(APIView):
 
     def get_object(self, pk):
         try:
-            return User.objects.get(pk=pk)
+            squire = Squire.objects.get(theUUID=pk)
+            return User.objects.get(id=squire.user.id)
         except User.DoesNotExist:
             raise Http404
 
@@ -109,7 +111,8 @@ class UserPosts(APIView):
 
     def get_object(self, pk):
         try:
-            return User.objects.get(pk=pk)
+            squire = Squire.objects.get(theUUID=pk)
+            return User.objects.get(id=squire.user.id)
         except User.DoesNotExist:
             raise Http404
 
@@ -135,13 +138,8 @@ class UserViewablePosts(APIView):
     permission_classes = (IsAuthenticated,)
 
     def mutual_friends(self, list_a, list_b):
-        print list_a
-        print list_b
         for friend in list_a:
-            print "Friend from list A"
-            print friend
             if friend in list_b:
-                print "Friend is in list B too!!!"
                 return True
         return False
 
@@ -157,10 +155,14 @@ class UserViewablePosts(APIView):
         userViewablePosts = []
 
         for post in posts:
+            if post.host != "squirespace":
+                continue
+            # print post.privatelevel
+            # print post.privatelevel == "public"
             author = post.author
             authorfriends = Friend.objects.friends(author);
             # They're the author
-            if post.author.id is user.id:
+            if post.author.squire.theUUID is user.squire.theUUID:
                 userViewablePosts.append(post)
             elif post.privatelevel == "public":
                 userViewablePosts.append(post)
@@ -194,6 +196,12 @@ class PostList(APIView):
 
     def get(self, request, format=None):
         posts = Post.objects.all()
+        postlist = []
+        for post in posts:
+            if post.host == "squirespace":
+                postlist.append(post)
+        posts = postlist
+
         pagination_class = PostPaginate() # pagination not working for performed automatically for generic views
         #http://www.django-rest-framework.org/api-guide/pagination/
         content = {
@@ -202,8 +210,18 @@ class PostList(APIView):
         }
 
         serializer = PostSerializer(posts, many=True)
+        content={
+            "query":"posts",
+            "count":"1000",
+            "size":"10",
+            
+            "next":"nextpage.com",
+            "previous":"previous",
+            "posts":serializer.data,
+        }
 
-        return Response(serializer.data)
+        json_data = content
+        return Response(content)
 
 
 
@@ -215,13 +233,28 @@ class VisiblePostList(APIView):
     def get(self, request, format=None):
         friends = Friend.objects.friends(request.user)
         posts = Post.objects.all()
+        postlist = []
+        for post in posts:
+            if post.host == "squirespace":
+                postlist.append(post)
+        posts = postlist
         content = {
             'user': unicode(request.user),  # `django.contrib.auth.User` instance.
             'auth': unicode(request.auth),  # None
         }
         serializer = PostSerializer(posts, many=True)
 
-        return Response(serializer.data)
+        content={
+            "count":"1000",
+            "size":"10",
+            "query":"posts",
+            "next":"nextpage.com",
+            "previous":"previous",
+            "posts":serializer.data,
+        }
+
+        json_data = content
+        return Response(content)
 
 
 
@@ -306,9 +339,64 @@ class PostPaginate(PageNumberPagination):
 	max_page_size = 2
     
 
-
-
 class CommentPaginate():
 	page_size = 5
 	page_size_query_param = 'page_size'
 	max_page_size = 100
+
+class UsersFriends(APIView):
+
+    def get_object(self, pk):
+        try:
+            return Squire.objects.get(pk=pk)
+        except User.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        user = Squire.objects.get(pk=pk).user
+        friends = Friend.objects.friends(user);
+        friendsIds = []
+        for friend in friends:
+            friendsIds.append(friend.squire.theUUID)
+
+        content = {
+            'query':'friends',
+            'authors':friendsIds,
+        }
+
+        return Response(content)
+
+class AreTheseTwoUsersFriends(APIView):
+
+    def get_object(self, pk):
+        try:
+            return Squire.objects.get(pk=pk)
+        except User.DoesNotExist:
+            raise Http404
+
+
+
+    def get(self, request, pk1, pk2, format=None):
+
+        user1 = Squire.objects.get(pk=pk1).user
+        user2 = Squire.objects.get(pk=pk2).user
+        isFriends = False
+        if(Friend.objects.are_friends(user1, user2) and Friend.objects.are_friends(user2, user1)):
+            isFriends = True
+        
+        content = {
+            'query':'friends',
+            'authors':[ pk1, pk2],
+            'friends':isFriends,
+        }
+
+        return Response(content)
+
+
+
+
+
+
+
+
+

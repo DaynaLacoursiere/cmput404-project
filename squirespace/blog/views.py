@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import FormView
-from .models import Post, User, SockPost, Squire
+from .models import Post, User, SockPost, Squire, Comment
 import models
 from .forms import PostForm, CommentForm, UserRegForm, GitRegForm
 from django.http import HttpResponse, Http404, HttpResponseRedirect
@@ -100,10 +100,21 @@ def gitregister(request):
         if form.is_valid():
             gituser = form.cleaned_data['username']
             user_agent = {'User-agent': gituser}
-            r = requests.get('https://api.github.com/users/'+gituser+'/events', headers=user_agent)
+            try:
+                r = requests.get('https://api.github.com/users/'+gituser+'/events', headers=user_agent)
+            except:
+                print("Failed to grab Github API.")
 
             # If the github username is valid, this will succeed.
-            if (r.status_code == 200 and len(r.json()) > 0):
+            if (r.status_code != 200):
+                form = GitRegForm()
+                return render(request, 'registration/git_signup.html', {'form': form, 'note':'Error '+str(r.status_code)+': Unable to find user at this time. Please try later.'})
+
+            elif (len(r.json()) <= 0):
+                form = GitRegForm()
+                return render(request, 'registration/git_signup.html', {'form': form, 'note':'Error '+str(r.status_code)+': No activity detected on this account. Please try later.'})
+
+            else:
                 #Involves another requests to /../events of that user.
                 eventType = r.json()[0]['type']
 
@@ -120,10 +131,6 @@ def gitregister(request):
                 gitPost.save()
 
                 return HttpResponseRedirect('/git/confirm')
-            else:
-                # Fails silently. Needs fix.
-                form = GitRegForm()
-                return render(request, 'registration/git_signup.html', {'form': form})
     else:
         form = GitRegForm()
     token = {}
@@ -144,6 +151,13 @@ def login(request):
     form = PostForm()
     return render(request, 'blog/login.html', {'form': form})
 
+def mutual_friends(list_a, list_b):
+        for friend in list_a:
+            if friend in list_b:
+                return True
+        return False
+
+
 def post_list(request):
 
     if (request.user.is_anonymous()):
@@ -151,32 +165,93 @@ def post_list(request):
 
     # Socknet Posts
     headers = {'User-agent': 'SquireSpace'}
-    socknetjson = requests.get('http://cmput404f16t04dev.herokuapp.com/api/posts/', headers=headers, auth=('admin', 'cmput404'))
-    for i in socknetjson.json()['posts']:
-        sauthor = str(i['author']['displayName'])
-        stitle = str(i['title'])
-        stext = str(i['content'])
-        sid = i['id']
+    try:
+        socknetjson = requests.get('http://cmput404f16t04dev.herokuapp.com/api/posts/', headers=headers, auth=('admin', 'cmput404'))
+    except:
+        print("Failed to grab SockNet API")
 
-        # If it's a new SockNet poster, make a fake user on their behalf.
-        if (len(User.objects.filter(username=sauthor)) == 0):
-            suser = User.objects.create_user(sauthor, 'socknet@socknet.com', str(uuid.uuid4))
-            suser.save()
+    if (socknetjson.status_code == 200 and len(socknetjson.json()) > 0):
+        for i in socknetjson.json()['posts']:
+            sauthor = str(i['author']['displayName'])
+            stitle = str(i['title'])
+            stext = str(i['content'])
+            sid = i['id']
 
-        sockPost = models.Post(author=User.objects.filter(username=sauthor)[0], text=stext, title=stitle, id=sid, image='sock.png', published_date=timezone.now(), source="SockNet", host="SockNet")
-        #print(sockPost)
-        sockPost.save()
+            # If it's a new SockNet poster, make a fake user on their behalf.
+            if (len(User.objects.filter(username=sauthor)) == 0):
+                suser = User.objects.create_user(sauthor, 'socknet@socknet.com', str(uuid.uuid4))
+                suser.save()
+
+            sockPost = models.Post(author=User.objects.filter(username=sauthor)[0], text=stext, title=stitle, id=sid, image='sock.png', published_date=timezone.now(), source="SockNet", host="SockNet")
+            if (len(Post.objects.filter(id=sid)) == 0):
+                sockPost.save()
+
+            # Now we handle comments!
+            if (len(i['comments']) > 0):
+                for j in i['comments']:
+                    cid = j['id']
+                    ctext = j['comment']
+                    cauthor = j['author']['displayName']
+
+                    # If it's a new SockNet poster, make a fake user on their behalf.
+                    if (len(User.objects.filter(username=cauthor)) == 0):
+                        cuser = User.objects.create_user(cauthor, 'socknet@socknet.com', str(uuid.uuid4))
+                        cuser.save()
+                    else:
+                        cuser = User.objects.filter(username=cauthor)[0]
+
+                    sockComm = models.Comment(post=sockPost, author=cuser, text=ctext, id=cid, created_date=timezone.now())
+                    if (len(Comment.objects.filter(id=cid)) == 0):
+                        sockComm.save()
+        
     
-    posts = Post.objects.filter(published_date__lte=timezone.now())
-
+    all_posts = Post.objects.filter(published_date__lte=timezone.now())
+    
     #REQUEST ABOVE WORKS BUT NEED TO PARSE IT INTO OBJECTS
     friends = Friend.objects.friends(request.user)
+
+    # Only show posts that the current user should be able to see
+    posts = []
+    for post in all_posts:
+        if post.author == request.user:
+            posts.append(post)
+
+        elif post.privatelevel == "public":
+            posts.append(post)
+
+        elif post.privatelevel == "friends":
+            if post.author in friends:
+                posts.append(post)
+
+        elif post.privatelevel == "friends_of_friends":
+            author_friends = Friend.objects.friends(post.author)
+
+            if post.author in friends:
+                posts.append(post)
+
+            elif hasMutualFriend(friends, author_friends):
+                posts.append(post)
+
+        elif post.privatelevel == "host_friends":
+            if post.host == "squirespace" and post.author in friends:
+                posts.append(post)
+
+        # else: don't show post
+
     return render(request, 'blog/post_list.html', {'posts': posts, 'friends': friends})
+
+def hasMutualFriend(friends1, friends2):
+    for friend in friends1:
+        if friend in friends2:
+            return True
+    return False
+
 
 def post_detail(request, pk):
     if (request.user.is_anonymous()):
         return render(request, 'blog/401.html')
     post = get_object_or_404(Post, pk=pk)
+    
     if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():

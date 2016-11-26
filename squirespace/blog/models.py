@@ -21,8 +21,12 @@ class Post(models.Model):
 	published_date = models.DateTimeField(blank = True, null = True)
 	image = models.ImageField(upload_to='',default='default.png', blank=True)
 	host = models.TextField(default="squirespace")
+<<<<<<< HEAD
 	source = models.TextField(default="squirespace")
 	markdown=models.BooleanField()
+=======
+	source = models.TextField(default="http://aedan.pythonanywhere.com/")
+>>>>>>> 33a7b1c798278441678793ae840ff390eac69373
 	id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
 
 	description = "this is a post"
@@ -35,7 +39,7 @@ class Post(models.Model):
 			('only_me','Private: Me Only')
 		)
 		
-	privatelevel = models.CharField(verbose_name="Privacy level of post:", default=PRIVATE_LEVEL_CHOICES[0], max_length=200, choices=PRIVATE_LEVEL_CHOICES)
+	privatelevel = models.CharField(verbose_name="Privacy level of post:", default='public', max_length=200, choices=PRIVATE_LEVEL_CHOICES)
 
 
 	def publish(self):
@@ -81,6 +85,7 @@ class Comment(models.Model):
     created_date = models.DateTimeField(default=timezone.now)
     markdown=models.BooleanField()
     theUUID = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     contentType = "text/plain"
     def __str__(self):
         return self.text
