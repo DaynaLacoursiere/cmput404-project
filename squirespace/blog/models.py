@@ -21,12 +21,9 @@ class Post(models.Model):
 	published_date = models.DateTimeField(blank = True, null = True)
 	image = models.ImageField(upload_to='',default='default.png', blank=True)
 	host = models.TextField(default="squirespace")
-<<<<<<< HEAD
 	source = models.TextField(default="squirespace")
 	markdown=models.BooleanField()
-=======
 	source = models.TextField(default="http://aedan.pythonanywhere.com/")
->>>>>>> 33a7b1c798278441678793ae840ff390eac69373
 	id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
 
 	description = "this is a post"
@@ -48,7 +45,7 @@ class Post(models.Model):
 
 	def markdown(self):
 		#add a check if users want to markdown stuff
-		return markdown_stuff(self.contentType, self.markdown)
+		return markdown_stuff(self.text, self.markdown)
 
 	def __str__(self):
 		return self.title
