@@ -106,7 +106,15 @@ def gitregister(request):
                 print("Failed to grab Github API.")
 
             # If the github username is valid, this will succeed.
-            if (r.status_code == 200 and len(r.json()) > 0):
+            if (r.status_code != 200):
+                form = GitRegForm()
+                return render(request, 'registration/git_signup.html', {'form': form, 'note':'Error '+str(r.status_code)+': Unable to find user at this time. Please try later.'})
+
+            elif (len(r.json()) <= 0):
+                form = GitRegForm()
+                return render(request, 'registration/git_signup.html', {'form': form, 'note':'Error '+str(r.status_code)+': No activity detected on this account. Please try later.'})
+
+            else:
                 #Involves another requests to /../events of that user.
                 eventType = r.json()[0]['type']
 
@@ -123,10 +131,6 @@ def gitregister(request):
                 gitPost.save()
 
                 return HttpResponseRedirect('/git/confirm')
-            else:
-                # Fails silently. Needs fix.
-                form = GitRegForm()
-                return render(request, 'registration/git_signup.html', {'form': form})
     else:
         form = GitRegForm()
     token = {}
@@ -166,7 +170,7 @@ def post_list(request):
     except:
         print("Failed to grab SockNet API")
 
-    if (r.status_code == 200 and len(r.json()) > 0):
+    if (socknetjson.status_code == 200 and len(socknetjson.json()) > 0):
         for i in socknetjson.json()['posts']:
             sauthor = str(i['author']['displayName'])
             stitle = str(i['title'])
@@ -188,7 +192,7 @@ def post_list(request):
                     cid = j['id']
                     ctext = j['comment']
                     cauthor = j['author']['displayName']
-                    
+
                     # If it's a new SockNet poster, make a fake user on their behalf.
                     if (len(User.objects.filter(username=cauthor)) == 0):
                         cuser = User.objects.create_user(cauthor, 'socknet@socknet.com', str(uuid.uuid4))

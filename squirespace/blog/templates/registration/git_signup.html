@@ -1,7 +1,11 @@
 {% block content %}
 <div class="registration-page">
   <h2 class="registration-title">Post Github Activity</h2>
-
+  <script>
+  	if ('{{note}}') {
+	  alert('{{note}}');
+	}
+  </script>
   <form class="registration-form" action="/git/" method="post">{% csrf_token %}
     {{form.as_p}}
   <input class="button" type="submit" value="Git Post" />
