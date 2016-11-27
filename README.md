@@ -26,7 +26,8 @@ How to run:
         > pip install django-friendship
         > pip install djangorestframework
         > pip install requests
-	> pip install commonMark
+        > pip install 'requests[security]'
+        > pip install commonMark
     inside /squirespace run
         > python manage.py runserver
         
