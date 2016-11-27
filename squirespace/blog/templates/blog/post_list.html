@@ -5,7 +5,7 @@
 		<div class="sub-header colour-theme-2">
 			<a href="{% url 'post_new' %}"><button class="new-post-button button">New Post</button></a>
 			<!-- For Future Dayna: http://stackoverflow.com/questions/8430279/how-to-style-the-option-with-only-css -->
-			<select name="viewtype" class="dropdown button view-posts-dropdown">
+			<select name="viewtype" class="dropdown button view-posts-dropdown" id="post-dropdown" onchange="selectionChanged()">
 				<option value="all-posts">View All Posts</option>
 				<option value="friends-posts">View My Friends Posts</option>
 				<option value="my-posts">View My Posts</option>
@@ -13,7 +13,7 @@
 			<a href="{% url 'profile' pk=user.squire.pk %}"><button class="profile-button button">Profile</button></a>
 		</div>
 
-	  <div class="stream">
+	  <div class="stream" id="all-posts">
 	  	{% if user.is_authenticated %}
 				{% for post in posts|dictsortreversed:"published_date" %}
 					{% include "blog/post.html" %}
@@ -22,5 +22,53 @@
 				Please log in to view posts
 			{% endif %}
 		</div>
+		<div class="stream" id="friends-posts">
+	  	{% if user.is_authenticated %}
+				{% for post in posts|dictsortreversed:"published_date" %}
+					{% if post.author in friends %}
+						{% include "blog/post.html" %}
+					{% endif %}
+				{% endfor %}
+			{% else %}
+				Please log in to view posts
+			{% endif %}
+		</div>
+		<div class="stream" id="my-posts">
+	  	{% if user.is_authenticated %}
+				{% for post in posts|dictsortreversed:"published_date" %}
+					{% if post.author == user %}
+						{% include "blog/post.html" %}
+					{% endif %}
+				{% endfor %}
+			{% else %}
+				Please log in to view posts
+			{% endif %}
+		</div>
+		<script type="text/javascript">
+			var selection = document.getElementById("post-dropdown"),
+			  all_stream = document.getElementById("all-posts"),
+			  friends_stream = document.getElementById("friends-posts"),
+			  my_stream = document.getElementById("my-posts");
+
+			function selectionChanged(){
+				var value = selection.options[selection.selectedIndex].value
+
+				if (value == "all-posts"){
+					all_stream.style.display = 'block';
+					friends_stream.style.display = 'none';
+					my_stream.style.display = 'none';
+				} else if (value == "friends-posts") {
+					all_stream.style.display = 'none';
+					friends_stream.style.display = 'block';
+					my_stream.style.display = 'none';
+				} else {
+					all_stream.style.display = 'none';
+					friends_stream.style.display = 'none';
+					my_stream.style.display = 'block';
+				}
+			}
+			
+			selectionChanged(); // call on load to hide other streams
+		</script>
 	{% endif %}
 {% endblock %}
