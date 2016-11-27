@@ -201,7 +201,7 @@ def post_list(request):
                     else:
                         cuser = User.objects.filter(username=cauthor)[0]
 
-                    sockComm = models.Comment(post=sockPost, author=cuser, text=ctext, id=cid, created_date=timezone.now())
+                    sockComm = models.Comment(post=sockPost, author=cuser, text=ctext, id=cid, theUUID=cid, created_date=timezone.now())
                     if (len(Comment.objects.filter(id=cid)) == 0):
                         sockComm.save()
         
