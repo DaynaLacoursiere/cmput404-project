@@ -4,7 +4,6 @@
 	{% if user.is_authenticated %}
 		<div class="sub-header colour-theme-2">
 			<a href="{% url 'post_new' %}"><button class="new-post-button button">New Post</button></a>
-			<!-- For Future Dayna: http://stackoverflow.com/questions/8430279/how-to-style-the-option-with-only-css -->
 			<select name="viewtype" class="dropdown button view-posts-dropdown" id="post-dropdown" onchange="selectionChanged()">
 				<option value="all-posts">View All Posts</option>
 				<option value="friends-posts">View My Friends Posts</option>

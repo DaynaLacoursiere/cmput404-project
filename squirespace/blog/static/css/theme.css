@@ -377,11 +377,22 @@ b{
 .post-edit-form label{
   color: var(--gold);
 }
+
+.post-edit-form input{
+  font-size: 12pt;
+  font-family: MedievalSharp;
+}
+
 .post-edit-form textarea{
   width:100%;
   margin:0;
   font-size: 12pt;
   font-family: MedievalSharp;
+}
+
+.post-edit-form select{
+  font-family: MedievalSharp;
+  font-size: 12pt;
 }
 
 .post-edit-form p{
