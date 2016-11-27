@@ -1,8 +1,15 @@
+{% extends 'blog/base.html' %}
+{% load staticfiles %}
 {% block content %}
 <html>
-<body>
-		<h1>Posted updated Github Activity.</h1>
-        <a href="/">Back to Home Page</a></body>
+  <body>
+		<div class="git-confirm-page">
+      <div class="cont">
+        <h1 class="git-confirm-title">Posted updated Github Activity.</h1>
+        <a class="button" href="/">Back to Home Page</a>
+      </div>
+    </div>
+  </body>
 </html>
 
 {% endblock %}

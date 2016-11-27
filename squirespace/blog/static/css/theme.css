@@ -756,6 +756,72 @@ b{
 
 
 
+/*github stuff*/
+
+.git-reg-page{
+  padding:16px;
+  color: var(--gold);
+  width:236px;
+  margin: auto;
+}
+
+.git-reg-title{
+  font-size: 20pt;
+}
+
+.git-reg-button{
+  font-size: 16pt;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.git-reg-form p{
+  font-size: 16pt;
+  margin: 16px auto;
+}
+
+.git-reg-form label{
+  display: block;
+  margin-bottom: 8px;
+  margin-top: 16px;
+}
+.git-reg-form input{
+  font-size: 16pt;
+  font-family: MedievalSharp;
+}
+
+
+.git-confirm-page{
+  position: absolute;
+  left:0;right:0;top:0;bottom:0;
+  margin: auto;
+  width:300px;
+  height:200px;
+  color: var(--gold);
+  border: solid 2px var(--gold);
+  border-radius: 5px;
+  padding:16px;
+  text-align: center;
+}
+
+.git-confirm-page .cont{
+  position: absolute;
+  top:0;right:0;bottom:0;left:0;
+  margin: auto;
+  height:78px;
+  width:216px;
+}
+
+.git-confirm-page .git-confirm-title{
+  margin-bottom: 16px;
+  font-size: 16pt;
+}
+
+.git-confirm-page .button{
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
 
 
 @font-face {
