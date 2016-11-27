@@ -5,6 +5,8 @@
    v2.0 | 20110126
    License: none (public domain)
 */
+@import url('https://fonts.googleapis.com/css?family=MedievalSharp');
+@import url('https://fonts.googleapis.com/css?family=Herr+Von+Muellerhoff');
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -68,6 +70,50 @@ body{
 b{
   font-weight: bold;
 }
+
+/* Dropdown Button */
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Dropdown button on hover & focus */
+.dropbtn:hover, .dropbtn:focus {
+    background-color: #3e8e41;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {display:block;}
 
 .button{
   background: var(--grey);
@@ -371,7 +417,7 @@ b{
 .profile .stream{
   width: 60%;
   position: absolute;
-  left:300px;right:0;margin:auto;
+  left:328px;right:0;margin:auto;
 }
 
 
@@ -388,11 +434,33 @@ b{
   float:right;
 }
 
+.profile .github-page{
+  position: fixed;
+  top: 136px;
+}
+
+.profile .github-title{
+  font-size: 18pt;
+  color: var(--gold);
+  display: inline-block;
+  margin:16px;
+}
+
+.profile .github-form{
+  float:right;
+}
+
+.profile .github-form button{
+  width:72px;
+  margin-left: 0;
+}
+
+
 .profile .friends-list{
   position: fixed;
-  top:136px;
+  top:172px;
   margin:16px;
-  width:252px;
+  width:280px;
   background: var(--grey);
   border-radius: 5px;
   padding:16px;
@@ -506,15 +574,279 @@ b{
 .login-button{
   font-size: 16pt;
 }
-.github-page{
-  position: fixed;
-  bottom: 0;
+
+
+
+
+.page-401{
+  position: absolute;
+  top:-84px;right:0;bottom:0;left:0;
+  margin: auto;
+  width:90%;
+  height:80%;
+  max-height: 600px;
+  max-width: 400px;
+}
+
+.page-401 .post{
+  font-size: 20pt;
+  text-align: left;
+}
+.page-401 b{
+  color:red;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+
+.page-401 .signature-container{
+  float: right;
+  margin-right: 16px;
+  margin-bottom: 28px;
+}
+
+.page-401 .wax-seal{
+  max-width:100px;
+}
+
+.page-401 .signature{
+  font-family: 'Herr Von Muellerhoff', cursive;
+  position: absolute;
+  right:32px;
+  color: transparent;
+  text-shadow: 0 0 0.5px rgba(0,0,0,1);
+}
+.page-401 .signature.first{
+  right:48px;
+}
+
+.already-logged-in{
+  position: absolute;
+  left:0;right:0;top:0;bottom:0;
+  margin: auto;
+  width:300px;
+  height:200px;
+  color: var(--gold);
+  border: solid 2px var(--gold);
+  border-radius: 5px;
+  padding:16px;
+  text-align: center;
+}
+
+.already-logged-in .cont{
+  position: absolute;
+  top:0;right:0;bottom:0;left:0;
+  margin: auto;
+  height:116px;
+  width:216px;
+}
+
+.already-logged-in h1{
+  margin-bottom: 16px;
+}
+
+.already-logged-in a{
+  font-style: italic;
+  color: var(--gold);
+  padding-left: 16px;
+  padding-right: 16px;
+  margin-top: 16px;
+  font-style: normal;
+}
+
+
+.admin-wait{
+  position: absolute;
+  left:0;right:0;top:0;bottom:0;
+  margin: auto;
+  width:300px;
+  height:200px;
+  color: var(--gold);
+  border: solid 2px var(--gold);
+  border-radius: 5px;
+  padding:16px;
+  text-align: center;
+}
+
+.admin-wait .cont{
+  position: absolute;
+  top:0;right:0;bottom:0;left:0;
+  margin: auto;
+  height:46px;
+  width:216px;
 }
 
 
 
-.401-page{
-  margin: 36px auto;
-  background: var(--tan);
+
+
+.splash_page{
+  position: absolute;
+  top:0;right:0;bottom:0;left:0;
+  margin: auto;
+  width:90%;
+}
+
+.splash_page .post{
+  font-size: 20pt;
+  text-align: left;
+}
+.splash_page b{
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  color:red;
+}
+
+.splash_page a{
+  color:var(--gold);
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.splash_page .signature-container{
+  float: right;
+  margin-right: 16px;
+  margin-bottom: 28px;
+}
+
+.splash_page .wax-seal{
+  max-width:100px;
+}
+
+.splash_page .signature{
+  font-family: 'Herr Von Muellerhoff', cursive;
+  position: absolute;
+  right:32px;
+  color: transparent;
+  text-shadow: 0 0 0.5px rgba(0,0,0,1);
+}
+.splash_page .signature.first{
+  right:48px;
+}
+
+
+
+.reg_confirm{
+  position: absolute;
+  left:0;right:0;top:0;bottom:0;
+  margin: auto;
+  width:300px;
+  height:200px;
+  color: var(--gold);
+  border: solid 2px var(--gold);
   border-radius: 5px;
+  padding:16px;
+  text-align: center;
+}
+
+.reg_confirm .cont{
+  position: absolute;
+  top:0;right:0;bottom:0;left:0;
+  margin: auto;
+  height:116px;
+  width:216px;
+}
+
+.reg_confirm h1{
+  margin-bottom:16px;
+}
+
+
+.reg_confirm a{
+  padding-left:16px;
+  padding-right:16px;
+}
+
+
+
+/*github stuff*/
+body{
+  background:red;
+}
+.registration-page{
+  padding:16px;
+  color: var(--gold);
+  width:500px;
+  margin: auto;
+}
+
+.registration-title{
+  font-size: 20pt;
+}
+
+.registration-button{
+  float:right;
+  font-size: 16pt;
+}
+
+.registration-form p{
+  font-size: 16pt;
+  margin: 16px auto;
+}
+
+.registration-form label{
+  display: block;
+  margin-bottom: 8px;
+  margin-top: 16px;
+}
+.registration-form span{
+  display: block;
+  margin-top: 8px;
+  font-size: 10pt;
+  margin-left: 16px;
+}
+.registration-form input{
+  font-size: 16pt;
+  font-family: MedievalSharp;
+  margin-left: 16px;
+}
+
+
+
+
+@font-face {
+  font-family: 'icomoon';
+  src:  url('../../../media/fonts/icomoon.eot?ds29vl');
+  src:  url('../../../media/fonts/icomoon.eot?ds29vl#iefix') format('embedded-opentype'),
+    url('../../../media/fonts/icomoon.ttf?ds29vl') format('truetype'),
+    url('../../../media/fonts/icomoon.woff?ds29vl') format('woff'),
+    url('../../../media/fonts/icomoon.svg?ds29vl#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-cross:before {
+  content: "\ea0f";
+}
+.icon-checkmark:before {
+  content: "\ea10";
+}
+
+.friend_request .button{
+  margin-left: 8px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.icon-cross{
+  color: #DB1B03;
+  margin-left: 8px;
+  font-size: 8pt;
+}
+.icon-checkmark{
+  color: #B8D20A;
+  margin-left: 8px;
+  font-size: 8pt;
 }
