@@ -8,14 +8,14 @@ class PostForm(forms.ModelForm):
 
     class Meta:
         model = Post
-        fields = ('title', 'text', 'image', 'privatelevel')
+        fields = ('title', 'text', 'image', 'privatelevel', 'markdown')
         
 
 class CommentForm(forms.ModelForm):
 
     class Meta:
         model = Comment
-        fields = ('text',)
+        fields = ('text', 'markdown')
 
 
 
