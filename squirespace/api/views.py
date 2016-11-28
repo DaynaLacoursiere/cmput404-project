@@ -171,8 +171,10 @@ class UserViewablePosts(APIView):
                 if author in friends:
                     userViewablePosts.append(post)
             elif post.privatelevel == "FOAF":
-                # Check if author and user have a mutual friend
-                if self.mutual_friends(authorfriends, friends):
+                # Check if author and user have a mutual friend (or are friends)
+                if author in friends:
+                    userViewablePosts.append(post)
+                elif self.mutual_friends(authorfriends, friends):
                     userViewablePosts.append(post)
             elif post.privatelevel == "SERVERONLY":
                 # Check if user and author are from the same host
