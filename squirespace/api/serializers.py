@@ -62,7 +62,7 @@ class PostSerializer(serializers.ModelSerializer):
         return "0"
 
     def getURL(self,obj):
-        return "http://aedan.pythonanywhere.com/post"+str(obj.id)
+        return "http://aedan.pythonanywhere.com/post/"+str(obj.id)
 
 
 
@@ -88,4 +88,4 @@ class PostSerializerNoComments(serializers.ModelSerializer):
         return "0"
 
     def getURL(self,obj):
-        return "http://aedan.pythonanywhere.com/post"+str(obj.id)
+        return "http://aedan.pythonanywhere.com/post/"+str(obj.id)
