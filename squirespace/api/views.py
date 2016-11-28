@@ -164,17 +164,17 @@ class UserViewablePosts(APIView):
             # They're the author
             if post.author.squire.theUUID is user.squire.theUUID:
                 userViewablePosts.append(post)
-            elif post.privatelevel == "public":
+            elif post.privatelevel == "PUBLIC":
                 userViewablePosts.append(post)
-            elif post.privatelevel == "friends":
+            elif post.privatelevel == "FRIENDS":
                 # Check if user and author are friends
                 if author in friends:
                     userViewablePosts.append(post)
-            elif post.privatelevel == "friends_of_friends":
+            elif post.privatelevel == "FOAF":
                 # Check if author and user have a mutual friend
                 if self.mutual_friends(authorfriends, friends):
                     userViewablePosts.append(post)
-            elif post.privatelevel == "host_friends":
+            elif post.privatelevel == "SERVERONLY":
                 # Check if user and author are from the same host
                 # Then check that they're friends
 

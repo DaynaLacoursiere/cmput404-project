@@ -217,14 +217,14 @@ def post_list(request):
         if post.author == request.user:
             posts.append(post)
 
-        elif post.privatelevel == "public":
+        elif post.privatelevel == "PUBLIC":
             posts.append(post)
 
-        elif post.privatelevel == "friends":
+        elif post.privatelevel == "FRIENDS":
             if post.author in friends:
                 posts.append(post)
 
-        elif post.privatelevel == "friends_of_friends":
+        elif post.privatelevel == "FOAF":
             author_friends = Friend.objects.friends(post.author)
 
             if post.author in friends:
@@ -233,7 +233,7 @@ def post_list(request):
             elif hasMutualFriend(friends, author_friends):
                 posts.append(post)
 
-        elif post.privatelevel == "host_friends":
+        elif post.privatelevel == "SERVERONLY":
             if post.host == "squirespace" and post.author in friends:
                 posts.append(post)
 
