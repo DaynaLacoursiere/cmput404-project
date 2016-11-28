@@ -165,7 +165,7 @@ def post_list(request):
         return render(request, 'blog/splash_page.html')
 
     # Socknet Posts
-    headers = {'User-agent': 'SquireSpace'}
+    headers = {'User-agent': 'SquireSpace', 'Host':'cmput404f16t04dev.herokuapp.com'}
     try:
         socknetjson = requests.get('http://cmput404f16t04dev.herokuapp.com/api/posts/', headers=headers, auth=('admin', 'cmput404'))
     except Exception as e:
@@ -174,6 +174,7 @@ def post_list(request):
         print(e)
 
     # Winter Posts
+    headers = {'User-agent': 'SquireSpace', 'Host':'winter-resonance.herokuapp.com'}
     try:
         winterjson = requests.get('https://winter-resonance.herokuapp.com/posts', headers=headers, auth=('team8', 'Tlo@1000$'))
     except Exception as e:
