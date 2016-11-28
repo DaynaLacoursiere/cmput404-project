@@ -320,7 +320,7 @@ class PostDetailComments(APIView):
         post = PostSerializer(post)
         return Response(post.data)
 
-    def post(self, request, pk):
+    def post(self, request, pk, format=None):
         content = {
             'user': unicode(request.user),  # `django.contrib.auth.User` instance.
             'auth': unicode(request.auth),  # None
@@ -328,9 +328,10 @@ class PostDetailComments(APIView):
         post = self.get_object(pk)
         #serializer = CommentSerializer
 
-        author = request.user
-        Comment.objects.create(author=author,post=post, text = comment)
-        post = PostSerializer(post)
+
+        post.comment=Comment.objects.create(post = post, author = post.author, text = request.data)
+        post.save()
+        serializer = PostSerializer(post)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
