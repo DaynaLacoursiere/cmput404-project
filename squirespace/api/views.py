@@ -331,9 +331,15 @@ class PostDetailComments(APIView):
 
         post.comment=Comment.objects.create(post = post, author = post.author, text = request.data)
         post.save()
-        serializer = PostSerializer(post)
+        content={
+            'query': 'addComment',
+            'success':True,
+            'message':'Comment Added'
+        }
 
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+ 
+        return Response(content)
+
 
 
 class PostPaginate(PageNumberPagination):
