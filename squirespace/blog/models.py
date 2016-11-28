@@ -32,10 +32,10 @@ class Post(models.Model):
 	contentType = "text/plain"
 	PRIVATE_LEVEL_CHOICES = (
 			('PUBLIC','Public'),
-			('FOAF','Private: Friends Only'),
-			('FRIENDS','Private: Friends of Friends'),
-			('PRIVATE','Private: Friends on my Host Only'),
-			('SERVERONLY','Private: Me Only')
+			('FRIENDS','Private: Friends Only'),
+			('FOAF','Private: Friends of Friends'),
+			('SERVERONLY','Private: Friends on my Host Only'),
+			('PRIVATE','Private: Me Only')
 		)
 		
 	privatelevel = models.CharField(verbose_name="Privacy level of post:", default='PUBLIC', max_length=200, choices=PRIVATE_LEVEL_CHOICES)

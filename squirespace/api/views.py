@@ -200,7 +200,7 @@ class PostList(APIView):
         posts = Post.objects.all()
         postlist = []
         for post in posts:
-            if post.host == "squirespace":
+            if post.host == "squirespace" and post.privatelevel == "PUBLIC":
                 postlist.append(post)
         posts = postlist
 
