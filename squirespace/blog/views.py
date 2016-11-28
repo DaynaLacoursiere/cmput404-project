@@ -168,17 +168,19 @@ def post_list(request):
     headers = {'User-agent': 'SquireSpace'}
     try:
         socknetjson = requests.get('http://cmput404f16t04dev.herokuapp.com/api/posts/', headers=headers, auth=('admin', 'cmput404'))
-    except:
+    except Exception as e:
         socknetjson = ""
         print("Failed to grab SockNet API")
-
+        print(e)
 
     # Winter Posts
     try:
         winterjson = requests.get('https://winter-resonance.herokuapp.com/posts', headers=headers, auth=('team8', 'Tlo@1000$'))
-    except:
+    except Exception as e:
         winterjson = ""
         print("Failed to grab WinterResonance API")
+        print(e)
+
     if (socknetjson):
         if (socknetjson.status_code == 200 and len(socknetjson.json()) > 0):
             for i in socknetjson.json()['posts']:
