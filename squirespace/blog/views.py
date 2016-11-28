@@ -171,6 +171,12 @@ def post_list(request):
     except:
         print("Failed to grab SockNet API")
 
+    # Winter Posts
+    try:
+        winterjson = requests.get('https://winter-resonance.herokuapp.com/posts', headers=headers, auth=('team8', 'Tlo@1000$'))
+    except:
+        print("Failed to grab WinterResonance API")
+
     if (socknetjson.status_code == 200 and len(socknetjson.json()) > 0):
         for i in socknetjson.json()['posts']:
             sauthor = str(i['author']['displayName'])
@@ -204,7 +210,40 @@ def post_list(request):
                     sockComm = models.Comment(post=sockPost, author=cuser, text=ctext, id=cid, theUUID=cid, created_date=timezone.now())
                     if (len(Comment.objects.filter(id=cid)) == 0):
                         sockComm.save()
-        
+
+    if (winterjson.status_code == 200 and len(winterjson.json()) > 0):
+        for i in winterjson.json()['posts']:
+            wauthor = str(i['author']['displayName'])
+            wtitle = str(i['title'])
+            wtext = str(i['content'])
+            wid = i['id']
+
+            # If it's a new SockNet poster, make a fake user on their behalf.
+            if (len(User.objects.filter(username=wauthor)) == 0):
+                wuser = User.objects.create_user(wauthor, 'winter@winter.com', str(uuid.uuid4))
+                wuser.save()
+
+            winterPost = models.Post(author=User.objects.filter(username=wauthor)[0], text=wtext, title=wtitle, id=wid, image='winter.png', published_date=timezone.now(), source="Winter", host="Winter")
+            if (len(Post.objects.filter(id=wid)) == 0):
+                winterPost.save()
+
+            # Now we handle comments!
+            if (len(i['comments']) > 0):
+                for j in i['comments']:
+                    wcid = j['id']
+                    wctext = j['comment']
+                    wcauthor = j['author']['displayName']
+
+                    # If it's a new SockNet poster, make a fake user on their behalf.
+                    if (len(User.objects.filter(username=wcauthor)) == 0):
+                        wcuser = User.objects.create_user(wcauthor, 'winter@winter.com', str(uuid.uuid4))
+                        wcuser.save()
+                    else:
+                        wcuser = User.objects.filter(username=wcauthor)[0]
+
+                    winterComm = models.Comment(post=winterPost, author=wcuser, text=wctext, id=wcid, theUUID=wcid, created_date=timezone.now())
+                    if (len(Comment.objects.filter(id=wcid)) == 0):
+                        winterComm.save()    
     
     all_posts = Post.objects.filter(published_date__lte=timezone.now())
     
