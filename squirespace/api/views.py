@@ -214,7 +214,7 @@ class PostList(APIView):
         serializer = PostSerializer(posts, many=True)
         content={
             "query":"posts",
-            "count":"1000",
+            "count":len(posts),
             "size":"10",
             
             "next":"nextpage.com",
@@ -247,7 +247,7 @@ class VisiblePostList(APIView):
         serializer = PostSerializer(posts, many=True)
 
         content={
-            "count":"1000",
+            "count":len(posts),
             "size":"10",
             "query":"posts",
             "next":"nextpage.com",
