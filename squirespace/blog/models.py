@@ -24,7 +24,7 @@ class Post(models.Model):
 
 	source = models.TextField(default="squirespace")
 
-	markdown=models.BooleanField()
+	markdown=models.BooleanField(default=False)
 	source = models.TextField(default="http://aedan.pythonanywhere.com/")
 	id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
 
@@ -45,7 +45,7 @@ class Post(models.Model):
 		self.published_date = timezone.now()
 		self.save()
 
-	def markdown(self):
+	def get_markdown(self):
 		#add a check if users want to markdown stuff
 		return markdown_stuff(self.text, self.markdown)
 
@@ -82,13 +82,13 @@ class Comment(models.Model):
 	
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
-    markdown=models.BooleanField()
+    markdown=models.BooleanField(default=False)
     theUUID = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     contentType = "text/plain"
     def __str__(self):
         return self.text
-    def markdown(self):
+    def get_markdown(self):
 		#add a check if users want to markdown stuff
 		return markdown_stuff(self.text, self.markdown)
 
