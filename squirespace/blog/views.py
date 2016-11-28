@@ -358,6 +358,7 @@ def profile(request,pk):
     following = Follow.objects.following(profile_owner)
     followers = Follow.objects.followers(profile_owner)
     friend_requests = Friend.objects.unrejected_requests(user=profile_owner)
+    sent_friend_requests = Friend.objects.sent_requests(user=profile_owner)
 
     friend_request_w_user = 0
     for friend_request in friend_requests:
@@ -366,7 +367,7 @@ def profile(request,pk):
 
     print friend_request_w_user == 0
 
-    return render(request, 'blog/profile.html', {'user': request.user, 'profile_owner': profile_owner, 'posts': posts, 'friends': friends, 'following':following, 'followers':followers, 'friend_requests':friend_requests, 'friend_request_w_user':friend_request_w_user})
+    return render(request, 'blog/profile.html', {'user': request.user, 'profile_owner': profile_owner, 'posts': posts, 'friends': friends, 'friend_requests':friend_requests, 'sent_friend_requests':sent_friend_requests, 'friend_request_w_user':friend_request_w_user})
 
 
 def send_friend_request(request, pk):
@@ -382,7 +383,21 @@ def send_friend_request(request, pk):
     if (email == "socknet@socknet.com"):
         print("User is from socknet! We need to do stuff here to request their API.")
 
-        #r = requests.post('http://cmput404f16t04dev.herokuapp.com/api/friendrequest/', auth=('admin', 'cmput404'), data = {'query':'friendrequest', 'author': {} })
+        author = {"id":"de305d54-75b4-431b-adb2-eb6b9e546013",
+        "host":"http://127.0.0.1:5454/",
+        "displayName":"Greg Johnson"}
+
+        friend = {"id":"de305d54-75b4-431b-adb2-eb6b9e637281",
+        "host":"http://127.0.0.1:5454/",
+        "displayName":"Lara Croft",
+        "url":"http://127.0.0.1:5454/author/9de17f29c12e8f97bcbbd34cc908f1baba40658e"}
+
+        content = {
+            'query':'friendrequest',
+            'author':author,
+            'friend':friend,
+        }
+        r = requests.post('http://cmput404f16t04dev.herokuapp.com/api/friendrequest/', auth=('admin', 'cmput404'), data = content)
     
     Friend.objects.add_friend(request.user, profile_owner, message = 'I would like to request your friendship.')
     return redirect('profile', pk=profile_owner.squire.theUUID)
@@ -393,20 +408,13 @@ def accept_friend_request(request, pk):
     # NEED TO CHECK IF FRIEND IS ANONYMOUSUSER (FRIEND.IS_ANONYMOUS())
 
     # Check if email is socknet, all fake socknet users have this email nobody else does.
-    email = profile_owner.email
-    if (email == "socknet@socknet.com"):
+    #email = profile_owner.email
+    #if (email == "socknet@socknet.com"):
         # NEED TO CHECK BOTH OUR SERVER AND THEIRS
-        print("User is from socknet! We need to do stuff here to request their API.")
+       # print("User is from socknet! We need to do stuff here to request their API.")
 
     friend_request = FriendshipRequest.objects.get(pk = pk)
-    from_user = friend_request.from_user
-    to_user = friend_request.to_user
-    Follow.objects.add_follower(from_user, to_user)
-    if(to_user in Follow.objects.following(from_user) and from_user in Follow.objects.following(to_user)):
-    	friend_request.accept()
-    else:
-    	friend_request.cancel()
-    	
+    friend_request.accept()
     return redirect('profile', pk=request.user.squire.theUUID)
 
 def reject_friend_request(request, pk):
@@ -415,10 +423,10 @@ def reject_friend_request(request, pk):
     # NEED TO CHECK IF FRIEND IS ANONYMOUSUSER (FRIEND.IS_ANONYMOUS())
 
     # Check if email is socknet, all fake socknet users have this email nobody else does.
-    email = profile_owner.email
-    if (email == "socknet@socknet.com"):
+    #email = profile_owner.email
+    #if (email == "socknet@socknet.com"):
         # NEED TO CHECK BOTH OUR SERVER AND THEIRS
-        print("User is from socknet! We need to do stuff here to request their API.")
+      #  print("User is from socknet! We need to do stuff here to request their API.")
 
     friend_request = FriendshipRequest.objects.get(pk = pk)
     friend_request.reject()
@@ -430,18 +438,18 @@ def cancel_friend_request(request, pk):
     # NEED TO CHECK IF FRIEND IS ANONYMOUSUSER (FRIEND.IS_ANONYMOUS())
 
     # Check if email is socknet, all fake socknet users have this email nobody else does.
-    email = profile_owner.email
-    if (email == "socknet@socknet.com"):
+    #email = profile_owner.email
+    #if (email == "socknet@socknet.com"):
         # NEED TO CHECK BOTH OUR SERVER AND THEIRS
-        print("User is from socknet! We need to do stuff here to request their API.")
+       # print("User is from socknet! We need to do stuff here to request their API.")
         
     friend_request = FriendshipRequest.objects.get(pk = pk)
-    profile_owner = friend_request.to_user.squire.theUUID
+    profile_owner = friend_request.from_user.squire.theUUID
     friend_request.cancel()
     return redirect('profile', pk=profile_owner)
 
 def remove_friend(request, pk):
-    profile_owner = User.objects.get(id = pk)
+    #profile_owner = User.objects.get(id = pk)
     Friend.objects.remove_friend(request.user, profile_owner)
     return redirect('profile', pk=profile_owner.squire.theUUID)
 
