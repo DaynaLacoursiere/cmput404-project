@@ -336,6 +336,8 @@ def send_friend_request(request, pk):
     email = profile_owner.email
     if (email == "socknet@socknet.com"):
         print("User is from socknet! We need to do stuff here to request their API.")
+
+        #r = requests.post('http://cmput404f16t04dev.herokuapp.com/api/friendrequest/', auth=('admin', 'cmput404'), data = {'query':'friendrequest', 'author': {} })
     
     Friend.objects.add_friend(request.user, profile_owner, message = 'I would like to request your friendship.')
     return redirect('profile', pk=profile_owner.squire.theUUID)
