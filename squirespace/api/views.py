@@ -214,7 +214,7 @@ class PostList(APIView):
         serializer = PostSerializer(posts, many=True)
         content={
             "query":"posts",
-            "count":"1000",
+            "count":len(posts),
             "size":"10",
             
             "next":"nextpage.com",
@@ -247,7 +247,7 @@ class VisiblePostList(APIView):
         serializer = PostSerializer(posts, many=True)
 
         content={
-            "count":"1000",
+            "count":len(posts),
             "size":"10",
             "query":"posts",
             "next":"nextpage.com",
@@ -320,7 +320,7 @@ class PostDetailComments(APIView):
         post = PostSerializer(post)
         return Response(post.data)
 
-    def post(self, request, pk):
+    def post(self, request, pk, format=None):
         content = {
             'user': unicode(request.user),  # `django.contrib.auth.User` instance.
             'auth': unicode(request.auth),  # None
@@ -328,11 +328,18 @@ class PostDetailComments(APIView):
         post = self.get_object(pk)
         #serializer = CommentSerializer
 
-        author = request.user
-        Comment.objects.create(author=author,post=post, text = comment)
-        post = PostSerializer(post)
 
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        post.comment=Comment.objects.create(post = post, author = post.author, text = request.data)
+        post.save()
+        content={
+            'query': 'addComment',
+            'success':True,
+            'message':'Comment Added'
+        }
+
+ 
+        return Response(content)
+
 
 
 class PostPaginate(PageNumberPagination):
