@@ -201,7 +201,7 @@ def post_list(request):
                     else:
                         cuser = User.objects.filter(username=cauthor)[0]
 
-                    sockComm = models.Comment(post=sockPost, author=cuser, text=ctext, id=cid, created_date=timezone.now())
+                    sockComm = models.Comment(post=sockPost, author=cuser, text=ctext, id=cid, theUUID=cid, created_date=timezone.now())
                     if (len(Comment.objects.filter(id=cid)) == 0):
                         sockComm.save()
         
@@ -217,14 +217,14 @@ def post_list(request):
         if post.author == request.user:
             posts.append(post)
 
-        elif post.privatelevel == "public":
+        elif post.privatelevel == "PUBLIC":
             posts.append(post)
 
-        elif post.privatelevel == "friends":
+        elif post.privatelevel == "FRIENDS":
             if post.author in friends:
                 posts.append(post)
 
-        elif post.privatelevel == "friends_of_friends":
+        elif post.privatelevel == "FOAF":
             author_friends = Friend.objects.friends(post.author)
 
             if post.author in friends:
@@ -233,7 +233,7 @@ def post_list(request):
             elif hasMutualFriend(friends, author_friends):
                 posts.append(post)
 
-        elif post.privatelevel == "host_friends":
+        elif post.privatelevel == "SERVERONLY":
             if post.host == "squirespace" and post.author in friends:
                 posts.append(post)
 
@@ -331,6 +331,12 @@ def send_friend_request(request, pk):
 
     squire = Squire.objects.get(theUUID=pk)
     profile_owner = User.objects.get(id=squire.user.id)
+
+    # Check if email is socknet, all fake socknet users have this email nobody else does.
+    email = profile_owner.email
+    if (email == "socknet@socknet.com"):
+        print("User is from socknet! We need to do stuff here to request their API.")
+    
     Friend.objects.add_friend(request.user, profile_owner, message = 'I would like to request your friendship.')
     return redirect('profile', pk=profile_owner.squire.theUUID)
 
@@ -338,14 +344,35 @@ def accept_friend_request(request, pk):
     if (request.user.is_anonymous()):
         return render(request, 'blog/401.html')
     # NEED TO CHECK IF FRIEND IS ANONYMOUSUSER (FRIEND.IS_ANONYMOUS())
+
+    # Check if email is socknet, all fake socknet users have this email nobody else does.
+    email = profile_owner.email
+    if (email == "socknet@socknet.com"):
+        # NEED TO CHECK BOTH OUR SERVER AND THEIRS
+        print("User is from socknet! We need to do stuff here to request their API.")
+
     friend_request = FriendshipRequest.objects.get(pk = pk)
-    friend_request.accept()
+    from_user = friend_request.from_user
+    to_user = friend_request.to_user
+    Follow.objects.add_follower(from_user, to_user)
+    if(to_user in Follow.objects.following(from_user) and from_user in Follow.objects.following(to_user)):
+    	friend_request.accept()
+    else:
+    	friend_request.cancel()
+    	
     return redirect('profile', pk=request.user.squire.theUUID)
 
 def reject_friend_request(request, pk):
     if (request.user.is_anonymous()):
         return render(request, 'blog/401.html')
     # NEED TO CHECK IF FRIEND IS ANONYMOUSUSER (FRIEND.IS_ANONYMOUS())
+
+    # Check if email is socknet, all fake socknet users have this email nobody else does.
+    email = profile_owner.email
+    if (email == "socknet@socknet.com"):
+        # NEED TO CHECK BOTH OUR SERVER AND THEIRS
+        print("User is from socknet! We need to do stuff here to request their API.")
+
     friend_request = FriendshipRequest.objects.get(pk = pk)
     friend_request.reject()
     return redirect('profile', pk=request.user.squire.theUUID)
@@ -354,6 +381,13 @@ def cancel_friend_request(request, pk):
     if (request.user.is_anonymous()):
         return render(request, 'blog/401.html')
     # NEED TO CHECK IF FRIEND IS ANONYMOUSUSER (FRIEND.IS_ANONYMOUS())
+
+    # Check if email is socknet, all fake socknet users have this email nobody else does.
+    email = profile_owner.email
+    if (email == "socknet@socknet.com"):
+        # NEED TO CHECK BOTH OUR SERVER AND THEIRS
+        print("User is from socknet! We need to do stuff here to request their API.")
+        
     friend_request = FriendshipRequest.objects.get(pk = pk)
     profile_owner = friend_request.to_user.squire.theUUID
     friend_request.cancel()
