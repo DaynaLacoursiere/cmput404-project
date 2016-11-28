@@ -352,7 +352,14 @@ def accept_friend_request(request, pk):
         print("User is from socknet! We need to do stuff here to request their API.")
 
     friend_request = FriendshipRequest.objects.get(pk = pk)
-    friend_request.accept()
+    from_user = friend_request.from_user
+    to_user = friend_request.to_user
+    Follow.objects.add_follower(from_user, to_user)
+    if(to_user in Follow.objects.following(from_user) and from_user in Follow.objects.following(to_user)):
+    	friend_request.accept()
+    else:
+    	friend_request.cancel()
+    	
     return redirect('profile', pk=request.user.squire.theUUID)
 
 def reject_friend_request(request, pk):
