@@ -331,6 +331,12 @@ def send_friend_request(request, pk):
 
     squire = Squire.objects.get(theUUID=pk)
     profile_owner = User.objects.get(id=squire.user.id)
+
+    # Check if email is socknet, all fake socknet users have this email nobody else does.
+    email = profile_owner.email
+    if (email == "socknet@socknet.com"):
+        print("User is from socknet! We need to do stuff here to request their API.")
+    
     Friend.objects.add_friend(request.user, profile_owner, message = 'I would like to request your friendship.')
     return redirect('profile', pk=profile_owner.squire.theUUID)
 
@@ -338,6 +344,13 @@ def accept_friend_request(request, pk):
     if (request.user.is_anonymous()):
         return render(request, 'blog/401.html')
     # NEED TO CHECK IF FRIEND IS ANONYMOUSUSER (FRIEND.IS_ANONYMOUS())
+
+    # Check if email is socknet, all fake socknet users have this email nobody else does.
+    email = profile_owner.email
+    if (email == "socknet@socknet.com"):
+        # NEED TO CHECK BOTH OUR SERVER AND THEIRS
+        print("User is from socknet! We need to do stuff here to request their API.")
+
     friend_request = FriendshipRequest.objects.get(pk = pk)
     friend_request.accept()
     return redirect('profile', pk=request.user.squire.theUUID)
@@ -346,6 +359,13 @@ def reject_friend_request(request, pk):
     if (request.user.is_anonymous()):
         return render(request, 'blog/401.html')
     # NEED TO CHECK IF FRIEND IS ANONYMOUSUSER (FRIEND.IS_ANONYMOUS())
+
+    # Check if email is socknet, all fake socknet users have this email nobody else does.
+    email = profile_owner.email
+    if (email == "socknet@socknet.com"):
+        # NEED TO CHECK BOTH OUR SERVER AND THEIRS
+        print("User is from socknet! We need to do stuff here to request their API.")
+
     friend_request = FriendshipRequest.objects.get(pk = pk)
     friend_request.reject()
     return redirect('profile', pk=request.user.squire.theUUID)
@@ -354,6 +374,13 @@ def cancel_friend_request(request, pk):
     if (request.user.is_anonymous()):
         return render(request, 'blog/401.html')
     # NEED TO CHECK IF FRIEND IS ANONYMOUSUSER (FRIEND.IS_ANONYMOUS())
+
+    # Check if email is socknet, all fake socknet users have this email nobody else does.
+    email = profile_owner.email
+    if (email == "socknet@socknet.com"):
+        # NEED TO CHECK BOTH OUR SERVER AND THEIRS
+        print("User is from socknet! We need to do stuff here to request their API.")
+        
     friend_request = FriendshipRequest.objects.get(pk = pk)
     profile_owner = friend_request.to_user.squire.theUUID
     friend_request.cancel()
