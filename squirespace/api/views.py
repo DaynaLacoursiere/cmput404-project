@@ -162,7 +162,7 @@ class UserViewablePosts(APIView):
             author = post.author
             authorfriends = Friend.objects.friends(author);
             # They're the author
-            if post.author.squire.theUUID is user.squire.theUUID:
+            if post.author.squire.theUUID == user.squire.theUUID:
                 userViewablePosts.append(post)
             elif post.privatelevel == "PUBLIC":
                 userViewablePosts.append(post)
