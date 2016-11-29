@@ -385,19 +385,23 @@ def send_friend_request(request, pk):
     if (email == "socknet@socknet.com"):
         print("User is from socknet! We need to do stuff here to request their API.")
 
-        author = {"id":request.user.squire.theUUID,
-        "host":"aedan.pythonanywhere.com/",
-        "displayName":request.user.username}
+        author = {
+            "id": profile_owner.squire.theUUID,
+            "host": "cmput404f16t04dev.herokuapp.com/",
+            "displayName": profile_owner.username
+            }
 
-        friend = {"id":profile_owner.squire.theUUID,
-        "host":"http://cmput404f16t04dev.herokuapp.com/",
-        "displayName":profile_owner.username,
-        "url":"http://cmput404f16t04dev.herokuapp.com/profile/"+str(profile_owner.squire.theUUID)}
+        friend = {
+            "id": request.user.squire.theUUID,
+            "host": "aedan.pythonanywhere.com/",
+            "displayName": request.user.username,
+            "url": "http://aedan.pythonanywhere.com/profile/"+str(profile_owner.squire.theUUID)
+            }
 
         content = {
-            'query':'friendrequest',
-            'author':author,
-            'friend':friend,
+            "query": "friendrequest",
+            "author": author,
+            "friend": friend
         }
 
 
