@@ -40,11 +40,9 @@ def markdown_stuff(text, markdown):
 	#to make it markdown
 
 	clean=html.conditional_escape(text)
-	print(clean)
 	if markdown:
 		#markdown block quotes
 		new_markdown=clean.replace('&gt;', '>')
-		print (new_markdown)
 		new_markdown=CommonMark.commonmark(new_markdown)
 		markdown_text=markdown_unescape(new_markdown)
 		return markdown_text.replace('\n', '<br/>')

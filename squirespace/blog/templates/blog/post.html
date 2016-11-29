@@ -7,7 +7,7 @@
       <a style="display:block;text-align: right;" href="{% url 'post_edit' pk=post.pk %}">Edit</a>
     {% endif %}
     <img class="post-image image" src="/media/{{ post.image }}">
-    <p class="post-text">{{ post.text|linebreaksbr }}</p>
+    <p class="post-text">{{ post.get_markdown | safe |linebreaksbr }}</p>
     <p class="post-publish-info"><a href="{% url 'profile' pk=post.author.squire.pk %}" ><b>{{ post.author }}</b></a></br>{{ post.published_date.date }}</br>{{ post.published_date.time }}</p>
     {% if post.comments.all %}
     <h1 class="comments-title">Comments:</h1>
