@@ -11,6 +11,7 @@ from django.shortcuts import render, get_object_or_404
 from rest_framework.pagination import *
 from friendship.models import Friend, Follow, FriendshipRequest
 import json
+import requests
 
 '''
 this snippet of code from http://www.django-rest-framework.org/api-guide/authentication/#BasicAuthentication,
@@ -189,7 +190,17 @@ class UserViewablePosts(APIView):
             # else: Don't show the post
 
         serializer = PostSerializer(userViewablePosts, many=True)
-        return Response(serializer.data)
+        content={
+            "count":len(posts),
+            "size":"10",
+            "query":"posts",
+            "next":"nextpage.com",
+            "previous":"previous",
+            "posts":serializer.data,
+        }
+
+
+        return Response(content)
 
 
 class PostList(APIView):
@@ -222,7 +233,7 @@ class PostList(APIView):
             "posts":serializer.data,
         }
 
-        json_data = content
+                            
         return Response(content)
 
 
@@ -326,11 +337,18 @@ class PostDetailComments(APIView):
             'auth': unicode(request.auth),  # None
         }
         post = self.get_object(pk)
+        print "PK = ", pk
+        print "POST = ", post
+        print "REQUEST DAT = ", request.data
         #serializer = CommentSerializer
+        #authorSource = request.data['comment'][]
+        #authorSquire = Squire.objects.filter(theUUID=request.data['comment']['author']['id'])
 
+        actualAuthor = (Squire.objects.get(theUUID=request.data['comments']['author']['id']).user)
 
-        post.comment=Comment.objects.create(post = post, author = post.author, text = request.data)
+        post.comment=Comment.objects.create(post = post, author = actualAuthor, text = request.data['comments']['comment'])
         post.save()
+
         content={
             'query': 'addComment',
             'success':True,

@@ -34,7 +34,23 @@ class UserApiTest(TestCase):
 		self.assertEqual(req.status_code, 201) #201 is Created
 
 
-class postTest(TestCase):	
+class FriendsApiTest(TestCase):
+	def setUp(self):
+		self.user = User.objects.create_user(username = "Jack", email = "jack@mailinator.com", password="b")
+		self.user2 = User.objects.create_user(username = "Jill", email = "jill@mailinator.com", password="a")
+		# make friend request
+		self.request = Friend.objects.add_friend(self.user, self.user2, message = 'I would like to request your friendship.')
+		# accept friend request
+		self.request.accept();
+
+	def testUserFriends(self):
+		uuid = self.user.squire.theUUID
+		# This should be returning a 200... TODO 
+		req = c.get('/friends/' + str(uuid), **auth_headers)
+		self.assertEqual(req.status_code, 301);
+
+
+class PostApiTest(TestCase):	
 	def setUp(self):	
 		self.user = User.objects.create_user(username = "tester", email = "", password="testpass")
 		self.user = User.objects.create_user(username = "John", email = "john@mailinator.com", password="a")

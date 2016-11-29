@@ -49,20 +49,14 @@
             <a href="{% url 'accept_friend_request' pk=friend_request.id %}" class="button">Reject<i class="icon-cross" data-icon="ea0f"></i></a>
           </div>
         {% endfor %}
+      <h1 class="follow-list-title"> Sent Friend Requests:</h1>
+        {% for sent_friend_request in sent_friend_requests %}
+          <div class="friend friend_request">
+            <a href="{% url 'profile' pk=sent_friend_request.from_user.squire.pk %}" class="friend-name">{{sent_friend_request.to_user}}</a>
+            <a href="{% url 'cancel_friend_request' pk=sent_friend_request.id %}" class="button">Cancel<i class="icon-cross" data-icon="ea0f"></i></a>
+          </div>
+        {% endfor %}
       {% endif %}
-
-      <h1 class="follow-list-title"> Followed by:</h1>
-      {% for follower in followers %}
-        <div class="friend">
-          <a href="{% url 'profile' pk=follower.squire.pk %}" class="friend-name">{{follower.username}}</a>
-        </div>
-      {% endfor %}
-      <h1 class="follow-list-title"> Following:</h1>
-      {% for follows in following %}
-        <div class="friend">
-          <a href="{% url 'profile' pk=follows.squire.pk %}" class="friend-name">{{follows.username}}</a>
-        </div>
-      {% endfor %}
 
     </div>
     <div class="stream">

@@ -98,31 +98,74 @@ class CommentModelTests(TestCase):
 		self.assertEqual(self.comment.author, self.user)
 
 
-# class FriendsTest(TestCase):
-# 	def setUp(self):
-# 		self.user = User.objects.create_user(username = "John", email = "john@mailinator.com", password="a")
-# 		self.user2 = User.objects.create_user(username = "Jill", email = "jill@mailinator.com", password="b")
+class FriendsTest(TestCase):
+	def setUp(self):
+		self.user = User.objects.create_user(username = "John", email = "john@mailinator.com", password="a")
+		self.user2 = User.objects.create_user(username = "Jill", email = "jill@mailinator.com", password="b")
+		self.user3 = User.objects.create_user(username = "Jack", email = "jack@mailinator.com", password="c")
+		self.user4 = User.objects.create_user(username = "Judy", email = "judy@mailinator.com", password="d")
+		self.user5 = User.objects.create_user(username = "Jim", email = "jim@mailinator.com", password="e")
+		c.login(username='John', password='a')	
 
-# 		c.login(username='John', password='a')	
+	def testFriendRequest(self):
+		Friend.objects.add_friend(self.user, self.user2, message = 'I would like to request your friendship.')
+		# Should be in following
 
-# 	def testFriendRequest(self):
-# 		Friend.objects.add_friend(self.user, self.user2, message = 'I would like to request your friendship.')
-# 		self.assertTrue(self.user2 in Follow.objects.following(self.user))
+		friend_requests = Friend.objects.unrejected_requests(user=self.user2)
+		sent_friend_requests = Friend.objects.sent_requests(user=self.user)
+    
+		followers = []
+		for request in friend_requests:
+			followers.append(request.from_user)
 
-# 	def testFriendAccept(self):
-# 		for friend_request in Friend.objects.unrejected_requests(user=self.user):
-# 			print "Accepting request"
-# 			friend_request.accept();
+		following = []
+		for request in sent_friend_requests:
+			following.append(request.to_user)
+    	
+		self.assertTrue(self.user2 in following)
+		# Should be in followers
+		self.assertTrue(self.user in followers)
+		# Nobody should be friends yet
+		self.assertTrue(self.user not in Friend.objects.friends(self.user2))
+		self.assertTrue(self.user2 not in Friend.objects.friends(self.user))
 
-# 		self.assertTrue(self.user2 in Friend.objects.friends(self.user))
+	def testFriendAccept(self):
+		self.request = Friend.objects.add_friend(self.user, self.user3, message = 'I would like to request your friendship.')
 
-	# def testUserViews(self):
-	# 	uuid1 = self.user.squire.theUUID
-	# 	profile = c.get('/profile/'+str(uuid1))
-	# 	self.assertEqual(profile.status_code, 301)  #200
-
-	# 	badurl = c.get('profile/123')
-	# 	# optional third argument for customized error messages
-	# 	self.assertEqual(badurl.status_code, 404, "wrong status code") 
+		self.request.accept();
+		# Should both be friends now
+		self.assertTrue(self.user3 in Friend.objects.friends(self.user))
+		self.assertTrue(self.user in Friend.objects.friends(self.user3))
 
 
+	def testFriendReject(self):
+		self.request = Friend.objects.add_friend(self.user, self.user4, message = 'I know you hate me, but please be my friend.')
+
+		self.request.reject();
+		# Should be nothing to each other now
+		self.assertTrue(self.user4 not in Friend.objects.friends(self.user))
+		self.assertTrue(self.user not in Friend.objects.friends(self.user4))
+
+
+	def testFriendCancel(self):
+		self.request = Friend.objects.add_friend(self.user, self.user5, message = "Im gonna change my mind the moment I send this and I know it.")
+
+		self.request.cancel();
+
+		friend_requests = Friend.objects.unrejected_requests(user=self.user2)
+		sent_friend_requests = Friend.objects.sent_requests(user=self.user)
+    
+		followers = []
+		for request in friend_requests:
+			followers.append(request.from_user)
+
+		following = []
+		for request in sent_friend_requests:
+			following.append(request.to_user)
+    	
+		self.assertTrue(self.user5 not in following)
+		# Should be in followers
+		self.assertTrue(self.user not in followers)
+		# Nobody should be friends yet
+		self.assertTrue(self.user not in Friend.objects.friends(self.user5))
+		self.assertTrue(self.user5 not in Friend.objects.friends(self.user))

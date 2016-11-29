@@ -164,46 +164,91 @@ def post_list(request):
         return render(request, 'blog/splash_page.html')
 
     # Socknet Posts
-    headers = {'User-agent': 'SquireSpace'}
+    headers = {'User-agent': 'SquireSpace', 'Host':'cmput404f16t04dev.herokuapp.com'}
     try:
         socknetjson = requests.get('http://cmput404f16t04dev.herokuapp.com/api/posts/', headers=headers, auth=('admin', 'cmput404'))
-    except:
+    except Exception as e:
+        socknetjson = ""
         print("Failed to grab SockNet API")
+        print(e)
 
-    if (socknetjson.status_code == 200 and len(socknetjson.json()) > 0):
-        for i in socknetjson.json()['posts']:
-            sauthor = str(i['author']['displayName'])
-            stitle = str(i['title'])
-            stext = str(i['content'])
-            sid = i['id']
+    # Winter Posts
+    headers = {'User-agent': 'SquireSpace', 'Host':'winter-resonance.herokuapp.com'}
+    try:
+        winterjson = requests.get('https://winter-resonance.herokuapp.com/posts', headers=headers, auth=('team8', 'Tlo@1000$'))
+    except Exception as e:
+        winterjson = ""
+        print("Failed to grab WinterResonance API")
+        print(e)
 
-            # If it's a new SockNet poster, make a fake user on their behalf.
-            if (len(User.objects.filter(username=sauthor)) == 0):
-                suser = User.objects.create_user(sauthor, 'socknet@socknet.com', str(uuid.uuid4))
-                suser.save()
+    if (socknetjson):
+        if (socknetjson.status_code == 200 and len(socknetjson.json()) > 0):
+            for i in socknetjson.json()['posts']:
+                sauthor = str(i['author']['displayName'])
+                stitle = str(i['title'])
+                stext = str(i['content'])
+                sid = i['id']
 
-            sockPost = models.Post(author=User.objects.filter(username=sauthor)[0], text=stext, title=stitle, id=sid, image='sock.png', published_date=timezone.now(), source="SockNet", host="SockNet")
-            if (len(Post.objects.filter(id=sid)) == 0):
-                sockPost.save()
+                # If it's a new SockNet poster, make a fake user on their behalf.
+                if (len(User.objects.filter(username=sauthor)) == 0):
+                    suser = User.objects.create_user(sauthor, 'socknet@socknet.com', str(uuid.uuid4))
+                    suser.save()
 
-            # Now we handle comments!
-            if (len(i['comments']) > 0):
-                for j in i['comments']:
-                    cid = j['id']
-                    ctext = j['comment']
-                    cauthor = j['author']['displayName']
+                sockPost = models.Post(author=User.objects.filter(username=sauthor)[0], text=stext, title=stitle, id=sid, image='sock.png', published_date=timezone.now(), source="SockNet", host="SockNet")
+                if (len(Post.objects.filter(id=sid)) == 0):
+                    sockPost.save()
 
-                    # If it's a new SockNet poster, make a fake user on their behalf.
-                    if (len(User.objects.filter(username=cauthor)) == 0):
-                        cuser = User.objects.create_user(cauthor, 'socknet@socknet.com', str(uuid.uuid4))
-                        cuser.save()
-                    else:
-                        cuser = User.objects.filter(username=cauthor)[0]
+                # Now we handle comments!
+                if (len(i['comments']) > 0):
+                    for j in i['comments']:
+                        cid = j['id']
+                        ctext = j['comment']
+                        cauthor = j['author']['displayName']
 
-                    sockComm = models.Comment(post=sockPost, author=cuser, text=ctext, id=cid, theUUID=cid, created_date=timezone.now())
-                    if (len(Comment.objects.filter(id=cid)) == 0):
-                        sockComm.save()
-        
+                        # If it's a new SockNet poster, make a fake user on their behalf.
+                        if (len(User.objects.filter(username=cauthor)) == 0):
+                            cuser = User.objects.create_user(cauthor, 'socknet@socknet.com', str(uuid.uuid4))
+                            cuser.save()
+                        else:
+                            cuser = User.objects.filter(username=cauthor)[0]
+
+                        sockComm = models.Comment(post=sockPost, author=cuser, text=ctext, id=cid, theUUID=cid, created_date=timezone.now())
+                        if (len(Comment.objects.filter(id=cid)) == 0):
+                            sockComm.save()
+    if (winterjson):
+        if (winterjson.status_code == 200 and len(winterjson.json()) > 0):
+            for i in winterjson.json()['posts']:
+                wauthor = str(i['author']['displayName'])
+                wtitle = str(i['title'])
+                wtext = str(i['content'])
+                wid = i['id']
+
+                # If it's a new SockNet poster, make a fake user on their behalf.
+                if (len(User.objects.filter(username=wauthor)) == 0):
+                    wuser = User.objects.create_user(wauthor, 'winter@winter.com', str(uuid.uuid4))
+                    wuser.save()
+
+                winterPost = models.Post(author=User.objects.filter(username=wauthor)[0], text=wtext, title=wtitle, id=wid, image='winter.png', published_date=timezone.now(), source="Winter", host="Winter")
+                if (len(Post.objects.filter(id=wid)) == 0):
+                    winterPost.save()
+
+                # Now we handle comments!
+                if (len(i['comments']) > 0):
+                    for j in i['comments']:
+                        wcid = j['id']
+                        wctext = j['comment']
+                        wcauthor = j['author']['displayName']
+
+                        # If it's a new SockNet poster, make a fake user on their behalf.
+                        if (len(User.objects.filter(username=wcauthor)) == 0):
+                            wcuser = User.objects.create_user(wcauthor, 'winter@winter.com', str(uuid.uuid4))
+                            wcuser.save()
+                        else:
+                            wcuser = User.objects.filter(username=wcauthor)[0]
+
+                        winterComm = models.Comment(post=winterPost, author=wcuser, text=wctext, id=wcid, theUUID=wcid, created_date=timezone.now())
+                        if (len(Comment.objects.filter(id=wcid)) == 0):
+                            winterComm.save()    
     
     all_posts = Post.objects.filter(published_date__lte=timezone.now())
     
@@ -314,6 +359,7 @@ def profile(request,pk):
     following = Follow.objects.following(profile_owner)
     followers = Follow.objects.followers(profile_owner)
     friend_requests = Friend.objects.unrejected_requests(user=profile_owner)
+    sent_friend_requests = Friend.objects.sent_requests(user=profile_owner)
 
     friend_request_w_user = 0
     for friend_request in friend_requests:
@@ -322,7 +368,7 @@ def profile(request,pk):
 
     print friend_request_w_user == 0
 
-    return render(request, 'blog/profile.html', {'user': request.user, 'profile_owner': profile_owner, 'posts': posts, 'friends': friends, 'following':following, 'followers':followers, 'friend_requests':friend_requests, 'friend_request_w_user':friend_request_w_user})
+    return render(request, 'blog/profile.html', {'user': request.user, 'profile_owner': profile_owner, 'posts': posts, 'friends': friends, 'friend_requests':friend_requests, 'sent_friend_requests':sent_friend_requests, 'friend_request_w_user':friend_request_w_user})
 
 
 def send_friend_request(request, pk):
@@ -337,6 +383,22 @@ def send_friend_request(request, pk):
     email = profile_owner.email
     if (email == "socknet@socknet.com"):
         print("User is from socknet! We need to do stuff here to request their API.")
+
+        author = {"id":"de305d54-75b4-431b-adb2-eb6b9e546013",
+        "host":"http://127.0.0.1:5454/",
+        "displayName":"Greg Johnson"}
+
+        friend = {"id":"de305d54-75b4-431b-adb2-eb6b9e637281",
+        "host":"http://127.0.0.1:5454/",
+        "displayName":"Lara Croft",
+        "url":"http://127.0.0.1:5454/author/9de17f29c12e8f97bcbbd34cc908f1baba40658e"}
+
+        content = {
+            'query':'friendrequest',
+            'author':author,
+            'friend':friend,
+        }
+        r = requests.post('http://cmput404f16t04dev.herokuapp.com/api/friendrequest/', auth=('admin', 'cmput404'), data = content)
     
     Friend.objects.add_friend(request.user, profile_owner, message = 'I would like to request your friendship.')
     return redirect('profile', pk=profile_owner.squire.theUUID)
@@ -347,20 +409,13 @@ def accept_friend_request(request, pk):
     # NEED TO CHECK IF FRIEND IS ANONYMOUSUSER (FRIEND.IS_ANONYMOUS())
 
     # Check if email is socknet, all fake socknet users have this email nobody else does.
-    email = profile_owner.email
-    if (email == "socknet@socknet.com"):
+    #email = profile_owner.email
+    #if (email == "socknet@socknet.com"):
         # NEED TO CHECK BOTH OUR SERVER AND THEIRS
-        print("User is from socknet! We need to do stuff here to request their API.")
+       # print("User is from socknet! We need to do stuff here to request their API.")
 
     friend_request = FriendshipRequest.objects.get(pk = pk)
-    from_user = friend_request.from_user
-    to_user = friend_request.to_user
-    Follow.objects.add_follower(from_user, to_user)
-    if(to_user in Follow.objects.following(from_user) and from_user in Follow.objects.following(to_user)):
-    	friend_request.accept()
-    else:
-    	friend_request.cancel()
-    	
+    friend_request.accept()
     return redirect('profile', pk=request.user.squire.theUUID)
 
 def reject_friend_request(request, pk):
@@ -369,10 +424,10 @@ def reject_friend_request(request, pk):
     # NEED TO CHECK IF FRIEND IS ANONYMOUSUSER (FRIEND.IS_ANONYMOUS())
 
     # Check if email is socknet, all fake socknet users have this email nobody else does.
-    email = profile_owner.email
-    if (email == "socknet@socknet.com"):
+    #email = profile_owner.email
+    #if (email == "socknet@socknet.com"):
         # NEED TO CHECK BOTH OUR SERVER AND THEIRS
-        print("User is from socknet! We need to do stuff here to request their API.")
+      #  print("User is from socknet! We need to do stuff here to request their API.")
 
     friend_request = FriendshipRequest.objects.get(pk = pk)
     friend_request.reject()
@@ -384,18 +439,19 @@ def cancel_friend_request(request, pk):
     # NEED TO CHECK IF FRIEND IS ANONYMOUSUSER (FRIEND.IS_ANONYMOUS())
 
     # Check if email is socknet, all fake socknet users have this email nobody else does.
-    email = profile_owner.email
-    if (email == "socknet@socknet.com"):
+    #email = profile_owner.email
+    #if (email == "socknet@socknet.com"):
         # NEED TO CHECK BOTH OUR SERVER AND THEIRS
-        print("User is from socknet! We need to do stuff here to request their API.")
+       # print("User is from socknet! We need to do stuff here to request their API.")
         
     friend_request = FriendshipRequest.objects.get(pk = pk)
-    profile_owner = friend_request.to_user.squire.theUUID
+    profile_owner = friend_request.from_user.squire.theUUID
     friend_request.cancel()
     return redirect('profile', pk=profile_owner)
 
 def remove_friend(request, pk):
-    profile_owner = User.objects.get(id = pk)
+    squire = Squire.objects.get(pk=pk)
+    profile_owner = squire.user
     Friend.objects.remove_friend(request.user, profile_owner)
     return redirect('profile', pk=profile_owner.squire.theUUID)
 
