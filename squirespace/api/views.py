@@ -130,8 +130,17 @@ class UserPosts(APIView):
                 userposts.append(post)
 
         serializer = PostSerializer(userposts, many=True)
-        return Response(serializer.data)
+        content={
+            "count":len(posts),
+            "size":"10",
+            "query":"posts",
+            "next":"nextpage.com",
+            "previous":"previous",
+            "posts":serializer.data,
+        }
 
+
+        return Response(content)
 
 class UserViewablePosts(APIView):
 
@@ -289,8 +298,18 @@ class PostDetail(APIView):
             'auth': unicode(request.auth),  # None
         }
         post = self.get_object(pk)
-        post = PostSerializerNoComments(post)
-        return Response(post.data)
+        serializer = PostSerializerNoComments(post)
+        content={
+            "count":1000,
+            "size":"10",
+            "query":"posts",
+            "next":"nextpage.com",
+            "previous":"previous",
+            "posts":serializer.data,
+        }
+
+
+        return Response(content)
 
 
 
@@ -328,8 +347,18 @@ class PostDetailComments(APIView):
             'auth': unicode(request.auth),  # None
         }
         post = self.get_object(pk)
-        post = PostSerializer(post)
-        return Response(post.data)
+        serializer = PostSerializer(post)
+        content={
+            "count":1000,
+            "size":"10",
+            "query":"posts",
+            "next":"nextpage.com",
+            "previous":"previous",
+            "posts":serializer.data,
+        }
+
+
+        return Response(content)
 
     def post(self, request, pk, format=None):
         content = {
@@ -337,12 +366,6 @@ class PostDetailComments(APIView):
             'auth': unicode(request.auth),  # None
         }
         post = self.get_object(pk)
-        print "PK = ", pk
-        print "POST = ", post
-        print "REQUEST DAT = ", request.data
-        #serializer = CommentSerializer
-        #authorSource = request.data['comment'][]
-        #authorSquire = Squire.objects.filter(theUUID=request.data['comment']['author']['id'])
 
         actualAuthor = (Squire.objects.get(theUUID=request.data['comments']['author']['id']).user)
 
