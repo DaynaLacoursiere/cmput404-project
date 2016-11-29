@@ -297,7 +297,7 @@ def post_detail(request, pk):
     if (request.user.is_anonymous()):
         return render(request, 'blog/401.html')
     post = get_object_or_404(Post, pk=pk)
-    if request.POST["markdown"]:
+    if request.POST.get("markdown",True):
         post.get_markdown()
     
     if request.method == "POST":
