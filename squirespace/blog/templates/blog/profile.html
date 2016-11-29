@@ -3,8 +3,8 @@
 {% load staticfiles %}
 {% load friendshiptags %}
 {% if user.is_authenticated %}
-<script src="{% static "/js/jquery.js" %}"></script>
-<script src="{% static "/js/rango-ajax.js" %}"></script>
+<script src="{% static "/js/jquery-3.1.1.js" %}"></script>
+<script src="{% static "/js/squirespace-ajax.js" %}"></script>
   <div class="profile">
     <div class="sub-header colour-theme-2">
       <div class="personal-info">
@@ -14,10 +14,10 @@
       <a href="{% url 'post_new' %}"><button class="new-post-button button">New Post</button></a>
       {% else %}
         {% if user in friends %}
-          <a href="{% url 'remove_friend' pk=profile_owner.squire.pk %}"> <button class="new-post-button button">Remove Friend</button></a>
+          <a href="{% url 'remove_friend' pk=profile_owner.squire.pk %}"> <button  class="new-post-button button">Remove Friend</button></a>
         {% else %}
           {% if friend_request_w_user == 0 %}
-            <a href="{% url 'send_friend_request' pk=profile_owner.squire.pk %}"><button class="new-post-button button">Add Friend</button></a>
+            <a href="{% url 'send_friend_request' pk=profile_owner.squire.pk %}"><button id="addfriend" class="new-post-button button">Add Friend</button></a>
           {% else %}
             <a href="{% url 'cancel_friend_request' pk=friend_request_w_user.id %}"><button class="new-post-button button">Cancel Friend Request</button></a>
           {% endif %}
