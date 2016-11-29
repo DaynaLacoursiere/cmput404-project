@@ -14,6 +14,9 @@ Acknowledgements:
   - CSS reset from http://meyerweb.com/eric/tools/css/reset/
   - Tutorial for Django: https://tutorial.djangogirls.org/
   - Beautiful CSS: https://gist.github.com/luqmaan/044a28f52933649786b3
+  - SockNet Image: https://cdn0.iconfinder.com/data/icons/illustricons-clothes-accessories/136/socks_6-128.png
+  - WinterResonance Image: www.iconsdb.com/icons/download/black/snowflake-47-128.jpg
+  
   
 How to run:
 
@@ -48,7 +51,8 @@ Team Collaboration:
 	- Setup initial site skeleton  
 	- Post creating/editing/deleting backend  
 	- Images (server hosting, and site displaying)  
-	- Setup AWS to serve site  
+	- Github Posting
+	- Setup PythonAnywhere to serve site  
 	- Posts/Images tests  
 	- Server tests  
 	Preyanshu:  

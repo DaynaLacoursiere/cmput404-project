@@ -11,6 +11,8 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from friendship.models import Friend, Follow, FriendshipRequest
 from django.template.context_processors import csrf
+from django.shortcuts import render_to_response
+from django.template import RequestContext
 from django.utils.six import BytesIO
 from rest_framework.parsers import JSONParser
 from django.core import serializers
@@ -297,8 +299,6 @@ def post_detail(request, pk):
     if (request.user.is_anonymous()):
         return render(request, 'blog/401.html')
     post = get_object_or_404(Post, pk=pk)
-    if request.POST.get("markdown",True):
-        post.get_markdown()
     
     if request.method == "POST":
         form = CommentForm(request.POST)
@@ -377,6 +377,7 @@ def send_friend_request(request, pk):
         return render(request, 'blog/401.html')
     # NEED TO CHECK IF FRIEND IS ANONYMOUSUSER (FRIEND.IS_ANONYMOUS())
 
+    context = RequestContext(request)
     squire = Squire.objects.get(theUUID=pk)
     profile_owner = User.objects.get(id=squire.user.id)
 
@@ -386,13 +387,13 @@ def send_friend_request(request, pk):
         print("User is from socknet! We need to do stuff here to request their API.")
 
         author = {
-            "id": profile_owner.squire.theUUID,
+            "id": str(profile_owner.squire.theUUID),
             "host": "cmput404f16t04dev.herokuapp.com/",
             "displayName": profile_owner.username
             }
 
         friend = {
-            "id": request.user.squire.theUUID,
+            "id": str(request.user.squire.theUUID),
             "host": "aedan.pythonanywhere.com/",
             "displayName": request.user.username,
             "url": "http://aedan.pythonanywhere.com/profile/"+str(profile_owner.squire.theUUID)
@@ -406,12 +407,13 @@ def send_friend_request(request, pk):
 
 
         r = requests.post("http://cmput404f16t04dev.herokuapp.com/api/friendrequest/", auth=('admin', 'cmput404'), json = json.dumps(content))
+
         print("Status code: " + str(r.status_code))
 
     
-    Friend.objects.add_friend(request.user, profile_owner, message = 'I would like to request your friendship.')
+    new_friend_request = Friend.objects.add_friend(request.user, profile_owner, message = 'I would like to request your friendship.')
 
-    return redirect('profile', pk=profile_owner.squire.theUUID)
+    return HttpResponseRedirect('/profile/'+str(profile_owner.squire.theUUID))
 
 def accept_friend_request(request, pk):
     if (request.user.is_anonymous()):
