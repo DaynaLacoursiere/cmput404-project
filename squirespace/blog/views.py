@@ -449,7 +449,8 @@ def cancel_friend_request(request, pk):
     return redirect('profile', pk=profile_owner)
 
 def remove_friend(request, pk):
-    #profile_owner = User.objects.get(id = pk)
+    squire = Squire.objects.get(pk=pk)
+    profile_owner = squire.user
     Friend.objects.remove_friend(request.user, profile_owner)
     return redirect('profile', pk=profile_owner.squire.theUUID)
 
