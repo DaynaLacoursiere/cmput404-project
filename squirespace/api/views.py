@@ -353,6 +353,26 @@ class CommentPaginate():
 	page_size_query_param = 'page_size'
 	max_page_size = 100
 
+class AddFriend(APIView):
+
+    def get_object(self, pk):
+        try:
+            return Post.objects.get(pk=pk)
+        except User.DoesNotExist:
+            raise Http404
+
+    def post(self, request):
+        data = json.loads(request.data)
+        author = data.values()[2]
+        friend = data.values()[1]
+        print(author)
+        print(friend)
+        user1 = Squire.objects.get(pk=author.values()[2]).user
+        user2 = Squire.objects.get(pk=friend.values()[3]).user
+        Friend.objects.add_friend(user1, user2, message = 'I would like to request your friendship.')
+        return Response(request.data)
+
+
 class UsersFriends(APIView):
 
     def get_object(self, pk):

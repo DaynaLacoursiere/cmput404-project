@@ -15,6 +15,7 @@ urlpatterns = [
     url('^author/posts', views.UserViewablePosts.as_view()),
     url('^friends/(?P<pk>[0-9A-Fa-f-]+)/$', views.UsersFriends.as_view()),
     url('^friends/(?P<pk1>[0-9A-Fa-f-]+)/(?P<pk2>[0-9A-Fa-f-]+)/$', views.AreTheseTwoUsersFriends.as_view()),
+    url('^friendrequest/$', views.AddFriend.as_view()),
 ] 
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

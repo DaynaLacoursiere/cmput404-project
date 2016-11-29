@@ -382,23 +382,28 @@ def send_friend_request(request, pk):
     if (email == "socknet@socknet.com"):
         print("User is from socknet! We need to do stuff here to request their API.")
 
-        author = {"id":"de305d54-75b4-431b-adb2-eb6b9e546013",
-        "host":"http://127.0.0.1:5454/",
-        "displayName":"Greg Johnson"}
+        author = {"id":request.user.squire.theUUID,
+        "host":"aedan.pythonanywhere.com/",
+        "displayName":request.user.username}
 
-        friend = {"id":"de305d54-75b4-431b-adb2-eb6b9e637281",
-        "host":"http://127.0.0.1:5454/",
-        "displayName":"Lara Croft",
-        "url":"http://127.0.0.1:5454/author/9de17f29c12e8f97bcbbd34cc908f1baba40658e"}
+        friend = {"id":profile_owner.squire.theUUID,
+        "host":"http://cmput404f16t04dev.herokuapp.com/",
+        "displayName":profile_owner.username,
+        "url":"http://cmput404f16t04dev.herokuapp.com/profile/"+str(profile_owner.squire.theUUID)}
 
         content = {
             'query':'friendrequest',
             'author':author,
             'friend':friend,
         }
-        r = requests.post('http://cmput404f16t04dev.herokuapp.com/api/friendrequest/', auth=('admin', 'cmput404'), data = content)
+
+
+        r = requests.post("http://cmput404f16t04dev.herokuapp.com/api/friendrequest/", auth=('admin', 'cmput404'), json = json.dumps(content))
+        print("Status code: " + str(r.status_code))
+
     
     Friend.objects.add_friend(request.user, profile_owner, message = 'I would like to request your friendship.')
+
     return redirect('profile', pk=profile_owner.squire.theUUID)
 
 def accept_friend_request(request, pk):
@@ -425,7 +430,7 @@ def reject_friend_request(request, pk):
     #email = profile_owner.email
     #if (email == "socknet@socknet.com"):
         # NEED TO CHECK BOTH OUR SERVER AND THEIRS
-      #  print("User is from socknet! We need to do stuff here to request their API.")
+        # print("User is from socknet! We need to do stuff here to request their API.")
 
     friend_request = FriendshipRequest.objects.get(pk = pk)
     friend_request.reject()
@@ -440,7 +445,7 @@ def cancel_friend_request(request, pk):
     #email = profile_owner.email
     #if (email == "socknet@socknet.com"):
         # NEED TO CHECK BOTH OUR SERVER AND THEIRS
-       # print("User is from socknet! We need to do stuff here to request their API.")
+        # print("User is from socknet! We need to do stuff here to request their API.")
         
     friend_request = FriendshipRequest.objects.get(pk = pk)
     profile_owner = friend_request.from_user.squire.theUUID
