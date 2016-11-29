@@ -400,8 +400,11 @@ class UsersFriends(APIView):
             raise Http404
 
     def get(self, request, pk, format=None):
+        print "API: "
         user = Squire.objects.get(pk=pk).user
+        print user
         friends = Friend.objects.friends(user);
+        print friends
         friendsIds = []
         for friend in friends:
             friendsIds.append(friend.squire.theUUID)
