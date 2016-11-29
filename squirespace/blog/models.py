@@ -44,7 +44,6 @@ class Post(models.Model):
 	def publish(self):
 		self.published_date = timezone.now()
 		self.save()
-
 	def get_markdown(self):
 		#add a check if users want to markdown stuff
 		return markdown_stuff(self.text, self.markdown)

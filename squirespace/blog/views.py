@@ -4,7 +4,6 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import FormView
 from .models import Post, User, SockPost, Squire, Comment
-import models
 from .forms import PostForm, CommentForm, UserRegForm, GitRegForm
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.contrib.auth.models import User
@@ -165,7 +164,7 @@ def post_list(request):
         return render(request, 'blog/splash_page.html')
 
     # Socknet Posts
-    headers = {'User-agent': 'SquireSpace'}
+    headers = {'User-agent': 'SquireSpace', 'Host':'cmput404f16t04dev.herokuapp.com'}
     try:
         socknetjson = requests.get('http://cmput404f16t04dev.herokuapp.com/api/posts/', headers=headers, auth=('admin', 'cmput404'))
     except Exception as e:
@@ -174,6 +173,7 @@ def post_list(request):
         print(e)
 
     # Winter Posts
+    headers = {'User-agent': 'SquireSpace', 'Host':'winter-resonance.herokuapp.com'}
     try:
         winterjson = requests.get('https://winter-resonance.herokuapp.com/posts', headers=headers, auth=('team8', 'Tlo@1000$'))
     except Exception as e:
@@ -296,10 +296,12 @@ def post_detail(request, pk):
     if (request.user.is_anonymous()):
         return render(request, 'blog/401.html')
     post = get_object_or_404(Post, pk=pk)
+    if request.POST["markdown"]:
+        post.get_markdown()
     
     if request.method == "POST":
         form = CommentForm(request.POST)
-        if form.is_valid():
+        if form.is_valid(): 
             comment = form.save(commit=False)
             comment.post = post
             comment.author = request.user
@@ -453,7 +455,8 @@ def cancel_friend_request(request, pk):
     return redirect('profile', pk=profile_owner)
 
 def remove_friend(request, pk):
-    #profile_owner = User.objects.get(id = pk)
+    squire = Squire.objects.get(pk=pk)
+    profile_owner = squire.user
     Friend.objects.remove_friend(request.user, profile_owner)
     return redirect('profile', pk=profile_owner.squire.theUUID)
 

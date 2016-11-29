@@ -377,11 +377,22 @@ b{
 .post-edit-form label{
   color: var(--gold);
 }
+
+.post-edit-form input{
+  font-size: 12pt;
+  font-family: MedievalSharp;
+}
+
 .post-edit-form textarea{
   width:100%;
   margin:0;
   font-size: 12pt;
   font-family: MedievalSharp;
+}
+
+.post-edit-form select{
+  font-family: MedievalSharp;
+  font-size: 12pt;
 }
 
 .post-edit-form p{
@@ -757,47 +768,70 @@ b{
 
 
 /*github stuff*/
-body{
-  background:red;
-}
-.registration-page{
+
+.git-reg-page{
   padding:16px;
   color: var(--gold);
-  width:500px;
+  width:236px;
   margin: auto;
 }
 
-.registration-title{
+.git-reg-title{
   font-size: 20pt;
 }
 
-.registration-button{
-  float:right;
+.git-reg-button{
   font-size: 16pt;
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
-.registration-form p{
+.git-reg-form p{
   font-size: 16pt;
   margin: 16px auto;
 }
 
-.registration-form label{
+.git-reg-form label{
   display: block;
   margin-bottom: 8px;
   margin-top: 16px;
 }
-.registration-form span{
-  display: block;
-  margin-top: 8px;
-  font-size: 10pt;
-  margin-left: 16px;
-}
-.registration-form input{
+.git-reg-form input{
   font-size: 16pt;
   font-family: MedievalSharp;
-  margin-left: 16px;
 }
 
+
+.git-confirm-page{
+  position: absolute;
+  left:0;right:0;top:0;bottom:0;
+  margin: auto;
+  width:300px;
+  height:200px;
+  color: var(--gold);
+  border: solid 2px var(--gold);
+  border-radius: 5px;
+  padding:16px;
+  text-align: center;
+}
+
+.git-confirm-page .cont{
+  position: absolute;
+  top:0;right:0;bottom:0;left:0;
+  margin: auto;
+  height:78px;
+  width:216px;
+}
+
+.git-confirm-page .git-confirm-title{
+  margin-bottom: 16px;
+  font-size: 16pt;
+}
+
+.git-confirm-page .button{
+  padding-left: 16px;
+  padding-right: 16px;
+}
 
 
 
