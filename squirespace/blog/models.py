@@ -6,6 +6,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+import markdownfunctions
 import uuid
 # Create your models here.
 
@@ -46,7 +47,7 @@ class Post(models.Model):
 		self.save()
 	def get_markdown(self):
 		#add a check if users want to markdown stuff
-		return markdown_stuff(self.text, self.markdown)
+		return markdownfunctions.markdown_stuff(self.text, self.markdown)
 
 	def __str__(self):
 		return self.title
@@ -89,7 +90,7 @@ class Comment(models.Model):
         return self.text
     def get_markdown(self):
 		#add a check if users want to markdown stuff
-		return markdown_stuff(self.text, self.markdown)
+		return markdownfunctions.markdown_stuff(self.text, self.markdown)
 
 
 TITLES=(
