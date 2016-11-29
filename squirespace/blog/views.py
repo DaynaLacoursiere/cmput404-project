@@ -389,13 +389,13 @@ def send_friend_request(request, pk):
         print("User is from socknet! We need to do stuff here to request their API.")
 
         author = {
-            "id": profile_owner.squire.theUUID,
+            "id": str(profile_owner.squire.theUUID),
             "host": "cmput404f16t04dev.herokuapp.com/",
             "displayName": profile_owner.username
             }
 
         friend = {
-            "id": request.user.squire.theUUID,
+            "id": str(request.user.squire.theUUID),
             "host": "aedan.pythonanywhere.com/",
             "displayName": request.user.username,
             "url": "http://aedan.pythonanywhere.com/profile/"+str(profile_owner.squire.theUUID)
