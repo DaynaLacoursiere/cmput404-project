@@ -4,7 +4,6 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import FormView
 from .models import Post, User, SockPost, Squire, Comment
-import models
 from .forms import PostForm, CommentForm, UserRegForm, GitRegForm
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.contrib.auth.models import User
@@ -252,10 +251,12 @@ def post_detail(request, pk):
     if (request.user.is_anonymous()):
         return render(request, 'blog/401.html')
     post = get_object_or_404(Post, pk=pk)
+    if request.POST["markdown"]:
+        post.get_markdown()
     
     if request.method == "POST":
         form = CommentForm(request.POST)
-        if form.is_valid():
+        if form.is_valid(): 
             comment = form.save(commit=False)
             comment.post = post
             comment.author = request.user

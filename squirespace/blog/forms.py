@@ -18,20 +18,6 @@ class CommentForm(forms.ModelForm):
         fields = ('text', 'markdown')
 
 
-
-TITLES=(
-	('NLL', "----"),
-	('SQR', 'Squire'),
-	('SIR', 'Sir'),
-	('DME', 'Dame'),
-	)
-NATIONS = (
-	('NLL', "----"),
-	('GDR','Gondor'),
-	('RHN', 'Rohan'),
-	('MDR', 'Mordor')
-	)
-
 class UserRegForm(forms.ModelForm):
 
 	def __init__(self):
