@@ -82,7 +82,7 @@ class Comment(models.Model):
 	
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
-    markdown=models.BooleanField(default=False)
+    markdown=models.BooleanField(verbose_name="Markdown:", default=False)
     theUUID = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     contentType = "text/plain"
