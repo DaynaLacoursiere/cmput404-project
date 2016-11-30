@@ -22,7 +22,7 @@ urlpatterns = [
 	url(r'^profile/(?P<pk>[0-9A-Fa-f-]+)/friend_request_sent/$', views.send_friend_request, name='send_friend_request'),
 	url(r'^profile/(?P<pk>[0-9A-Fa-f-]+)/friend_request_cancelled/$', views.cancel_friend_request, name='cancel_friend_request'),
 	url(r'^profile/(?P<pk>[0-9A-Fa-f-]+)/friend_request_accepted/$', views.accept_friend_request, name='accept_friend_request'),
-	url(r'^profile/(?P<pk>[0-9A-Fa-f-]+)/friend_request_rejected/$', views.reject_friend_request, name='remove_friend'),
+	url(r'^profile/(?P<pk>[0-9A-Fa-f-]+)/friend_request_rejected/$', views.reject_friend_request, name='reject_friend_request'),
 	url(r'^profile/(?P<pk>[0-9A-Fa-f-]+)/friend_removed/$', views.remove_friend, name='remove_friend'),
 	url(r'^post/(?P<pk>[0-9A-Fa-f-]+)/$', views.post_detail, name='post_detail'),
 

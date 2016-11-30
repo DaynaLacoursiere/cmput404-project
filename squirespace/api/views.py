@@ -380,15 +380,20 @@ class AddFriend(APIView):
             raise Http404
 
     def post(self, request):
+
         data = json.loads(request.data)
         author = data.values()[2]
         friend = data.values()[1]
-        print(author)
-        print(friend)
+        content = {
+            "query": "friendrequest",
+            "author": author,
+            "friend": friend
+        }
+        print(content)
         user1 = Squire.objects.get(pk=author.values()[2]).user
         user2 = Squire.objects.get(pk=friend.values()[3]).user
         Friend.objects.add_friend(user1, user2, message = 'I would like to request your friendship.')
-        return Response(request.data)
+        return Response(content)
 
 
 class UsersFriends(APIView):

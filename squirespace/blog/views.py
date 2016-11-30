@@ -408,9 +408,10 @@ def send_friend_request(request, pk):
 
         r = requests.post(url="http://cmput404f16t04dev.herokuapp.com/api/friendrequest/", headers={"content-type": "application/json"}, auth=('admin', 'cmput404'), json = json.dumps(content))
         print("Status code: " + str(r.status_code))
+        print(json.dumps(content))
 
     
-    new_friend_request = Friend.objects.add_friend(request.user, profile_owner, message = 'I would like to request your friendship.')
+    Friend.objects.add_friend(request.user, profile_owner, message = 'I would like to request your friendship.')
 
     return HttpResponseRedirect('/profile/'+str(profile_owner.squire.theUUID))
 
@@ -442,6 +443,7 @@ def reject_friend_request(request, pk):
 
     friend_request = FriendshipRequest.objects.get(pk = pk)
     friend_request.reject()
+    friend_request.delete()
     return redirect('profile', pk=request.user.squire.theUUID)
 
 def cancel_friend_request(request, pk):

@@ -89,3 +89,35 @@ class PostSerializerNoComments(serializers.ModelSerializer):
 
     def getURL(self,obj):
         return "http://aedan.pythonanywhere.com/post/"+str(obj.id)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        

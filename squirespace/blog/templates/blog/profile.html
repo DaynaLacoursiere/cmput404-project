@@ -19,7 +19,7 @@
           {% if friend_request_w_user == 0 %}
             <a href="{% url 'send_friend_request' pk=profile_owner.squire.pk %}"><button id="addfriend" class="new-post-button button">Add Friend</button></a>
           {% else %}
-            <a href="{% url 'cancel_friend_request' pk=friend_request_w_user.id %}"><button class="new-post-button button">Cancel Friend Request</button></a>
+            <a href="{% url 'cancel_friend_request' pk=friend_request_w_user.id %}"><button id="cancelfriend" class="new-post-button button">Cancel Friend Request</button></a>
           {% endif %}
         {% endif %}
       {% endif %}
@@ -46,7 +46,7 @@
           <div class="friend friend_request">
             <a href="{% url 'profile' pk=friend_request.from_user.squire.pk %}" class="friend-name">{{friend_request.from_user}}</a>
             <a href="{% url 'accept_friend_request' pk=friend_request.id %}" class="button">Accept<i class="icon-checkmark" data-icon="ea10"></i></a>
-            <a href="{% url 'accept_friend_request' pk=friend_request.id %}" class="button">Reject<i class="icon-cross" data-icon="ea0f"></i></a>
+            <a href="{% url 'reject_friend_request' pk=friend_request.id %}" class="button">Reject<i class="icon-cross" data-icon="ea0f"></i></a>
           </div>
         {% endfor %}
       <h1 class="follow-list-title"> Sent Friend Requests:</h1>
