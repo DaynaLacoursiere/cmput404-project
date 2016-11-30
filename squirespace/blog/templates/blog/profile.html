@@ -17,7 +17,7 @@
           <a href="{% url 'remove_friend' pk=profile_owner.squire.pk %}"> <button  class="new-post-button button">Remove Friend</button></a>
         {% else %}
           {% if friend_request_w_user == 0 %}
-            <button id="addfriend" data-pk= "{{profile_owner.squire.pk}}" class="new-post-button button">Add Friend</button>
+            <a href="{% url 'send_friend_request' pk=profile_owner.squire.pk %}"><button id="addfriend" class="new-post-button button">Add Friend</button></a>
           {% else %}
             <a href="{% url 'cancel_friend_request' pk=friend_request_w_user.id %}"><button id="cancelfriend" class="new-post-button button">Cancel Friend Request</button></a>
           {% endif %}

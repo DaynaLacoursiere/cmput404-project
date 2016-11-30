@@ -408,12 +408,11 @@ def send_friend_request(request, pk):
 
         r = requests.post(url="http://cmput404f16t04dev.herokuapp.com/api/friendrequest/", headers={"content-type": "application/json"}, auth=('admin', 'cmput404'), json = json.dumps(content))
         print("Status code: " + str(r.status_code))
-        print(json.dumps(content))
 
     
     Friend.objects.add_friend(request.user, profile_owner, message = 'I would like to request your friendship.')
 
-    return HttpResponseRedirect('/profile/'+str(profile_owner.squire.theUUID))
+    return redirect('/profile/'+str(profile_owner.squire.theUUID))
 
 def accept_friend_request(request, pk):
     if (request.user.is_anonymous()):
