@@ -412,7 +412,7 @@ def send_friend_request(request, pk):
     
     Friend.objects.add_friend(request.user, profile_owner, message = 'I would like to request your friendship.')
 
-    return redirect('/profile/'+str(profile_owner.squire.theUUID))
+    return HttpResponseRedirect('/profile/'+str(profile_owner.squire.theUUID))
 
 def accept_friend_request(request, pk):
     if (request.user.is_anonymous()):
