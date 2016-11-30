@@ -367,9 +367,9 @@ class PostDetailComments(APIView):
         }
         post = self.get_object(pk)
 
-        actualAuthor = (Squire.objects.get(theUUID=request.data['comments']['author']['id']).user)
+        actualAuthor = (Squire.objects.get(theUUID=request.data['comment']['author']['id']).user)
 
-        post.comment=Comment.objects.create(post = post, author = actualAuthor, text = request.data['comments']['comment'])
+        post.comment=Comment.objects.create(post = post, author = actualAuthor, text = request.data['comment']['comment'])
         post.save()
 
         content={
