@@ -406,8 +406,7 @@ def send_friend_request(request, pk):
         }
 
 
-        r = requests.post("http://cmput404f16t04dev.herokuapp.com/api/friendrequest/", auth=('admin', 'cmput404'), json = json.dumps(content))
-
+        r = requests.post(url="http://cmput404f16t04dev.herokuapp.com/api/friendrequest/", headers={"content-type": "application/json"}, auth=('admin', 'cmput404'), json = json.dumps(content))
         print("Status code: " + str(r.status_code))
 
     

@@ -50,6 +50,14 @@ class FriendsApiTest(TestCase):
 		self.assertEqual(req.status_code, 301);
 
 
+	def testIfFriends(self):
+		uuid1 = self.user.squire.theUUID
+		uuid2 = self.user2.squire.theUUID
+		# This should be returning a 200... TODO 
+		req = c.get('/friends/' + str(uuid1) + str(uuid2), **auth_headers)
+		self.assertEqual(req.status_code, 301);
+
+
 class PostApiTest(TestCase):	
 	def setUp(self):	
 		self.user = User.objects.create_user(username = "tester", email = "", password="testpass")
