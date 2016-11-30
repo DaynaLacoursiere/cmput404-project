@@ -90,6 +90,10 @@ class PostSerializerNoComments(serializers.ModelSerializer):
     def getURL(self,obj):
         return "http://aedan.pythonanywhere.com/post/"+str(obj.id)
 
+class FriendRequestSerializer(serializers.ModelSerializer):
+    conten = serializers.CharField(source='text')
+    author = UserSerializer()
+    friend = UserSerializer()
 
 
 
@@ -108,16 +112,3 @@ class PostSerializerNoComments(serializers.ModelSerializer):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-        
