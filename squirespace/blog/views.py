@@ -411,7 +411,7 @@ def send_friend_request(request, pk):
         print(json.dumps(content))
 
     
-    new_friend = Friend.objects.add_friend(request.user, profile_owner, message = 'I would like to request your friendship.')
+    Friend.objects.add_friend(request.user, profile_owner, message = 'I would like to request your friendship.')
 
     return HttpResponseRedirect('/profile/'+str(profile_owner.squire.theUUID))
 
