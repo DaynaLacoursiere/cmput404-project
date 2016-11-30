@@ -11,6 +11,7 @@
         <h1>Add a comment</h1>
             <form method="POST" class="post-form">{% csrf_token %}
                 {{ form.as_p }}
+                <p class="post-text">{{ post.get_markdown | safe |linebreaksbr }}</p>
                 <button class="button" type="submit">Post Comment</button>
             </form>
         </div>
