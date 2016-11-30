@@ -25,7 +25,7 @@ def markdown_unescape(markdown):
 		#this below code will take into account whether you are in a code
 		#tag or not
 		if begin>end:
-			unescape_content.append(parser.unescape(text))
+			unescape_content.append(parse_markdown.unescape(text))
 		else:
 			unescape_content.append(text)
 	#return all the stuff joined together

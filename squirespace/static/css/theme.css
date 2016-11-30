@@ -345,6 +345,14 @@ b{
 .comment-form label{
   display: none;
 }
+
+
+.comment-form label[for=id_markdown]{
+  display: inline-block;
+  color:var(--gold);
+  margin-top:-3px;
+}
+
 .comment-form textarea{
   width:100%;
   margin:16px auto;
@@ -421,6 +429,12 @@ b{
 .post-edit-form label:not([for=image-clear_id]){
   display: block;
   margin-bottom: 8px;
+}
+
+.post-edit-form label[for=id_markdown]{
+  display: inline-block;
+  color:var(--gold);
+  margin-top:-3px;
 }
 
 
