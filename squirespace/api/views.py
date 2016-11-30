@@ -404,7 +404,7 @@ class AddFriend(APIView):
 
     def post(self, request):
 
-        data = json.loads(request.data)
+        data = request.data
         author = data.values()[2]
         friend = data.values()[1]
         content = {
