@@ -14,7 +14,7 @@
     {% endif %}
     {% for comment in post.comments.all %}
       <div class="comment">
-        <p class="comment-text">{{ comment.text|linebreaksbr }}</p>
+        <p class="comment-text">{{ comment.get_markdown| safe |linebreaksbr }}</p>
         <p class="post-publish-info"><a href="{% url 'profile' pk=comment.author.squire.pk %}" ><b>{{comment.author}}</b></a></br>{{ comment.created_date.date }}</br>{{comment.created_date.time}}</p>
       </div>
     {% endfor %}

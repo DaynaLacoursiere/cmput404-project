@@ -280,6 +280,106 @@ b{
   margin: 16px;
 }
 
+
+.post-content img{
+  max-width: 100%;
+}
+
+.post-content h1{
+  font-size:28pt;
+}
+.post-content h2{
+  font-size:26pt;
+}
+.post-content h3{
+  font-size:24pt;
+}
+.post-content h4{
+  font-size:22pt;
+}
+.post-content h5{
+  font-size:20pt;
+}
+.post-content h6{
+  font-size:18pt;
+}
+
+.post-content ul{
+  list-style-type: circle;
+  margin-left: 16px;
+}
+.post-content ol{
+  list-style-type: decimal;
+  margin-left: 16px;
+}
+
+.post-content a{
+  color: var(--gold);
+}
+
+.post-content strong{
+  font-weight: bold;
+}
+.post-content em{
+  font-style: italic;
+}
+
+.post-content blockquote{
+  margin-left:16px;
+  background: #ececdf;
+}
+
+
+
+.comment img{
+  max-width: 100%;
+}
+
+.comment h1{
+  font-size:28pt;
+}
+.comment h2{
+  font-size:26pt;
+}
+.comment h3{
+  font-size:24pt;
+}
+.comment h4{
+  font-size:22pt;
+}
+.comment h5{
+  font-size:20pt;
+}
+.comment h6{
+  font-size:18pt;
+}
+
+.comment ul{
+  list-style-type: circle;
+  margin-left: 16px;
+}
+.comment ol{
+  list-style-type: decimal;
+  margin-left: 16px;
+}
+
+.comment a{
+  color: var(--gold);
+}
+
+.comment strong{
+  font-weight: bold;
+}
+.comment em{
+  font-style: italic;
+}
+
+.comment blockquote{
+  margin-left:16px;
+  background: #ececdf;
+}
+
+
 .post-publish-info{
   font-size: 12px;
   text-align: right;
@@ -345,6 +445,14 @@ b{
 .comment-form label{
   display: none;
 }
+
+
+.comment-form label[for=id_markdown]{
+  display: inline-block;
+  color:var(--gold);
+  margin-top:-3px;
+}
+
 .comment-form textarea{
   width:100%;
   margin:16px auto;
@@ -421,6 +529,12 @@ b{
 .post-edit-form label:not([for=image-clear_id]){
   display: block;
   margin-bottom: 8px;
+}
+
+.post-edit-form label[for=id_markdown]{
+  display: inline-block;
+  color:var(--gold);
+  margin-top:-3px;
 }
 
 

@@ -25,7 +25,7 @@ class Post(models.Model):
 
 	source = models.TextField(default="squirespace")
 
-	markdown=models.BooleanField(default=False)
+	markdown=models.BooleanField(verbose_name="Markdown:", default=False)
 	source = models.TextField(default="http://aedan.pythonanywhere.com/")
 	id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
 
